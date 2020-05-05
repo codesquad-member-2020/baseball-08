@@ -34,7 +34,7 @@
 
 
 ## 3. 브랜치 관리 & 커밋 컨벤션
-- [커밋 컨벤션 가이드](https://github.com/codesquad-member-2020/baseball-08/wiki/Ground-Rule)을 따른다. 
+- [커밋 컨벤션 가이드](https://github.com/codesquad-member-2020/baseball-08/wiki/Branch-%EA%B4%80%EB%A6%AC%EA%B7%9C%EC%B9%99-&-Commit-%EC%BB%A8%EB%B2%A4%EC%85%98)을 따른다. 
 
 
 ## 4. Pull Request 관리
