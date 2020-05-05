@@ -55,7 +55,7 @@
 | --------- | -------- |
 | Issue  | [Github Issue](https://github.com/codesquad-member-2020/baseball-08/issues)      |
 | Issue Guide       | [Issue 컨벤션](https://github.com/codesquad-member-2020/baseball-08/wiki/Issue-%EC%BB%A8%EB%B2%A4%EC%85%98)      |
-| Branch & Commit Guide | [커밋 컨벤션 가이드](https://github.com/codesquad-member-2020/baseball-08/wiki/Ground-Rule)  |
+| Branch & Commit Guide | [커밋 컨벤션 가이드](https://github.com/codesquad-member-2020/baseball-08/wiki/Branch-%EA%B4%80%EB%A6%AC%EA%B7%9C%EC%B9%99-&-Commit-%EC%BB%A8%EB%B2%A4%EC%85%98)  |
 | Scrum | https://github.com/codesquad-member-2020/baseball-08/wiki/Scrum
 
 
