@@ -52,10 +52,10 @@ CREATE TABLE IF NOT EXISTS player
     name     VARCHAR(32),
     line_up  INT,
 --     record
-    at_bat   INT,
-    hit      INT,
-    out      INT,
-    pitches  INT,
+    at_bat   INT DEFAULT (0),
+    hit      INT DEFAULT (0),
+    out      INT DEFAULT (0),
+    pitches  INT DEFAULT (0),
     average  DOUBLE,
 
     team     INT REFERENCES team (id),
