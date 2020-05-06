@@ -8,7 +8,7 @@ public class Player {
 
     private String name;
     private Integer lineUp;
-//    record
+    //    record
     private Integer atBat;
     private Integer hit;
     private Integer out;

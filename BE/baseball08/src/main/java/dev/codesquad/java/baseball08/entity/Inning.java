@@ -1,6 +1,7 @@
 package dev.codesquad.java.baseball08.entity;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
 
 public class Inning {
     @Id
@@ -8,7 +9,7 @@ public class Inning {
 
     private Integer homeScore;
     private Integer awayScore;
-//    record
+    //    record
     private Integer strikeCount;
     private Integer ballCount;
     private Integer outCount;
