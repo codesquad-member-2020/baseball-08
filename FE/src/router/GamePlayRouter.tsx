@@ -9,7 +9,13 @@ import ScoreBoard from '../components/ScoreBoard/ScoreBoard';
 import PlayerList from '../components/PlayerList/PlayerList';
 
 function GamePlayRouter() {
-  return ;
+  return (
+    <Router>
+      <Route path="/gameplay" component={GamePlay} />
+      <Route path="/gameplay/scoreboard" component={ScoreBoard} />
+      <Route path="/gameplay/playerlist" component={PlayerList} />
+    </Router>
+  );
 }
 
 export default GamePlayRouter;
