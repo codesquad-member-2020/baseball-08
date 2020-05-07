@@ -22,7 +22,7 @@ const StyledGameTitle = styled.p`
   text-align: center;
 `;
 
-const StyledHomeTeamName = styled.p`
+const StyledAwayTeamName = styled.p`
   float: left;
   position: relative;
   font-size: 30px;
@@ -38,7 +38,7 @@ const StyledHomeTeamName = styled.p`
   }
 `;
 
-const StyledAwayTeamName = styled.p`
+const StyledHomeTeamName = styled.p`
   float: right;
   position: relative;
   font-size: 30px;
@@ -69,9 +69,9 @@ function Versus(props: any) {
   return (
     <StyledVersus>
       <StyledGameTitle>Game {props.index}</StyledGameTitle>
-      <StyledHomeTeamName>{props.homeTeamName}</StyledHomeTeamName>
-      <StyledVersusText>VS</StyledVersusText>
       <StyledAwayTeamName>{props.awayTeamName}</StyledAwayTeamName>
+      <StyledVersusText>VS</StyledVersusText>
+      <StyledHomeTeamName>{props.homeTeamName}</StyledHomeTeamName>
     </StyledVersus>
   );
 }

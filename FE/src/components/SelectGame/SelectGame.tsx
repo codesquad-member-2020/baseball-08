@@ -42,7 +42,7 @@ function SelectGame() {
       <GameTitle title="Baseball Game Service"></GameTitle>
       <SelectGamePhrase title="참가할 게임을 선택하세요"></SelectGamePhrase>
       {games.map((game:any, index:any) => 
-        <Versus index={game.game} homeTeamName={game.home} awayTeamName={game.away}></Versus>
+        <Versus index={game.game} awayTeamName={game.away} homeTeamName={game.home}></Versus>
         ) 
       }
     </StyledDiv>
