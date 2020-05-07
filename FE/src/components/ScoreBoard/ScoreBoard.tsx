@@ -28,6 +28,7 @@ const ScoreBoardWrap = styled.div`
   z-index: 1;
   border: 2px solid white;
   border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.8);
 `;
 
 function ScoreBoard() {
