@@ -61,6 +61,7 @@ const Batter = styled.p`
   position: relative;
   float: left;
   text-align: center;
+  overflow: hidden;
 `;
 
 const Section = styled.p`
@@ -96,8 +97,8 @@ function TeamPlayerList(props: any) {
         <AverageTitle>시즌 평균</AverageTitle>
       </RecordArea>
       <StyledUL>
-        <li>
         {props.playerList.players.map((player:any, index:any) => 
+        <li>
           <PlayerArea key={index}>
             <Batter>{player.name}</Batter>
             <Section>{player.atBat}</Section>
@@ -106,9 +107,9 @@ function TeamPlayerList(props: any) {
             <Average>{player.atBat > 0 ? (player.hit / player.atBat).toFixed(3) : 0}</Average>
             <Average>{player.average}</Average>
           </PlayerArea>
+          </li>
           ) 
         }
-        </li>
       </StyledUL>
     </TeamPlayerListWrap>
   );
