@@ -13,11 +13,38 @@ const StyledDiv = styled.div`
 `;
 
 function SelectGame() {
+  const games = [
+    {
+      game: 1,
+      away: "team1",
+      home: "team2",
+      away_user: null,
+      home_user: null,
+    },
+    {
+      game: 2,
+      away: "team3",
+      home: "team4",
+      away_user: "githubId2",
+      home_user: "githubId3",
+    },
+    {
+      game: 3,
+      away: "team5",
+      home: "team6",
+      away_user: null,
+      home_user: "githubId1",
+    },
+  ];
+
   return (
     <StyledDiv>
       <GameTitle title="Baseball Game Service"></GameTitle>
       <SelectGamePhrase title="참가할 게임을 선택하세요"></SelectGamePhrase>
-      {/* The location will show the match information through the data received from the server. */}
+      {games.map((game:any, index:any) => 
+        <Versus index={game.game} homeTeamName={game.home} awayTeamName={game.away}></Versus>
+        ) 
+      }
     </StyledDiv>
   );
 }
