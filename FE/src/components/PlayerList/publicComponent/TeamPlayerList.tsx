@@ -5,8 +5,11 @@ const TeamPlayerListWrap = styled.div`
   position: relative;
   width: 640px;
   height: 600px;
+  top: 50%;
+  transform: translateY(-50%);
   color: #fff;
   float: left;
+  box-shadow: 0 0 0 2px #fff inset;
 `;
 
 const TeamName = styled.h1`
