@@ -87,8 +87,8 @@ function PlayerList() {
 
   return (
     <StyledDiv className="PlayerList">
-      <TeamPlayerList playerList={teams[0]}></TeamPlayerList>
-      <TeamPlayerList playerList={teams[1]}></TeamPlayerList>
+      <TeamPlayerList teamPlayerInfo={teams[0]}></TeamPlayerList>
+      <TeamPlayerList teamPlayerInfo={teams[1]}></TeamPlayerList>
     </StyledDiv>
   );
 }

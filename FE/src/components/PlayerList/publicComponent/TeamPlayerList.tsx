@@ -87,7 +87,7 @@ const StyledUL = styled.ul`
 function TeamPlayerList(props: any) {
   return (
     <TeamPlayerListWrap>
-      <TeamName>Captain</TeamName>
+      <TeamName>{props.teamPlayerInfo.team}</TeamName>
       <RecordArea>
         <BatterTitle>타자</BatterTitle>
         <SectionTitle>타석</SectionTitle>
@@ -97,7 +97,7 @@ function TeamPlayerList(props: any) {
         <AverageTitle>시즌 평균</AverageTitle>
       </RecordArea>
       <StyledUL>
-        {props.playerList.players.map((player:any, index:any) => 
+        {props.teamPlayerInfo.players.map((player:any, index:any) => 
         <li>
           <PlayerArea key={index}>
             <Batter>{player.name}</Batter>
