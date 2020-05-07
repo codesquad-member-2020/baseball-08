@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components'
 
 const StyledVersus = styled.div`
-  width: 400px;
+  width: 600px;
   height: 90px;
   position: relative;
   margin: 0 auto;
@@ -13,9 +13,9 @@ const StyledVersus = styled.div`
 `;
 
 const StyledGameTitle = styled.p`
-  width: 400px;
+  width: 600px;
   position: relative;
-  font-size: 20px;
+  font-size: 22px;
   margin: 0 auto;
   color: #cc0000;
   font-weight: bold;
@@ -23,6 +23,7 @@ const StyledGameTitle = styled.p`
 `;
 
 const StyledAwayTeamName = styled.p`
+  width: 250px;
   float: left;
   position: relative;
   font-size: 30px;
@@ -39,6 +40,7 @@ const StyledAwayTeamName = styled.p`
 `;
 
 const StyledHomeTeamName = styled.p`
+  width: 250px;
   float: right;
   position: relative;
   font-size: 30px;
