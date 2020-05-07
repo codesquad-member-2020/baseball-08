@@ -26,21 +26,21 @@ const RecordArea = styled.div`
 `;
 
 const BatterTitle = styled.p`
-  width: 200px;
+  width: 150px;
   position: relative;
   float: left;
   text-align: center;
 `;
 
 const SectionTitle = styled.p`
-  width: 85px;
+  width: 70px;
   position: relative;
   float: left;
   text-align: center;
 `;
 
 const AverageTitle = styled.p`
-  width: 170px;
+  width: 140px;
   position: relative;
   float: left;
   text-align: center;
@@ -57,21 +57,21 @@ const PlayerArea = styled.div`
 `;
 
 const Batter = styled.p`
-  width: 200px;
+  width: 150px;
   position: relative;
   float: left;
   text-align: center;
 `;
 
 const Section = styled.p`
-  width: 85px;
+  width: 70px;
   position: relative;
   float: left;
   text-align: center;
 `;
 
 const Average = styled.p`
-  width: 170px;
+  width: 140px;
   position: relative;
   float: left;
   text-align: center;
@@ -92,16 +92,18 @@ function TeamPlayerList(props: any) {
         <SectionTitle>타석</SectionTitle>
         <SectionTitle>안타</SectionTitle>
         <SectionTitle>아웃</SectionTitle>
-        <AverageTitle>평균</AverageTitle>
+        <AverageTitle>이번 경기</AverageTitle>
+        <AverageTitle>시즌 평균</AverageTitle>
       </RecordArea>
       <StyledUL>
         <li>
         {props.playerList.players.map((player:any, index:any) => 
           <PlayerArea key={index}>
             <Batter>{player.name}</Batter>
-            <Section>{player.at_bat}</Section>
+            <Section>{player.atBat}</Section>
             <Section>{player.hit}</Section>
             <Section>{player.out}</Section>
+            <Average>{player.atBat > 0 ? (player.hit / player.atBat).toFixed(3) : 0}</Average>
             <Average>{player.average}</Average>
           </PlayerArea>
           ) 
