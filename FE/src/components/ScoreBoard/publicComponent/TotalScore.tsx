@@ -10,10 +10,14 @@ const StyledDiv = styled.p`
   padding-right: 129px;
 `;
 
-function TotalScore(props:any) {
+interface Props {
+  totalScore: number
+}
+
+const TotalScore: React.FunctionComponent<Props> = function({totalScore}) {
   return (
     <StyledDiv>
-      {props.totalScore}
+      {totalScore}
     </StyledDiv>
   );
 }

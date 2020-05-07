@@ -11,10 +11,14 @@ const StyledP = styled.p`
   color: white;
 `;
 
-function GameTitle(props:any) {
+interface Props {
+  title: string
+}
+
+const GameTitle: React.FunctionComponent<Props> = function({title}) {
   return (
     <>
-      <StyledP>{props.title}</StyledP>
+      <StyledP>{title}</StyledP>
     </>
   );
 };

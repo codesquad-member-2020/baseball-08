@@ -67,13 +67,19 @@ const StyledVersusText = styled.p`
   margin-top: 10px;
 `;
 
-function Versus(props: any) {
+interface Props {
+  index: number,
+  awayTeamName: string,
+  homeTeamName: string
+}
+
+const Versus: React.FunctionComponent<Props> = function({index, awayTeamName, homeTeamName}) {
   return (
     <StyledVersus>
-      <StyledGameTitle>Game {props.index}</StyledGameTitle>
-      <StyledAwayTeamName>{props.awayTeamName}</StyledAwayTeamName>
+      <StyledGameTitle>Game {index}</StyledGameTitle>
+      <StyledAwayTeamName>{awayTeamName}</StyledAwayTeamName>
       <StyledVersusText>VS</StyledVersusText>
-      <StyledHomeTeamName>{props.homeTeamName}</StyledHomeTeamName>
+      <StyledHomeTeamName>{homeTeamName}</StyledHomeTeamName>
     </StyledVersus>
   );
 }

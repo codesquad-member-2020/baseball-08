@@ -54,15 +54,22 @@ const StyledVersusText = styled.p`
   margin-top: 13px;
 `;
 
-function InningBoard(props: any) {
+interface Props {
+  awayTeamName: string,
+  awayTeamScore: number,
+  homeTeamName: string,
+  homeTeamScore: number
+}
+
+const InningBoard: React.FunctionComponent<Props> = function({awayTeamName, awayTeamScore, homeTeamName, homeTeamScore}) {
   return (
     <StyledVersus>
       <StyledScoreBoardTitle>BaseballGame Online</StyledScoreBoardTitle>
-      <StyledTeamName>{props.awayTeamName}</StyledTeamName>
-      <StyledTeamScore>{props.awayTeamScore}</StyledTeamScore>
+      <StyledTeamName>{awayTeamName}</StyledTeamName>
+      <StyledTeamScore>{awayTeamScore}</StyledTeamScore>
       <StyledVersusText>VS</StyledVersusText>
-      <StyledTeamScore>{props.homeTeamScore}</StyledTeamScore>
-      <StyledTeamName>{props.homeTeamName}</StyledTeamName>
+      <StyledTeamScore>{homeTeamScore}</StyledTeamScore>
+      <StyledTeamName>{homeTeamName}</StyledTeamName>
     </StyledVersus>
   );
 }

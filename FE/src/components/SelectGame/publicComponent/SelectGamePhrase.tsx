@@ -10,10 +10,14 @@ const StyledP = styled.p`
   color: white;
 `;
 
-function SelectGamePhrase(props:any) {
+interface Props {
+  title: string
+}
+
+const SelectGamePhrase: React.FunctionComponent<Props> = function({title}) {
   return (
     <>
-      <StyledP>{props.title}</StyledP>
+      <StyledP>{title}</StyledP>
     </>
   );
 };

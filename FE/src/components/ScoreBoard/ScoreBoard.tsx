@@ -39,9 +39,9 @@ function ScoreBoard() {
         1,
         2,
         3,
-        4,
+        4
       ],
-      "total_score": 10,
+      "totalScore": 10,
       "user": "githubId2",
       "turn": true
     },
@@ -53,7 +53,7 @@ function ScoreBoard() {
         4,
         5
       ],
-      "total_score": 14,
+      "totalScore": 14,
       "user": "githubId3",
       "turn": false
     }
@@ -63,8 +63,9 @@ function ScoreBoard() {
     <StyledDiv className="ScoreBoard">
       <ScoreBoardWrap>
         <Inning />
-        <TeamScore teamScoreInfo={gameScoreObj[0]}/>
-        <TeamScore teamScoreInfo={gameScoreObj[1]}/>
+        {gameScoreObj.map((scoreInformation: any, index: any) => (
+          <TeamScore key={index} teamName={scoreInformation.team} scores={scoreInformation.score} totalScore={scoreInformation.totalScore}/>
+        ))}
       </ScoreBoardWrap>
     </StyledDiv>
   );
