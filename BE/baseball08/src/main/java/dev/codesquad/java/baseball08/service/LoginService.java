@@ -25,14 +25,13 @@ public class LoginService {
     private String GITHUB_CLIENT_SECRET;
 
     public Github requestAccessToken(String code) {
-        RequestBody requestBody = RequestBody.builder()
+        RequestBody requestBody = new RequestBody.Builder()
                 .clientId(GITHUB_CLIENT_ID)
                 .clientSecret(GITHUB_CLIENT_SECRET)
                 .code(code)
                 .build();
         HttpHeaders headers = new HttpHeaders();
         headers.set(HEADER_ACCEPT, HEADER_MEDIA_TYPE);
-
         HttpEntity<?> httpEntity = new HttpEntity<>(requestBody, headers);
         ResponseEntity<Github> responseEntity = new RestTemplate().postForEntity(GITHUB_ACCESS_TOKEN_URL, httpEntity, Github.class);
         return responseEntity.getBody();
