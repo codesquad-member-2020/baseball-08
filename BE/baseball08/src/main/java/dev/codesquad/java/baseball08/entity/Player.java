@@ -1,7 +1,13 @@
 package dev.codesquad.java.baseball08.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.data.annotation.Id;
 
+@Getter
+@Setter
+@ToString
 public class Player {
     @Id
     private Long id;

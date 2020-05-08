@@ -17,4 +17,5 @@ public class GameDao {
     public GameDao(DataSource dataSource){
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
+
 }
