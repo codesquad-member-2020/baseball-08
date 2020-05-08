@@ -9,11 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.Map;
 
 import static dev.codesquad.java.baseball08.common.CommonStatics.*;
 
@@ -49,6 +45,4 @@ public class LoginService {
         ResponseEntity<GithubUser> responseEntity = new RestTemplate().exchange(GITHUB_USER_INFO_URL, HttpMethod.GET, httpEntity, GithubUser.class);
         return responseEntity.getBody();
     }
-
-
 }
