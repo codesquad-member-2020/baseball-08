@@ -39,6 +39,7 @@ CREATE TABLE IF NOT EXISTS team
 (
     id             INT NOT NULL AUTO_INCREMENT,
     name           VARCHAR(32),
+    user_id        VARCHAR(32),
     current_player VARCHAR(32),
 
     game           INT REFERENCES game (id),
