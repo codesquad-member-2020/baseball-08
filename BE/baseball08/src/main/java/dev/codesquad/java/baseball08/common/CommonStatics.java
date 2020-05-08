@@ -14,4 +14,5 @@ public class CommonStatics {
     public static final Integer EXPIRE_TIME = 60*60*6;
 
     public static final String HEADER_LOCATION = "Location";
+    public static final String REDIRECT_URL = "http://localhost:8080";
 }

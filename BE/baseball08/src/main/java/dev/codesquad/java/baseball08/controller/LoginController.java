@@ -36,7 +36,7 @@ public class LoginController {
         Cookie cookie = new Cookie(USER_ID, githubUser.getUserId());
         cookie.setMaxAge(EXPIRE_TIME);
         response.addCookie(cookie);
-        response.setHeader(HEADER_LOCATION,"localhost:8080");
+        response.setHeader(HEADER_LOCATION, REDIRECT_URL);
         return new ResponseEntity(HttpStatus.FOUND);
     }
 }
