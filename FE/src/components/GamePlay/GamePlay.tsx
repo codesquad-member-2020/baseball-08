@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components'
 import StadiumBackground from './publicComponent/StadiumBackground'
 import InningBoard from './publicComponent/InningBoard'
+import SBOBoard from './publicComponent/SBOBoard';
+import PAandNP from './publicComponent/PAandNP';
+import Record from './publicComponent/Record';
+import fetchRequest from '../../util/fetchRequest'
 
 const StyledDiv = styled.div`
   position: absolute;
@@ -11,72 +15,67 @@ const StyledDiv = styled.div`
   z-index: 0;
 `;
 
+interface Score {
+  strike: number,
+  ball: number,
+  out: number,
+  base: number
+}
+
+interface GameData {
+  away: string,
+  home: string,
+  awayTotalScore: string,
+  homeTotalScore: number,
+  user: string,
+  inning: number,
+  turn: boolean,
+  score: Score,
+}
+
 function GamePlay() {
-  const gameDetailObj = {
-    "away": "team2",
-    "home": "team3",
-    "awayTotalScore": 9,
-    "homeTotalScore": 10,
-    "user": "myGithubId",
-    "inning": 2,
-    "turn": true,
-    "score": {
-      "strike": 2,
-      "ball": 3,
-      "out": 2,
-      "base": 2
-    },
-    "pitcher": {
-      "name": "current_pitcher",
-      "pitches": 50
-    },
-    "hitter": {
-      "name": "current_hitter",
-      "atBat": 1,
-      "hit": 0
-    },
-    "history": [
-      {
-        "name": "hitter_name1",
-        "lineUp": 7,
-        "hitLog": [
-          "S",
-          "B",
-          "B",
-          "B",
-          "S"
-        ]
-      },
-      {
-        "name": "hitter_name2",
-        "lineUp": 6,
-        "hitLog": [
-          "S",
-          "B",
-          "B",
-          "H"
-        ]
-      },
-      {
-        "name": "hitter_name3",
-        "lineUp": 5,
-        "hitLog": [
-          "S",
-          "B",
-          "B",
-          "O"
-        ]
-      }
-    ]
-  };
+  const [gameDetailObj, setGameDetailObj] = useState<any>(undefined);
+
+  useEffect(() => {
+    fetchRequest("https://4ea8bf16-a9c4-4101-8626-a7c53c0b1e89.mock.pstmn.io/detail/1/team2", "GET")
+    .then((response) => response.json())
+    .then((games) => {
+      console.log(games);
+      setGameDetailObj(games);
+    })
+    .catch((error) => {
+      alert("주의");
+    });
+  }, [])
 
   return (
     <StyledDiv>
       <StadiumBackground></StadiumBackground>
-      <InningBoard 
-        awayTeamName={gameDetailObj.away} awayTeamScore={gameDetailObj.awayTotalScore}
-        homeTeamName={gameDetailObj.home} homeTeamScore={gameDetailObj.homeTotalScore}
+      {gameDetailObj && 
+      <>
+      <InningBoard
+        awayTeamName={gameDetailObj.away}
+        awayTeamScore={gameDetailObj.awayTotalScore}
+        homeTeamName={gameDetailObj.home}
+        homeTeamScore={gameDetailObj.homeTotalScore}
       ></InningBoard>
+      <SBOBoard
+        strikeCount={gameDetailObj.score.strike}
+        ballCount={gameDetailObj.score.ball}
+        outCount={gameDetailObj.score.out}
+      />
+      <PAandNP 
+        pitcherName={gameDetailObj.pitcher.name}
+        pitches={gameDetailObj.pitcher.pitches}
+        batterName={gameDetailObj.hitter.name}
+        atBat={gameDetailObj.hitter.atBat}
+        hit={gameDetailObj.hitter.hit}
+      />
+      <Record 
+        logs={gameDetailObj.history}
+      />
+      </>
+      }
     </StyledDiv>
   );
 }
