@@ -5,8 +5,11 @@ const TeamPlayerListWrap = styled.div`
   position: relative;
   width: 640px;
   height: 600px;
+  top: 50%;
+  transform: translateY(-50%);
   color: #fff;
   float: left;
+  box-shadow: 0 0 0 2px #fff inset;
 `;
 
 const TeamName = styled.h1`
@@ -84,10 +87,26 @@ const StyledUL = styled.ul`
   color: #fff;
 `;
 
-function TeamPlayerList(props: any) {
+interface Players {
+  name: string,
+  atBat: number,
+  hit: number,
+  out: number,
+  average: number
+}
+
+interface Props {
+  teamName: string,
+  playerInfo: Array<Players>,
+  totalBat: number,
+  totalHit: number,
+  totalOut: number
+}
+
+const TeamPlayerList: React.FunctionComponent<Props> = function({teamName, playerInfo, totalBat, totalHit, totalOut}) {
   return (
     <TeamPlayerListWrap>
-      <TeamName>{props.teamPlayerInfo.team}</TeamName>
+      <TeamName>{teamName}</TeamName>
       <RecordArea>
         <BatterTitle>타자</BatterTitle>
         <SectionTitle>타석</SectionTitle>
@@ -97,8 +116,8 @@ function TeamPlayerList(props: any) {
         <AverageTitle>시즌 평균</AverageTitle>
       </RecordArea>
       <StyledUL>
-        {props.teamPlayerInfo.players.map((player:any, index:any) => 
-        <li>
+        {playerInfo.map((player:any, index:any) => 
+        <li key={index}>
           <PlayerArea key={index}>
             <Batter>{player.name}</Batter>
             <Section>{player.atBat}</Section>

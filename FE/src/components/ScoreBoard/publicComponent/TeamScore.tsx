@@ -41,17 +41,22 @@ const InningScore = styled.li`
   padding-right: 10px;
 `;
 
+interface Props {
+  teamName: string,
+  scores: Array<number>,
+  totalScore: number
+}
 
-function TeamScore(props: any) {
+const TeamScore: React.FunctionComponent<Props> = function({teamName, scores, totalScore}) {
   return (
     <StyledDiv className="ScoreBoard">
-      <TeamName>{props.teamScoreInfo.team}</TeamName>
+      <TeamName>{teamName}</TeamName>
       <InningUL>
-        {props.teamScoreInfo.score.map((score: any, index: any) => (
-          <InningScore>{score}</InningScore>
+        {scores.map((score: any, index: any) => (
+          <InningScore key={index}>{score}</InningScore>
         ))}
       </InningUL>
-      <TotalScore totalScore={10}></TotalScore>
+      <TotalScore totalScore={totalScore}></TotalScore>
     </StyledDiv>
   );
 }

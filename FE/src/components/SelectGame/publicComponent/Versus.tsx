@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components'
 
 const StyledVersus = styled.div`
-  width: 400px;
+  width: 600px;
   height: 90px;
   position: relative;
   margin: 0 auto;
@@ -13,9 +13,9 @@ const StyledVersus = styled.div`
 `;
 
 const StyledGameTitle = styled.p`
-  width: 400px;
+  width: 600px;
   position: relative;
-  font-size: 20px;
+  font-size: 22px;
   margin: 0 auto;
   color: #cc0000;
   font-weight: bold;
@@ -23,6 +23,7 @@ const StyledGameTitle = styled.p`
 `;
 
 const StyledAwayTeamName = styled.p`
+  width: 250px;
   float: left;
   position: relative;
   font-size: 30px;
@@ -39,6 +40,7 @@ const StyledAwayTeamName = styled.p`
 `;
 
 const StyledHomeTeamName = styled.p`
+  width: 250px;
   float: right;
   position: relative;
   font-size: 30px;
@@ -65,13 +67,19 @@ const StyledVersusText = styled.p`
   margin-top: 10px;
 `;
 
-function Versus(props: any) {
+interface Props {
+  index: number,
+  awayTeamName: string,
+  homeTeamName: string
+}
+
+const Versus: React.FunctionComponent<Props> = function({index, awayTeamName, homeTeamName}) {
   return (
     <StyledVersus>
-      <StyledGameTitle>Game {props.index}</StyledGameTitle>
-      <StyledAwayTeamName>{props.awayTeamName}</StyledAwayTeamName>
+      <StyledGameTitle>Game {index}</StyledGameTitle>
+      <StyledAwayTeamName>{awayTeamName}</StyledAwayTeamName>
       <StyledVersusText>VS</StyledVersusText>
-      <StyledHomeTeamName>{props.homeTeamName}</StyledHomeTeamName>
+      <StyledHomeTeamName>{homeTeamName}</StyledHomeTeamName>
     </StyledVersus>
   );
 }

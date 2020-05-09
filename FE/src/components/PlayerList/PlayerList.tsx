@@ -87,8 +87,15 @@ function PlayerList() {
 
   return (
     <StyledDiv className="PlayerList">
-      <TeamPlayerList teamPlayerInfo={teams[0]}></TeamPlayerList>
-      <TeamPlayerList teamPlayerInfo={teams[1]}></TeamPlayerList>
+      {teams.map((teamInfo: any, index: any) => (
+        <TeamPlayerList key={index}
+          teamName={teamInfo.team}
+          playerInfo={teamInfo.players}
+          totalBat={teamInfo.total.bat}
+          totalHit={teamInfo.total.hit}
+          totalOut={teamInfo.total.out}
+        ></TeamPlayerList>
+      ))}
     </StyledDiv>
   );
 }
