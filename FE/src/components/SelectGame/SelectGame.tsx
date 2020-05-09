@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components'
 import GameTitle from './publicComponent/GameTitle'
 import SelectGamePhrase from './publicComponent/SelectGamePhrase'
 import Versus from './publicComponent/Versus'
+import fetchRequest from '../../util/fetchRequest'
 
 const StyledDiv = styled.div`
   position: relative;
@@ -13,35 +14,25 @@ const StyledDiv = styled.div`
 `;
 
 function SelectGame() {
-  const games = [
-    {
-      game: 1,
-      away: "team1",
-      home: "team2",
-      away_user: null,
-      home_user: null,
-    },
-    {
-      game: 2,
-      away: "team3",
-      home: "team4",
-      away_user: "githubId2",
-      home_user: "githubId3",
-    },
-    {
-      game: 3,
-      away: "team5",
-      home: "team6",
-      away_user: null,
-      home_user: "githubId1",
-    },
-  ];
+  const [games, setGames] = useState([]);
+
+  useEffect(() => {
+    fetchRequest("https://dev-angelo.dlinkddns.com:8100/game", "GET")
+    .then((response) => response.json())
+    .then((games) => {
+      setGames(games);
+    })
+    .catch((error) => {
+      alert("주의");
+    });
+  }, [])
+
 
   return (
     <StyledDiv>
       <GameTitle title="Baseball Game Service"></GameTitle>
       <SelectGamePhrase title="참가할 게임을 선택하세요"></SelectGamePhrase>
-      {games.map((game:any, index:number) => 
+      {games !== undefined && games.map((game:any, index:number) => 
         <Versus index={game.game} awayTeamName={game.away} homeTeamName={game.home}></Versus>
         ) 
       }
