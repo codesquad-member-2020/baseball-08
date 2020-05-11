@@ -25,20 +25,67 @@ public class TeamDao {
     }
 
     public List<PlayersDto> findPlayersByTeamId(Long teamId) {
-        String findPlayerSQL = "select p.name,p.at_bat,p.hit,p.out_count,p.average from team t INNER JOIN player p on t.id = p.team where t.id = ?";
-        return jdbcTemplate.query(findPlayerSQL, new Object[]{teamId}, new RowMapper<PlayersDto>() {
+        String findPlayerSql = "SELECT p.name,p.at_bat,p.hit,p.out,p.average FROM team t INNER JOIN player p ON t.id = p.team WHERE t.id = ?";
+        return jdbcTemplate.query(findPlayerSql, new Object[]{teamId}, new RowMapper<PlayersDto>() {
             @Override
             public PlayersDto mapRow(ResultSet rs, int rowNum) throws SQLException {
                 return new PlayersDto.Builder()
                         .name(rs.getString("name"))
                         .atBat(rs.getInt("at_bat"))
                         .hit(rs.getInt("hit"))
-                        .outCount(rs.getInt("out_count"))
+                        .outCount(rs.getInt("out"))
                         .average(rs.getDouble("average"))
                         .build();
             }
         });
     }
 
+    public TotalDto findTotalRecordByTeamId(Long teamId) {
+        String findTeamRecordSql = "SELECT SUM(p.at_bat) AS total_at_bat,SUM(p.hit) AS total_hit,SUM(p.out) AS total_out FROM team t INNER JOIN player p ON t.id = p.team WHERE t.id = ?";
+        RowMapper<TotalDto> totalRecordMapper = new RowMapper<TotalDto>() {
+            @Override
+            public TotalDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return new TotalDto.Builder()
+                        .totalAtBat(rs.getInt("total_at_bat"))
+                        .totalHit(rs.getInt("total_hit"))
+                        .totalOutCount(rs.getInt("total_out"))
+                        .build();
+            }
+        };
+        return jdbcTemplate.queryForObject(findTeamRecordSql, new Object[]{teamId}, totalRecordMapper);
+    }
+
+    public Long findOppositTeamByTeamId(Long teamId) {
+        String findOppositSql = "SELECT team.id FROM team WHERE team.game = (SELECT team.game FROM team WHERE team.id = ?) AND team.id != ?";
+        RowMapper<Long> teamIdMapper = new RowMapper<Long>() {
+            @Override
+            public Long mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return rs.getLong("id");
+            }
+        };
+        return jdbcTemplate.queryForObject(findOppositSql, new Object[]{teamId,teamId}, teamIdMapper);
+    }
+
+    public String findTeamNameByTeamId(Long teamId) {
+        String findTeamNameSql = "SELECT team.name FROM team WHERE team.id = ?";
+        RowMapper<String> teamNameMapper = new RowMapper<String>() {
+            @Override
+            public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return rs.getString("name");
+            }
+        };
+        return jdbcTemplate.queryForObject(findTeamNameSql,new Object[]{teamId}, teamNameMapper);
+    }
+
+    public String findUserIdByTeamId(Long teamId) {
+        String findUserIdSql = "SELECT team.user_id FROM team WHERE team.id = ?";
+        RowMapper<String> userIdMapper = new RowMapper<String>() {
+            @Override
+            public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return rs.getString("user_id");
+            }
+        };
+        return jdbcTemplate.queryForObject(findUserIdSql,new Object[]{teamId}, userIdMapper);
+    }
 
 }

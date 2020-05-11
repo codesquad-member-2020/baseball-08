@@ -1,9 +1,6 @@
 package dev.codesquad.java.baseball08.dto;
 
-import dev.codesquad.java.baseball08.oauth.RequestBody;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.springframework.util.Assert;
 
 @Getter
@@ -33,32 +30,32 @@ public class PlayersDto {
             return this;
         }
 
-        public Builder atBat(Integer val) {
+        public Builder atBat(int val) {
             atBat = val;
             return this;
         }
 
-        public Builder hit(Integer val) {
+        public Builder hit(int val) {
             hit = val;
             return this;
         }
 
-        public Builder outCount(Integer val) {
+        public Builder outCount(int val) {
             outCount = val;
             return this;
         }
 
-        public Builder average(Double val) {
+        public Builder average(double val) {
             average = val;
             return this;
         }
 
         public PlayersDto build() {
             Assert.hasText(name, "PlayerName must not be null");
-            Assert.isNull(atBat, "Player atBat must not be null");
-            Assert.isNull(hit, "Player hit must not be null");
-            Assert.isNull(outCount, "Player outCount must not be null");
-            Assert.isNull(average, "Player average must not be null");
+//            Assert.isNull(atBat, "Player atBat must not be null");
+//            Assert.isNull(hit, "Player hit must not be null");
+//            Assert.isNull(outCount, "Player outCount must not be null");
+//            Assert.isNull(average, "Player average must not be null");
             return new PlayersDto(this);
         }
     }
