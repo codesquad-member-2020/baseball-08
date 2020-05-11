@@ -48,7 +48,7 @@
 ## 6. Project References
 
 - [배포 업데이트 로그]
-- [API document]
+- [API document](https://documenter.getpostman.com/view/10828534/Szmcayto?version=latest)
 
 ## Summary Links
 | Contents       | Link       |
