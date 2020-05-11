@@ -22,7 +22,7 @@ function PlayerList() {
   const [playerList, setPlayerList] = useState<any>(undefined);
 
   useEffect(() => {
-    fetchRequest("https://4ea8bf16-a9c4-4101-8626-a7c53c0b1e89.mock.pstmn.io/detail/1/player", "GET")
+    fetchRequest(process.env.REACT_APP_GAME_PLAYER, "GET")
     .then((response) => response.json())
     .then((playerList) => {
       setPlayerList(playerList);

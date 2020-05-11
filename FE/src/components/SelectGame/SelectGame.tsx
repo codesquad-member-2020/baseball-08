@@ -11,13 +11,15 @@ const StyledDiv = styled.div`
   height: 720px;
   margin: 0 auto;
   background-color: black;
+  background-image: url("http://dev-angelo.dlinkddns.com/select_game.jpg");
+  background-size: 100% 100%;
 `;
 
 function SelectGame() {
   const [games, setGames] = useState([]);
 
   useEffect(() => {
-    fetchRequest("https://dev-angelo.dlinkddns.com:8100/game", "GET")
+    fetchRequest(process.env.REACT_APP_GAME_LIST, "GET")
     .then((response) => response.json())
     .then((games) => {
       setGames(games);
@@ -33,7 +35,7 @@ function SelectGame() {
       <GameTitle title="Baseball Game Service"></GameTitle>
       <SelectGamePhrase title="참가할 게임을 선택하세요"></SelectGamePhrase>
       {games !== undefined && games.map((game:any, index:number) => 
-        <Versus index={game.game} awayTeamName={game.away} homeTeamName={game.home}></Versus>
+        <Versus key={index} index={game.game} awayTeamName={game.away} homeTeamName={game.home}></Versus>
         ) 
       }
     </StyledDiv>
