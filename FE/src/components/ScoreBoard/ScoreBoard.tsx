@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components'
-
 import Inning from './publicComponent/Inning'
 import TeamScore from './publicComponent/TeamScore'
+import fetchRequest from '../../util/fetchRequest'
 
 const slidein = keyframes `
   0% { opacity: 0 }
@@ -32,38 +32,25 @@ const ScoreBoardWrap = styled.div`
 `;
 
 function ScoreBoard() {
-  const gameScoreObj = [
-    {
-      "team": "team1",
-      "score": [
-        1,
-        2,
-        3,
-        4
-      ],
-      "totalScore": 10,
-      "user": "githubId2",
-      "turn": true
-    },
-    {
-      "team": "team2",
-      "score": [
-        2,
-        3,
-        4,
-        5
-      ],
-      "totalScore": 14,
-      "user": "githubId3",
-      "turn": false
-    }
-  ];
+  const [scoreList, setScoreList] = useState<any>(undefined);
+
+  useEffect(() => {
+    fetchRequest("https://4ea8bf16-a9c4-4101-8626-a7c53c0b1e89.mock.pstmn.io/detail/1/score", "GET")
+    .then((response) => response.json())
+    .then((scoreList) => {
+      setScoreList(scoreList);
+    })
+    .catch((error) => {
+      alert("주의");
+    });
+  }, [])
+  
 
   return (
     <StyledDiv className="ScoreBoard">
       <ScoreBoardWrap>
         <Inning />
-        {gameScoreObj.map((scoreInformation: any, index: any) => (
+        {scoreList && scoreList.map((scoreInformation: any, index: any) => (
           <TeamScore key={index} teamName={scoreInformation.team} scores={scoreInformation.score} totalScore={scoreInformation.totalScore}/>
         ))}
       </ScoreBoardWrap>

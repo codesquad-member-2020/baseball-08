@@ -70,17 +70,17 @@ interface Props {
 const SBOBoard: React.FunctionComponent<Props> = function({strikeCount, ballCount, outCount}) {
   const strikeElements = [];
   for (let index = 0 ; index < strikeCount ; ++index) {
-    strikeElements.push(<StyledStrike />);
+    strikeElements.push(<StyledStrike key={index} />);
   }
 
   const ballElement = [];
   for (let index = 0 ; index < ballCount ; ++index) {
-    ballElement.push(<StyledBall />);
+    ballElement.push(<StyledBall key={index} />);
   }
 
   const outElements = [];
   for (let index = 0 ; index < outCount ; ++index) {
-    outElements.push(<StyledOut />);
+    outElements.push(<StyledOut key={index} />);
   }
 
   return (

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components'
 import TeamPlayerList from './publicComponent/TeamPlayerList'
+import fetchRequest from '../../util/fetchRequest'
 
 const slidein = keyframes `
   0% { opacity: 0 }
@@ -18,84 +19,31 @@ const StyledDiv = styled.div`
 `;
 
 function PlayerList() {
-  const teams = [
-    {
-      "team": "team1",
-      "user": "githubId2",
-      "players": [
-        {
-          "name": "player1",
-          "atBat": 3,
-          "hit": 1,
-          "out": 2,
-          "average": 0.333
-        },
-        {
-          "name": "player2",
-          "atBat": 3,
-          "hit": 2,
-          "out": 1,
-          "average": 0.333
-        },
-        {
-          "name": "player3",
-          "atBat": 3,
-          "hit": 1,
-          "out": 2,
-          "average": 0.333
-        }
-      ],
-      "total": {
-        "bat": 9,
-        "hit": 4,
-        "out": 5
-      }
-    },
-    {
-      "team": "team2",
-      "user": "githubId3",
-      "players": [
-        {
-          "name": "player4",
-          "atBat": 2,
-          "hit": 0,
-          "out": 2,
-          "average": 0.333
-        },
-        {
-          "name": "player5",
-          "atBat": 2,
-          "hit": 1,
-          "out": 1,
-          "average": 0.333
-        },
-        {
-          "name": "player6",
-          "atBat": 2,
-          "hit": 1,
-          "out": 1,
-          "average": 0.333
-        }
-      ],
-      "total": {
-        "bat": 6,
-        "hit": 2,
-        "out": 4
-      }
-    }
-  ];
+  const [playerList, setPlayerList] = useState<any>(undefined);
 
+  useEffect(() => {
+    fetchRequest("https://4ea8bf16-a9c4-4101-8626-a7c53c0b1e89.mock.pstmn.io/detail/1/player", "GET")
+    .then((response) => response.json())
+    .then((playerList) => {
+      setPlayerList(playerList);
+    })
+    .catch((error) => {
+      alert("주의");
+    });
+  }, [])
+  
   return (
     <StyledDiv className="PlayerList">
-      {teams.map((teamInfo: any, index: any) => (
-        <TeamPlayerList key={index}
-          teamName={teamInfo.team}
-          playerInfo={teamInfo.players}
-          totalBat={teamInfo.total.bat}
-          totalHit={teamInfo.total.hit}
-          totalOut={teamInfo.total.out}
-        ></TeamPlayerList>
-      ))}
+      {playerList &&
+        playerList.map((teamInfo: any, index: any) => (
+          <TeamPlayerList key={index}
+            teamName={teamInfo.team}
+            playerInfo={teamInfo.players}
+            totalBat={teamInfo.total.bat}
+            totalHit={teamInfo.total.hit}
+            totalOut={teamInfo.total.out}
+          ></TeamPlayerList>
+        ))}
     </StyledDiv>
   );
 }

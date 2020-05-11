@@ -40,7 +40,6 @@ function GamePlay() {
     fetchRequest("https://4ea8bf16-a9c4-4101-8626-a7c53c0b1e89.mock.pstmn.io/detail/1/team2", "GET")
     .then((response) => response.json())
     .then((games) => {
-      console.log(games);
       setGameDetailObj(games);
     })
     .catch((error) => {
