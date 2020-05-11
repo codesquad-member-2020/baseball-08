@@ -19,7 +19,7 @@ struct APISession: APISessionProviding {
     // MARK: - Methods
     func execute<T>(_ requestProviding: RequestProviding) -> AnyPublisher<T, Error>
         where T : Decodable {
-            return URLSession.shared
+            URLSession.shared
                 .dataTaskPublisher(for: requestProviding.request)
                 .map { $0.data }
                 .decode(type: T.self, decoder: JSONDecoder())
@@ -27,21 +27,26 @@ struct APISession: APISessionProviding {
     }
 }
 
-protocol GameProviding {
+protocol Providing {
     var apiSession: APISessionProviding { get }
     
-    func getGame() -> AnyPublisher<[Game], Error>
+    func get<T>(_ type: T.Type,
+                path: String) -> AnyPublisher<[T], Error>
+        where T: Decodable
 }
 
-struct GameProvider: GameProviding {
+struct Provider: Providing {
     
     // MARK: - Properties
     var apiSession: APISessionProviding
     
     // MARK: - Methods
-    func getGame() -> AnyPublisher<[Game], Error> {
-        apiSession
-            .execute(Endpoint(path: "/game"))
-            .eraseToAnyPublisher()
+    func get<T>(_ type: T.Type,
+                path: String) -> AnyPublisher<[T], Error>
+        where T : Decodable {
+            apiSession
+                .execute(Endpoint(path: path))
+                .eraseToAnyPublisher()
     }
 }
+
