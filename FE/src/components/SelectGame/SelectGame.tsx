@@ -4,6 +4,7 @@ import GameTitle from './publicComponent/GameTitle'
 import SelectGamePhrase from './publicComponent/SelectGamePhrase'
 import Versus from './publicComponent/Versus'
 import fetchRequest from '../../util/fetchRequest'
+import Confetti from 'react-confetti'
 
 const StyledDiv = styled.div`
   position: relative;
@@ -31,6 +32,13 @@ function SelectGame() {
 
 
   return (
+    <>
+    <Confetti
+      width={1280}
+      height={720}
+      opacity={0.5}
+      numberOfPieces={30}
+    ></Confetti>
     <StyledDiv>
       <GameTitle title="Baseball Game Service"></GameTitle>
       <SelectGamePhrase title="참가할 게임을 선택하세요"></SelectGamePhrase>
@@ -39,6 +47,7 @@ function SelectGame() {
         ) 
       }
     </StyledDiv>
+    </>
   );
 }
 
