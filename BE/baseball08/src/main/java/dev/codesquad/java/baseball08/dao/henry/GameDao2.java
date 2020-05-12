@@ -70,4 +70,9 @@ public class GameDao2 {
         };
         return Optional.ofNullable(jdbcTemplate.queryForObject(sql, new Object[] {id}, responsePlayersDtoRowMapper));
     }
+
+    public void save(Integer homeScore, Integer awayScore) {
+        String sql = "INSERT INTO game (home_total_score, away_total_score) VALUES (?, ?)";
+        this.jdbcTemplate.update(sql, new Object[] {homeScore, awayScore});
+    }
 }

@@ -6,6 +6,7 @@ import dev.codesquad.java.baseball08.dao.henry.GameDao2;
 import dev.codesquad.java.baseball08.dto.PlayerInfoDto;
 import dev.codesquad.java.baseball08.dto.ResponsePlayersDto;
 import dev.codesquad.java.baseball08.dto.henry.AvailabilityResponse;
+import dev.codesquad.java.baseball08.dto.henry.TeamScoreResponse;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,5 +42,9 @@ public class TeamService {
             return new AvailabilityResponse(false);
         }
         return new AvailabilityResponse(true);
+    }
+
+    public TeamScoreResponse getTeamScore(Long id) {
+        return teamDao2.findTeamScoreById(id);
     }
 }

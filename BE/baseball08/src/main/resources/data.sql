@@ -1,21 +1,49 @@
-
 ------- GAME -------
-
 INSERT INTO game (id) VALUES (1);
 INSERT INTO game (id) VALUES (2);
 INSERT INTO game (id) VALUES (3);
 
 ------- TEAM -------
-
-INSERT INTO team (name,game,game_key) VALUES ('기아 타이거즈',1,0);
-INSERT INTO team (name,game,game_key) VALUES ('삼성 라이온즈',1,1);
+INSERT INTO team (name,game,game_key,user_id) VALUES ('기아 타이거즈',1,0,'haveagood');
+INSERT INTO team (name,game,game_key,user_id) VALUES ('삼성 라이온즈',1,1,'henry');
 INSERT INTO team (name,game,game_key) VALUES ('한화 이글스',2,0);
 INSERT INTO team (name,game,game_key) VALUES ('NC 다이노스',2,1);
 INSERT INTO team (name,game,game_key) VALUES ('롯데 자이언츠',3,0);
 INSERT INTO team (name,game,game_key) VALUES ('코쿼 호눅스',3,1);
 
-------- PLAYER -------
+------- INNING -------
+INSERT INTO inning (game,game_key) VALUES (1,0);
+INSERT INTO inning (game,game_key) VALUES (1,1);
+INSERT INTO inning (game,game_key) VALUES (1,2);
+INSERT INTO inning (game,game_key) VALUES (1,3);
+INSERT INTO inning (game,game_key) VALUES (1,4);
+INSERT INTO inning (game,game_key) VALUES (1,5);
+INSERT INTO inning (game,game_key) VALUES (1,6);
+INSERT INTO inning (game,game_key) VALUES (1,7);
+INSERT INTO inning (game,game_key) VALUES (1,8);
+INSERT INTO inning (game,game_key) VALUES (1,9);
+INSERT INTO inning (game,game_key) VALUES (2,0);
+INSERT INTO inning (game,game_key) VALUES (2,1);
+INSERT INTO inning (game,game_key) VALUES (2,2);
+INSERT INTO inning (game,game_key) VALUES (2,3);
+INSERT INTO inning (game,game_key) VALUES (2,4);
+INSERT INTO inning (game,game_key) VALUES (2,5);
+INSERT INTO inning (game,game_key) VALUES (2,6);
+INSERT INTO inning (game,game_key) VALUES (2,7);
+INSERT INTO inning (game,game_key) VALUES (2,8);
+INSERT INTO inning (game,game_key) VALUES (2,9);
+INSERT INTO inning (game,game_key) VALUES (3,0);
+INSERT INTO inning (game,game_key) VALUES (3,1);
+INSERT INTO inning (game,game_key) VALUES (3,2);
+INSERT INTO inning (game,game_key) VALUES (3,3);
+INSERT INTO inning (game,game_key) VALUES (3,4);
+INSERT INTO inning (game,game_key) VALUES (3,5);
+INSERT INTO inning (game,game_key) VALUES (3,6);
+INSERT INTO inning (game,game_key) VALUES (3,7);
+INSERT INTO inning (game,game_key) VALUES (3,8);
+INSERT INTO inning (game,game_key) VALUES (3,9);
 
+------- PLAYER -------
 INSERT INTO player (name,average,team,team_key,line_up) VALUES ('앤더슨',0.312,1,0,10);
 INSERT INTO player (name,average,team,team_key,line_up) VALUES ('옐리치',0.313,2,0,10);
 INSERT INTO player (name,average,team,team_key,line_up) VALUES ('마르테',0.314,3,0,10);
@@ -76,16 +104,3 @@ INSERT INTO player (name,average,team,team_key,line_up) VALUES ('하밀',0.367,6
 INSERT INTO player (name,average,team,team_key,line_up) VALUES ('랙돌',0.368,6,7,7);
 INSERT INTO player (name,average,team,team_key,line_up) VALUES ('모카',0.369,6,8,8);
 INSERT INTO player (name,average,team,team_key,line_up) VALUES ('엘리',0.370,6,9,9);
-
-------- INNING -------
-INSERT INTO inning (home_score,game) VALUES (1,1);
-INSERT INTO inning (home_score,game) VALUES (2,1);
-INSERT INTO inning (home_score,game) VALUES (1,1);
-INSERT INTO inning (home_score,game) VALUES (1,1);
-INSERT INTO inning (away_score,game) VALUES (1,1);
-INSERT INTO inning (away_score,game) VALUES (1,1);
-INSERT INTO inning (away_score,game) VALUES (3,1);
-INSERT INTO inning (away_score,game) VALUES (1,1);
-
-
-

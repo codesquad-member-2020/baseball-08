@@ -1,7 +1,9 @@
 package dev.codesquad.java.baseball08.dao;
 
+import com.sun.org.apache.xalan.internal.xsltc.util.IntegerArray;
 import dev.codesquad.java.baseball08.dto.PlayerInfoDto;
 import dev.codesquad.java.baseball08.dto.PlayersDto;
+import dev.codesquad.java.baseball08.dto.henry.TeamScoreResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import javax.sql.DataSource;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public class TeamDao2 {
@@ -70,6 +73,29 @@ public class TeamDao2 {
     public String findUserById(Long id) {
         String sql = "SELECT user_id FROM team t WHERE t.id = ?";
         return jdbcTemplate.queryForObject(sql, new Object[] {id}, (rs, rowNum) -> rs.getString("user_id"));
+    }
+
+    // 팀 아이디로 해당 팀의 게임 점수 보기
+    public TeamScoreResponse findTeamScoreById(Long id) {
+        String sql = "SELECT GROUP_CONCAT(DISTINCT t.name) AS team_name, GROUP_CONCAT(i.home_score) AS team_inning_score," +
+                " GROUP_CONCAT(DISTINCT t.user_id) AS team_user, GROUP_CONCAT(DISTINCT g.home_total_score) AS total_home_score" +
+                " FROM game g INNER JOIN inning i" +
+                " ON g.id = i.game INNER JOIN team t" +
+                " ON g.id = t.game" +
+                " WHERE t.id = ?";
+
+        RowMapper<TeamScoreResponse> rowMapper = (rs, rowNum) -> {
+            return TeamScoreResponse.builder()
+                    .team(rs.getString("team_name"))
+                    .score(Arrays.asList(rs.getString("team_inning_score").split(","))
+                            .stream()
+                            .map(Integer::parseInt)
+                            .collect(Collectors.toList()))
+                    .totalScore(rs.getInt("total_home_score"))
+                    .user(rs.getString("team_user"))
+                    .build();
+        };
+        return jdbcTemplate.queryForObject(sql, new Object[] {id}, rowMapper);
     }
 }
 
