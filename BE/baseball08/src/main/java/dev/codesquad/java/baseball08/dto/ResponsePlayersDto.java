@@ -21,4 +21,11 @@ public class ResponsePlayersDto {
         this.players = players;
         this.total = total;
     }
+
+    public ResponsePlayersDto(PlayerInfoDto playerInfoDto, PlayersDto playersDto, TotalDto totalDto) {
+        this.team = playerInfoDto.getTeam();
+        this.user = playerInfoDto.getUser();
+        this.players = playersDto.createList(playerInfoDto);
+        this.total = totalDto;
+    }
 }

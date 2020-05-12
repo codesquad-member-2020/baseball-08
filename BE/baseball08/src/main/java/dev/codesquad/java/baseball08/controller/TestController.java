@@ -40,8 +40,8 @@ public class TestController {
     public ResponseEntity test2() {
         PlayerInfoDto playerInfoDto = teamDao2.findTeamById(1L).orElseThrow(null);
         PlayersDto playersDto = new PlayersDto();
-        TotalDto totalDto = new TotalDto();
+        TotalDto totalDto = new TotalDto(playerInfoDto);
 
-        return new ResponseEntity(totalDto.create(playerInfoDto), HttpStatus.OK);
+        return new ResponseEntity(new ResponsePlayersDto(playerInfoDto, playersDto, totalDto), HttpStatus.OK);
     }
 }
