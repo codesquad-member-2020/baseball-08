@@ -95,34 +95,6 @@ public class TeamDao2 {
         );
     }
 
-    public GamePlayResponse findGameTeamInfoById(Long id) {
-        String sql = "SELECT GROUP_CONCAT(DISTINCT t.user_id) AS user_id," +
-                " GROUP_CONCAT(DISTINCT t.pitcher) AS pitcher," +
-                " GROUP_CONCAT(DISTINCT p.pitches) AS pitches," +
-                " GROUP_CONCAT(DISTINCT t.hitter) AS hitter," +
-                " GROUP_CONCAT(DISTINCT p.at_bat) AS at_bat," +
-                " GROUP_CONCAT(DISTINCT p.hit) AS hit" +
-                " FROM game g" +
-                " INNER JOIN team t ON g.id = t.game" +
-                " INNER JOIN player p ON t.id = p.team" +
-                " WHERE g.id = 1 and t.id = ?";
-
-        return jdbcTemplate.queryForObject(sql, new Object[] {id}, (rs, rowNum) ->
-                GamePlayResponse.builder()
-                        .user(rs.getString("user_id"))
-                        .pitcher(PitcherDto.builder()
-                                .name(rs.getString("pitcher"))
-                                .pitches(rs.getInt("pitches"))
-                                .build())
-                        .hitter(HitterDto.builder()
-                                .name(rs.getString("hitter"))
-                                .atBat(rs.getInt("at_bat"))
-                                .hit(rs.getInt("hit"))
-                                .build())
-                        .build()
-        );
-    }
-
     public List<PlayerLogDto> findHistoriesById(Long id) {
         String sql = "SELECT GROUP_CONCAT(DISTINCT h.name) AS hitter_name," +
                 " GROUP_CONCAT(DISTINCT h.line_up) AS hitter_line_up, GROUP_CONCAT(l.hit_log) AS hit_logs" +

@@ -2,12 +2,14 @@ package dev.codesquad.java.baseball08.dto.henry;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Setter
 @ToString
 public class GamePlayResponse {
     private String away;
@@ -16,7 +18,7 @@ public class GamePlayResponse {
     private Integer homeTotalScore;
     private String user;
     private Integer inning;
-    private String turn; // 초, 말 응답으로 변경
+    private String turn;
     private ScoreDto score;
     private PitcherDto pitcher;
     private HitterDto hitter;

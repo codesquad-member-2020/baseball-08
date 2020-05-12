@@ -1,10 +1,7 @@
 package dev.codesquad.java.baseball08.dao.henry;
 
 import dev.codesquad.java.baseball08.dao.TeamDao2;
-import dev.codesquad.java.baseball08.dto.henry.AvailabilityResponse;
-import dev.codesquad.java.baseball08.dto.henry.GameListResponse;
-import dev.codesquad.java.baseball08.dto.henry.GamePlayResponse;
-import dev.codesquad.java.baseball08.dto.henry.ScoreDto;
+import dev.codesquad.java.baseball08.dto.henry.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,6 +79,35 @@ public class GameDao2 {
                                 .out(rs.getInt("out_count"))
                                 .base(rs.getInt("base_count"))
                                 .build())
+                        .build()
+        );
+    }
+
+    public GamePlayResponse findGameTeamInfoById(Long id, Long teamId) {
+        String sql = "SELECT GROUP_CONCAT(DISTINCT t.user_id) AS user_id," +
+                " GROUP_CONCAT(DISTINCT t.pitcher) AS pitcher," +
+                " GROUP_CONCAT(DISTINCT p.pitches) AS pitches," +
+                " GROUP_CONCAT(DISTINCT t.hitter) AS hitter," +
+                " GROUP_CONCAT(DISTINCT p.at_bat) AS at_bat," +
+                " GROUP_CONCAT(DISTINCT p.hit) AS hit" +
+                " FROM game g" +
+                " INNER JOIN team t ON g.id = t.game" +
+                " INNER JOIN player p ON t.id = p.team" +
+                " WHERE g.id = ? and t.id = ?";
+
+        return jdbcTemplate.queryForObject(sql, new Object[] {id, teamId}, (rs, rowNum) ->
+                GamePlayResponse.builder()
+                        .user(rs.getString("user_id"))
+                        .pitcher(PitcherDto.builder()
+                                .name(rs.getString("pitcher"))
+                                .pitches(rs.getInt("pitches"))
+                                .build())
+                        .hitter(HitterDto.builder()
+                                .name(rs.getString("hitter"))
+                                .atBat(rs.getInt("at_bat"))
+                                .hit(rs.getInt("hit"))
+                                .build())
+                        .history(teamDao2.findHistoriesById(teamId))
                         .build()
         );
     }

@@ -20,9 +20,6 @@ public class GameService {
     @Autowired
     private GameDao2 gameDao2;
 
-    @Autowired
-    private TeamDao2 teamDao2;
-
     public AvailabilityResponse isGameAvailable(Long id) {
         return gameDao2.IsGameAvailable(id);
     }
@@ -31,8 +28,14 @@ public class GameService {
         return gameDao2.findAllGame();
     }
 
-    public GamePlayResponse getGamePlay(Long id) {
+    public GamePlayResponse getGamePlay(Long id, Long teamId) {
+        GamePlayResponse gamePlayResponse = gameDao2.findGameInfoById(id);
+        GamePlayResponse gamePlayResponse2 = gameDao2.findGameTeamInfoById(id,teamId);
+        gamePlayResponse.setUser(gamePlayResponse2.getUser());
+        gamePlayResponse.setPitcher(gamePlayResponse2.getPitcher());
+        gamePlayResponse.setHitter(gamePlayResponse2.getHitter());
+        gamePlayResponse.setHistory(gamePlayResponse2.getHistory());
         //return gameDao2.findGameInfoById(id);
-        return teamDao2.findGameTeamInfoById(id);
+        return gamePlayResponse;
     }
 }
