@@ -1,5 +1,7 @@
 package dev.codesquad.java.baseball08.service;
 
+import dev.codesquad.java.baseball08.dao.TeamDao;
+import dev.codesquad.java.baseball08.dao.TeamDao2;
 import dev.codesquad.java.baseball08.dao.henry.GameDao2;
 import dev.codesquad.java.baseball08.dto.henry.AvailabilityResponse;
 import dev.codesquad.java.baseball08.dto.henry.GameListResponse;
@@ -18,6 +20,9 @@ public class GameService {
     @Autowired
     private GameDao2 gameDao2;
 
+    @Autowired
+    private TeamDao2 teamDao2;
+
     public AvailabilityResponse isGameAvailable(Long id) {
         return gameDao2.IsGameAvailable(id);
     }
@@ -27,6 +32,7 @@ public class GameService {
     }
 
     public GamePlayResponse getGamePlay(Long id) {
-        return gameDao2.findGameInfoById(id);
+        //return gameDao2.findGameInfoById(id);
+        return teamDao2.findGameTeamInfoById(id);
     }
 }

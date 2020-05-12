@@ -2,8 +2,7 @@ package dev.codesquad.java.baseball08.dao;
 
 import dev.codesquad.java.baseball08.dto.PlayerInfoDto;
 import dev.codesquad.java.baseball08.dto.PlayersDto;
-import dev.codesquad.java.baseball08.dto.henry.PlayerLogDto;
-import dev.codesquad.java.baseball08.dto.henry.TeamScoreResponse;
+import dev.codesquad.java.baseball08.dto.henry.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,6 +91,34 @@ public class TeamDao2 {
                                 .collect(Collectors.toList()))
                         .totalScore(rs.getInt("total_home_score"))
                         .user(rs.getString("team_user"))
+                        .build()
+        );
+    }
+
+    public GamePlayResponse findGameTeamInfoById(Long id) {
+        String sql = "SELECT GROUP_CONCAT(DISTINCT t.user_id) AS user_id," +
+                " GROUP_CONCAT(DISTINCT t.pitcher) AS pitcher," +
+                " GROUP_CONCAT(DISTINCT p.pitches) AS pitches," +
+                " GROUP_CONCAT(DISTINCT t.hitter) AS hitter," +
+                " GROUP_CONCAT(DISTINCT p.at_bat) AS at_bat," +
+                " GROUP_CONCAT(DISTINCT p.hit) AS hit" +
+                " FROM game g" +
+                " INNER JOIN team t ON g.id = t.game" +
+                " INNER JOIN player p ON t.id = p.team" +
+                " WHERE g.id = 1 and t.id = ?";
+
+        return jdbcTemplate.queryForObject(sql, new Object[] {id}, (rs, rowNum) ->
+                GamePlayResponse.builder()
+                        .user(rs.getString("user_id"))
+                        .pitcher(PitcherDto.builder()
+                                .name(rs.getString("pitcher"))
+                                .pitches(rs.getInt("pitches"))
+                                .build())
+                        .hitter(HitterDto.builder()
+                                .name(rs.getString("hitter"))
+                                .atBat(rs.getInt("at_bat"))
+                                .hit(rs.getInt("hit"))
+                                .build())
                         .build()
         );
     }
