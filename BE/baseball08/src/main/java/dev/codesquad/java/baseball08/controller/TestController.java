@@ -21,9 +21,6 @@ public class TestController {
 
     private final TeamService teamService;
 
-    @Autowired
-    private TeamDao2 teamDao2;
-
     @GetMapping("/")
     public ResponseEntity<List<ResponsePlayersDto>>
     test() {
