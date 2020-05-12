@@ -5,16 +5,16 @@ import lombok.Getter;
 
 @Getter
 public class TotalDto {
-    private Integer totalAtBat;
-    private Integer totalHit;
-    private Integer totalOutCount;
+    private Integer bat;
+    private Integer hit;
+    private Integer out;
 
     public TotalDto() {}
 
     @Builder
-    public TotalDto(Integer totalAtBat, Integer totalHit, Integer totalOutCount) {
-        this.totalAtBat = totalAtBat;
-        this.totalHit = totalHit;
-        this.totalOutCount = totalOutCount;
+    public TotalDto(Integer bat, Integer hit, Integer out) {
+        this.bat = bat;
+        this.hit = hit;
+        this.out = out;
     }
 }
