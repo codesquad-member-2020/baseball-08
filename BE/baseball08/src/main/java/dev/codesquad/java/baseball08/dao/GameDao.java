@@ -14,8 +14,12 @@ public class GameDao {
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public GameDao(DataSource dataSource){
+    public GameDao(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
+    }
+
+    public String isGamePossible(Long game) {
+        return jdbcTemplate.queryForObject("", new Object[]{game}, (rs, rowNum) -> rs.getString("user_id"));
     }
 
 }

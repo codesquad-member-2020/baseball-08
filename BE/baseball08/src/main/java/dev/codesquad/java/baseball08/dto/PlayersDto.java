@@ -11,7 +11,8 @@ public class PlayersDto {
     private Integer out;
     private Double average;
 
-    public PlayersDto() {}
+    public PlayersDto() {
+    }
 
     @Builder
     public PlayersDto(String name, Integer atBat, Integer hit, Integer out, Double average) {

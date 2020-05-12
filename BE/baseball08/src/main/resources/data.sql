@@ -7,7 +7,7 @@ INSERT INTO game (id) VALUES (3);
 
 ------- TEAM -------
 
-INSERT INTO team (name,game,game_key) VALUES ('기아 타이거즈',1,0);
+INSERT INTO team (name,user_id,game,game_key) VALUES ('기아 타이거즈','haveagood',1,0);
 INSERT INTO team (name,game,game_key) VALUES ('삼성 라이온즈',1,1);
 INSERT INTO team (name,game,game_key) VALUES ('한화 이글스',2,0);
 INSERT INTO team (name,game,game_key) VALUES ('NC 다이노스',2,1);

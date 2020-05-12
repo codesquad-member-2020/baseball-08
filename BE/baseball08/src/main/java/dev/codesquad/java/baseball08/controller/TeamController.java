@@ -1,7 +1,9 @@
 package dev.codesquad.java.baseball08.controller;
-
+import dev.codesquad.java.baseball08.dao.TeamDao;
 import dev.codesquad.java.baseball08.dao.TeamDao2;
 import dev.codesquad.java.baseball08.dto.*;
+import dev.codesquad.java.baseball08.dto.AvailableDto;
+import dev.codesquad.java.baseball08.dto.ResponsePlayersDto;
 import dev.codesquad.java.baseball08.service.TeamService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -16,17 +18,19 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class TestController {
-    private static final Logger logger = LoggerFactory.getLogger(TestController.class);
+public class TeamController {
 
+    private static final Logger logger = LoggerFactory.getLogger(TeamController.class);
     private final TeamService teamService;
+
+    @Autowired
+    private TeamDao teamDao;
 
     @Autowired
     private TeamDao2 teamDao2;
 
     @GetMapping("/")
-    public ResponseEntity<List<ResponsePlayersDto>>
-    test() {
+    public ResponseEntity<List<ResponsePlayersDto>> test() {
         return new ResponseEntity<>(teamService.teamPlayerInfo(1L), HttpStatus.OK);
     }
 
@@ -40,4 +44,10 @@ public class TestController {
     public ResponseEntity test2() {
         return new ResponseEntity(teamService.getTeamPlayersInfo(1L), HttpStatus.OK);
     }
+
+    @GetMapping("/test")
+    public ResponseEntity<AvailableDto> test3() {
+        return new ResponseEntity<>(teamService.isTeamAvailable(1L, 1L), HttpStatus.OK);
+    }
+
 }
