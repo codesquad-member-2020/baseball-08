@@ -3,6 +3,7 @@ package dev.codesquad.java.baseball08.service;
 import dev.codesquad.java.baseball08.dao.henry.GameDao2;
 import dev.codesquad.java.baseball08.dto.henry.AvailabilityResponse;
 import dev.codesquad.java.baseball08.dto.henry.GameListResponse;
+import dev.codesquad.java.baseball08.dto.henry.GamePlayResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +24,9 @@ public class GameService {
 
     public List<GameListResponse> getGameList() {
         return gameDao2.findAllGame();
+    }
+
+    public GamePlayResponse getGamePlay(Long id) {
+        return gameDao2.findGameInfoById(id);
     }
 }

@@ -42,6 +42,7 @@ public class TestController {
 //        return new ResponseEntity(teamService.isTeamAvailable(1L) ,HttpStatus.OK);
 //        return ResponseEntity.ok(teamService.getTeamScore(1L));
 //        return ResponseEntity.ok(gameService.getGameList());
-        return ResponseEntity.ok(teamService.getPlayerLog(1L));
+//        return ResponseEntity.ok(teamService.getPlayerLog(1L));
+        return ResponseEntity.ok(gameService.getGamePlay(1L));
     }
 }
