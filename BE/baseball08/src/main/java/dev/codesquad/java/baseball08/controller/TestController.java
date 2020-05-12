@@ -38,7 +38,6 @@ public class TestController {
 
     @GetMapping("/henry")
     public ResponseEntity test2() {
-        PlayerInfoDto playerInfoDto = teamDao2.findTeamById(1L).orElseThrow(null);
-        return new ResponseEntity(new ResponsePlayersDto(playerInfoDto), HttpStatus.OK);
+        return new ResponseEntity(teamService.getTeamPlayersInfo(1L), HttpStatus.OK);
     }
 }
