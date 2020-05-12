@@ -14,6 +14,7 @@ import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -27,15 +28,23 @@ public class GameDao2 {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public Optional<GameListResponse> findAllGame(Long id) {
-        String sql = "SELECT g.id, t.name, t.user_id FROM game g INNER JOIN team t ON g.id = t.game WHERE g.id = ?";
+    public List<GameListResponse> findAllGame() {
+        String sql = "SELECT g.id AS game_id, GROUP_CONCAT(t.name) AS team_name, GROUP_CONCAT(COALESCE(t.user_id, 'none')) AS team_user" +
+                " FROM game g" +
+                " LEFT JOIN team t" +
+                " ON g.id = t.game" +
+                " GROUP BY g.id";
 
         RowMapper<GameListResponse> responseRowMapper = (rs, rowNum) -> {
             return GameListResponse.builder()
-                    .away(rs.getString(""))
+                    .game(rs.getInt("game_id"))
+                    .away(rs.getString("team_name").split(",")[0])
+                    .home(rs.getString("team_name").split(",")[1])
+                    .awayUser(rs.getString("team_user").split(",")[0])
+                    .homeUser(rs.getString("team_user").split(",")[1])
                     .build();
         };
-        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, new Object[] {id}, responseRowMapper));
+        return jdbcTemplate.query(sql, new Object[] {}, responseRowMapper);
     }
 
     public AvailabilityResponse IsGameAvailable(Long id) {

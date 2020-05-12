@@ -95,9 +95,6 @@ public class TeamDao2 {
                     .user(rs.getString("team_user"))
                     .build();
         };
-
-        String s = "SELECT GROUP_CONCAT(DISTINCT t.name) AS team_name, GROUP_CONCAT(i.home_score) AS team_inning_score, GROUP_CONCAT(DISTINCT t.user_id) AS team_user, GROUP_CONCAT(DISTINCT g.home_total_score) AS total_home_score FROM game g INNER JOIN inning i ON g.id = i.game INNER JOIN team t ON g.id = t.game WHERE t.id = ?";
-
         return jdbcTemplate.queryForObject(sql, new Object[] {id}, rowMapper);
     }
 }
