@@ -1,6 +1,5 @@
 package dev.codesquad.java.baseball08.dao;
 
-import com.sun.org.apache.xalan.internal.xsltc.util.IntegerArray;
 import dev.codesquad.java.baseball08.dto.PlayerInfoDto;
 import dev.codesquad.java.baseball08.dto.PlayersDto;
 import dev.codesquad.java.baseball08.dto.henry.PlayerLogDto;
@@ -9,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
@@ -29,18 +27,20 @@ public class TeamDao2 {
     }
 
     public Optional<List<PlayersDto>> findPlayerInfoById(Long id) {
-        String sql = "SELECT p.name, p.at_bat, p.hit, p.out_count, p.average FROM team t INNER JOIN player p ON t.id = p.team WHERE t.id = ?";
+        String sql = "SELECT p.name, p.at_bat, p.hit, p.out_count, p.average" +
+                " FROM team t" +
+                " INNER JOIN player p ON t.id = p.team" +
+                " WHERE t.id = ?";
 
-        RowMapper<PlayersDto> playersDtoRowMapper = (rs, rowNum) -> {
-            return PlayersDto.builder()
-                    .name(rs.getString("name"))
-                    .atBat(rs.getInt("at_bat"))
-                    .hit(rs.getInt("hit"))
-                    .out(rs.getInt("out_count"))
-                    .average(rs.getDouble("average"))
-                    .build();
-        };
-        return Optional.ofNullable(jdbcTemplate.query(sql, new Object[] {id}, playersDtoRowMapper));
+        return Optional.ofNullable(jdbcTemplate.query(sql, new Object[] {id}, (rs, rowNum) ->
+                PlayersDto.builder()
+                        .name(rs.getString("name"))
+                        .atBat(rs.getInt("at_bat"))
+                        .hit(rs.getInt("hit"))
+                        .out(rs.getInt("out_count"))
+                        .average(rs.getDouble("average"))
+                        .build()
+        ));
     }
 
     public Optional<PlayerInfoDto> findTeamById(Long id) {
@@ -50,25 +50,23 @@ public class TeamDao2 {
                 " GROUP_CONCAT(p.average ORDER BY p.line_up) AS group_average," +
                 " SUM(p.at_bat) AS total_at_bat, SUM(p.hit) AS total_hit, SUM(p.out_count) AS total_out" +
                 " FROM team t" +
-                " INNER JOIN player p" +
-                " ON t.id = p.team" +
+                " INNER JOIN player p ON t.id = p.team" +
                 " WHERE t.id = ?";
 
-        RowMapper<PlayerInfoDto> responsePlayersDtoRowMapper = (rs, rowNum) -> {
-            return PlayerInfoDto.builder()
-                    .team(rs.getString("name"))
-                    .user(rs.getString("user_id"))
-                    .names(Arrays.asList(rs.getString("group_name").split(",")))
-                    .atBats(Arrays.asList(rs.getString("group_at_bat").split(",")))
-                    .hits(Arrays.asList(rs.getString("group_hit").split(",")))
-                    .outs(Arrays.asList(rs.getString("group_out").split(",")))
-                    .averages(Arrays.asList(rs.getString("group_average").split(",")))
-                    .totalAtBat(rs.getInt("total_at_bat"))
-                    .totalHit(rs.getInt("total_hit"))
-                    .totalOut(rs.getInt("total_out"))
-                    .build();
-        };
-        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, new Object[] {id}, responsePlayersDtoRowMapper));
+        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, new Object[] {id}, (rs, rowNum) ->
+                PlayerInfoDto.builder()
+                        .team(rs.getString("name"))
+                        .user(rs.getString("user_id"))
+                        .names(Arrays.asList(rs.getString("group_name").split(",")))
+                        .atBats(Arrays.asList(rs.getString("group_at_bat").split(",")))
+                        .hits(Arrays.asList(rs.getString("group_hit").split(",")))
+                        .outs(Arrays.asList(rs.getString("group_out").split(",")))
+                        .averages(Arrays.asList(rs.getString("group_average").split(",")))
+                        .totalAtBat(rs.getInt("total_at_bat"))
+                        .totalHit(rs.getInt("total_hit"))
+                        .totalOut(rs.getInt("total_out"))
+                        .build()
+        ));
     }
 
     public String findUserById(Long id) {
@@ -80,12 +78,12 @@ public class TeamDao2 {
     public TeamScoreResponse findHomeTeamScoreById(Long id) {
         String sql = "SELECT GROUP_CONCAT(DISTINCT t.name) AS team_name, GROUP_CONCAT(i.home_score) AS team_inning_score," +
                 " GROUP_CONCAT(DISTINCT t.user_id) AS team_user, GROUP_CONCAT(DISTINCT g.home_total_score) AS total_home_score" +
-                " FROM game g INNER JOIN inning i" +
-                " ON g.id = i.game INNER JOIN team t" +
-                " ON g.id = t.game" +
+                " FROM game g" +
+                " INNER JOIN inning i ON g.id = i.game" +
+                " INNER JOIN team t ON g.id = t.game" +
                 " WHERE t.id = ?";
 
-        return jdbcTemplate.queryForObject(sql, new Object[] {id}, ((rs, rowNum) ->
+        return jdbcTemplate.queryForObject(sql, new Object[] {id}, (rs, rowNum) ->
                 TeamScoreResponse.builder()
                         .team(rs.getString("team_name"))
                         .score(Arrays.asList(rs.getString("team_inning_score").split(","))
@@ -94,7 +92,7 @@ public class TeamDao2 {
                                 .collect(Collectors.toList()))
                         .totalScore(rs.getInt("total_home_score"))
                         .user(rs.getString("team_user"))
-                        .build())
+                        .build()
         );
     }
 
