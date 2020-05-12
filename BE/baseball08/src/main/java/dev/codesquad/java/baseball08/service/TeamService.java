@@ -2,8 +2,10 @@ package dev.codesquad.java.baseball08.service;
 
 import dev.codesquad.java.baseball08.dao.TeamDao;
 import dev.codesquad.java.baseball08.dao.TeamDao2;
+import dev.codesquad.java.baseball08.dao.henry.GameDao2;
 import dev.codesquad.java.baseball08.dto.PlayerInfoDto;
 import dev.codesquad.java.baseball08.dto.ResponsePlayersDto;
+import dev.codesquad.java.baseball08.dto.henry.AvailabilityResponse;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +17,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class TeamService {
-
     private static final Logger logger = LoggerFactory.getLogger(TeamService.class);
 
     private final TeamDao teamDao;

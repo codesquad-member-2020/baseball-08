@@ -2,6 +2,7 @@ package dev.codesquad.java.baseball08.controller;
 
 import dev.codesquad.java.baseball08.dao.TeamDao2;
 import dev.codesquad.java.baseball08.dto.*;
+import dev.codesquad.java.baseball08.service.GameService;
 import dev.codesquad.java.baseball08.service.TeamService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -20,6 +21,7 @@ public class TestController {
     private static final Logger logger = LoggerFactory.getLogger(TestController.class);
 
     private final TeamService teamService;
+    private final GameService gameService;
 
     @GetMapping("/")
     public ResponseEntity<List<ResponsePlayersDto>>
@@ -35,6 +37,7 @@ public class TestController {
 
     @GetMapping("/henry")
     public ResponseEntity test2() {
-        return new ResponseEntity(teamService.getTeamPlayersInfo(1L), HttpStatus.OK);
+//        return new ResponseEntity(teamService.getTeamPlayersInfo(1L), HttpStatus.OK);
+        return new ResponseEntity(gameService.isGameAvailable(2L), HttpStatus.OK);
     }
 }
