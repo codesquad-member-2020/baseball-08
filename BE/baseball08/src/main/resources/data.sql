@@ -104,3 +104,17 @@ INSERT INTO player (name,average,team,team_key,line_up) VALUES ('하밀',0.367,6
 INSERT INTO player (name,average,team,team_key,line_up) VALUES ('랙돌',0.368,6,7,7);
 INSERT INTO player (name,average,team,team_key,line_up) VALUES ('모카',0.369,6,8,8);
 INSERT INTO player (name,average,team,team_key,line_up) VALUES ('엘리',0.370,6,9,9);
+
+------- HISTORY -------
+INSERT INTO history (name, line_up, game) VALUES ('A맨', 1, 1);
+INSERT INTO history (name, line_up, game) VALUES ('B맨', 2, 1);
+INSERT INTO history (name, line_up, game) VALUES ('C맨', 3, 1);
+INSERT INTO history (name, line_up, game) VALUES ('D맨', 4, 2);
+
+------- LOG -------
+INSERT INTO log (hit_log, history) VALUES ('S', 1);
+INSERT INTO log (hit_log, history) VALUES ('S', 1);
+INSERT INTO log (hit_log, history) VALUES ('B', 1);
+INSERT INTO log (hit_log, history) VALUES ('S', 2);
+INSERT INTO log (hit_log, history) VALUES ('O', 2);
+INSERT INTO log (hit_log, history) VALUES ('S', 1);
