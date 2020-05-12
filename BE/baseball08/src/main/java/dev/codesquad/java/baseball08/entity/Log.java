@@ -13,5 +13,4 @@ import org.springframework.data.relational.core.mapping.Table;
 public class Log {
     @Id
     private Long id;
-
 }

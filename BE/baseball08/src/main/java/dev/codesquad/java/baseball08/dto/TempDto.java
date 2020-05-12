@@ -6,7 +6,8 @@ import lombok.ToString;
 
 import java.util.List;
 
-@Getter @ToString
+@Getter
+@ToString
 public class TempDto {
     private String name;
     private String userId;
