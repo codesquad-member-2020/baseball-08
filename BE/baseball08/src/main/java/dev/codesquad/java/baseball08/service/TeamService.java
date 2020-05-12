@@ -34,4 +34,12 @@ public class TeamService {
         PlayerInfoDto playerInfoDto = teamDao2.findTeamById(id).orElseThrow(null);
         return new ResponsePlayersDto(playerInfoDto);
     }
+
+    public AvailabilityResponse isTeamAvailable(Long id) {
+        String userId = teamDao2.findUserById(id);
+        if (userId != null) {
+            return new AvailabilityResponse(false);
+        }
+        return new AvailabilityResponse(true);
+    }
 }
