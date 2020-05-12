@@ -40,7 +40,7 @@ public class TeamDao {
                 return new ResponsePlayersDto(
                         rs.getString("name"),rs.getString("user_id"),
                         playersParser(rs.getString("players").split("/")),
-                        new TotalDto.Builder()
+                        TotalDto.builder()
                                 .totalAtBat(Integer.parseInt(rs.getString("total_bat")))
                                 .totalHit(Integer.parseInt(rs.getString("total_hit")))
                                 .totalOutCount(Integer.parseInt(rs.getString("total_out")))
@@ -91,7 +91,7 @@ public class TeamDao {
         RowMapper<TotalDto> totalRecordMapper = new RowMapper<TotalDto>() {
             @Override
             public TotalDto mapRow(ResultSet rs, int rowNum) throws SQLException {
-                return new TotalDto.Builder()
+                return TotalDto.builder()
                         .totalAtBat(rs.getInt("total_at_bat"))
                         .totalHit(rs.getInt("total_hit"))
                         .totalOutCount(rs.getInt("total_out"))
