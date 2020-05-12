@@ -76,3 +76,16 @@ INSERT INTO player (name,average,team,team_key,line_up) VALUES ('하밀',0.367,6
 INSERT INTO player (name,average,team,team_key,line_up) VALUES ('랙돌',0.368,6,7,7);
 INSERT INTO player (name,average,team,team_key,line_up) VALUES ('모카',0.369,6,8,8);
 INSERT INTO player (name,average,team,team_key,line_up) VALUES ('엘리',0.370,6,9,9);
+
+------- INNING -------
+INSERT INTO inning (home_score,game) VALUES (1,1);
+INSERT INTO inning (home_score,game) VALUES (2,1);
+INSERT INTO inning (home_score,game) VALUES (1,1);
+INSERT INTO inning (home_score,game) VALUES (1,1);
+INSERT INTO inning (away_score,game) VALUES (1,1);
+INSERT INTO inning (away_score,game) VALUES (1,1);
+INSERT INTO inning (away_score,game) VALUES (3,1);
+INSERT INTO inning (away_score,game) VALUES (1,1);
+
+
+

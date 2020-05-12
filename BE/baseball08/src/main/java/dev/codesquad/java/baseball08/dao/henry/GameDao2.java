@@ -40,13 +40,7 @@ public class GameDao2 {
 
     public AvailabilityResponse IsGameAvailable(Long id) {
         String sql = "SELECT on_game FROM game g WHERE g.id = ?";
-
-        RowMapper<AvailabilityResponse> responseRowMapper = (rs, rowNum) -> {
-            return AvailabilityResponse.builder()
-                    .available(rs.getBoolean("on_game"))
-                    .build();
-        };
-        return jdbcTemplate.queryForObject(sql, new Object[] {id}, responseRowMapper);
+        return jdbcTemplate.queryForObject(sql, new Object[] {id}, (rs, rowNum) -> new AvailabilityResponse(rs.getBoolean("on_game")));
     }
 
     public Optional<PlayerInfoDto> findTeamById(Long id) {

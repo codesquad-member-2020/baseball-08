@@ -69,10 +69,7 @@ public class TeamDao2 {
 
     public String findUserById(Long id) {
         String sql = "SELECT user_id FROM team t WHERE t.id = ?";
-        RowMapper<String> rowMapper = (rs, rowNum) -> {
-            return rs.getString("user_id");
-        };
-        return jdbcTemplate.queryForObject(sql, new Object[] {id}, rowMapper);
+        return jdbcTemplate.queryForObject(sql, new Object[] {id}, (rs, rowNum) -> rs.getString("user_id"));
     }
 }
 
