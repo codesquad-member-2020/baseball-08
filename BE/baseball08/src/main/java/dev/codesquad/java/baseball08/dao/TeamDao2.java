@@ -3,6 +3,7 @@ package dev.codesquad.java.baseball08.dao;
 import com.sun.org.apache.xalan.internal.xsltc.util.IntegerArray;
 import dev.codesquad.java.baseball08.dto.PlayerInfoDto;
 import dev.codesquad.java.baseball08.dto.PlayersDto;
+import dev.codesquad.java.baseball08.dto.henry.PlayerLogDto;
 import dev.codesquad.java.baseball08.dto.henry.TeamScoreResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,18 +85,34 @@ public class TeamDao2 {
                 " ON g.id = t.game" +
                 " WHERE t.id = ?";
 
-        RowMapper<TeamScoreResponse> rowMapper = (rs, rowNum) -> {
-            return TeamScoreResponse.builder()
-                    .team(rs.getString("team_name"))
-                    .score(Arrays.asList(rs.getString("team_inning_score").split(","))
-                            .stream()
-                            .map(Integer::parseInt)
-                            .collect(Collectors.toList()))
-                    .totalScore(rs.getInt("total_home_score"))
-                    .user(rs.getString("team_user"))
-                    .build();
-        };
-        return jdbcTemplate.queryForObject(sql, new Object[] {id}, rowMapper);
+        return jdbcTemplate.queryForObject(sql, new Object[] {id}, ((rs, rowNum) ->
+                TeamScoreResponse.builder()
+                        .team(rs.getString("team_name"))
+                        .score(Arrays.asList(rs.getString("team_inning_score").split(","))
+                                .stream()
+                                .map(Integer::parseInt)
+                                .collect(Collectors.toList()))
+                        .totalScore(rs.getInt("total_home_score"))
+                        .user(rs.getString("team_user"))
+                        .build())
+        );
+    }
+
+    public List<PlayerLogDto> findHistoriesById(Long id) {
+        String sql = "SELECT GROUP_CONCAT(DISTINCT h.name) AS hitter_name," +
+                " GROUP_CONCAT(DISTINCT h.line_up) AS hitter_line_up, GROUP_CONCAT(l.hit_log) AS hit_logs" +
+                " FROM team t" +
+                " INNER JOIN history h ON h.team = t.id" +
+                " INNER JOIN log l ON h.id = l.history" +
+                " WHERE t.id = ? GROUP BY h.id";
+
+        return jdbcTemplate.query(sql, new Object[] {id}, (rs, rowNum) ->
+                PlayerLogDto.builder()
+                        .name(rs.getString("hitter_name"))
+                        .lineUp(Integer.parseInt(rs.getString("hitter_line_up")))
+                        .hitLog(Arrays.asList(rs.getString("hit_logs").split(",")))
+                        .build()
+        );
     }
 }
 

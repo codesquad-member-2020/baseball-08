@@ -6,6 +6,7 @@ import dev.codesquad.java.baseball08.dao.henry.GameDao2;
 import dev.codesquad.java.baseball08.dto.PlayerInfoDto;
 import dev.codesquad.java.baseball08.dto.ResponsePlayersDto;
 import dev.codesquad.java.baseball08.dto.henry.AvailabilityResponse;
+import dev.codesquad.java.baseball08.dto.henry.PlayerLogDto;
 import dev.codesquad.java.baseball08.dto.henry.TeamScoreResponse;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -46,5 +47,9 @@ public class TeamService {
 
     public TeamScoreResponse getTeamScore(Long id) {
         return teamDao2.findHomeTeamScoreById(id);
+    }
+
+    public List<PlayerLogDto> getPlayerLog(Long id) {
+        return teamDao2.findHistoriesById(id);
     }
 }

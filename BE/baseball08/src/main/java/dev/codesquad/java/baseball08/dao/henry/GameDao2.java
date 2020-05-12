@@ -81,11 +81,6 @@ public class GameDao2 {
         return Optional.ofNullable(jdbcTemplate.queryForObject(sql, new Object[] {id}, responsePlayersDtoRowMapper));
     }
 
-    // history 넣기 이건 쿼리 2개해야할 듯?
-    public PlayerLogDto findHistories() {
-        return null;
-    }
-
     public void save(Integer homeScore, Integer awayScore) {
         String sql = "INSERT INTO game (home_total_score, away_total_score) VALUES (?, ?)";
         this.jdbcTemplate.update(sql, new Object[] {homeScore, awayScore});
