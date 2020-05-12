@@ -17,10 +17,4 @@ public class TotalDto {
         this.hit = hit;
         this.out = out;
     }
-
-    public TotalDto(PlayerInfoDto playerInfoDto) {
-        this.bat = playerInfoDto.getTotalAtBat();
-        this.hit = playerInfoDto.getTotalHit();
-        this.out = playerInfoDto.getTotalOut();
-    }
 }

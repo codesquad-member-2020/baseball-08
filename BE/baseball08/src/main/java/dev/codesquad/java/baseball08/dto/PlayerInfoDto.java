@@ -57,4 +57,12 @@ public class PlayerInfoDto {
         }
         return players;
     }
+
+    public TotalDto createTotal() {
+        return TotalDto.builder()
+                .bat(totalAtBat)
+                .hit(totalHit)
+                .out(totalOut)
+                .build();
+    }
 }
