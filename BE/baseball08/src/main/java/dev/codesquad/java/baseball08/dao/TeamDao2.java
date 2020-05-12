@@ -97,7 +97,7 @@ public class TeamDao2 {
 
     public List<PlayerLogDto> findHistoriesById(Long id) {
         String sql = "SELECT GROUP_CONCAT(DISTINCT h.name) AS hitter_name," +
-                " GROUP_CONCAT(DISTINCT h.line_up) AS hitter_line_up, GROUP_CONCAT(l.hit_log) AS hit_logs" +
+                " GROUP_CONCAT(DISTINCT h.line_up) AS hitter_line_up, GROUP_CONCAT(l.hit_log ORDER BY l.id DESC) AS hit_logs" +
                 " FROM team t" +
                 " INNER JOIN history h ON h.team = t.id" +
                 " INNER JOIN log l ON h.id = l.history" +
