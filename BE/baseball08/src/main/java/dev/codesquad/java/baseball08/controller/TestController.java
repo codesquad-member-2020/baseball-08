@@ -2,6 +2,7 @@ package dev.codesquad.java.baseball08.controller;
 
 import dev.codesquad.java.baseball08.dao.TeamDao2;
 import dev.codesquad.java.baseball08.dto.PlayerInfoDto;
+import dev.codesquad.java.baseball08.dto.PlayersDto;
 import dev.codesquad.java.baseball08.dto.ResponsePlayersDto;
 import dev.codesquad.java.baseball08.dto.TempDto;
 import dev.codesquad.java.baseball08.service.TeamService;
@@ -41,11 +42,12 @@ public class TestController {
     @GetMapping("/henry")
     public ResponseEntity test2() {
         PlayerInfoDto playerInfoDto = teamDao2.findTeamById(1L).orElseThrow(null);
-//        PlayersDto2 playersDto2 = new PlayersDto2();
+        PlayersDto playersDto = new PlayersDto();
+
 //        TotalDto totalDto = new TotalDto(r);
 //
 //        TeamPlayerResponse teamPlayerResponse = new TeamPlayerResponse(r, playersDto2, totalDto);
 
-        return new ResponseEntity(playerInfoDto, HttpStatus.OK);
+        return new ResponseEntity(playersDto.createList(playerInfoDto), HttpStatus.OK);
     }
 }
