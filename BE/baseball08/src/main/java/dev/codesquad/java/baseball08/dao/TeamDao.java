@@ -52,11 +52,11 @@ public class TeamDao {
                 List<PlayersDto> result = new ArrayList<>();
                 for (String player : players) {
                     List<String> playerInfo = Arrays.asList(player.split(","));
-                    result.add(new PlayersDto.Builder()
+                    result.add(PlayersDto.builder()
                             .name(playerInfo.get(0))
                             .atBat(Integer.parseInt(playerInfo.get(1)))
                             .hit(Integer.parseInt(playerInfo.get(2)))
-                            .outCount(Integer.parseInt(playerInfo.get(3)))
+                            .out(Integer.parseInt(playerInfo.get(3)))
                             .average(Double.parseDouble(playerInfo.get(4)))
                             .build());
                 }
@@ -73,11 +73,11 @@ public class TeamDao {
         return jdbcTemplate.query(sql, new Object[]{id}, new RowMapper<PlayersDto>() {
             @Override
             public PlayersDto mapRow(ResultSet rs, int rowNum) throws SQLException {
-                return new PlayersDto.Builder()
+                return PlayersDto.builder()
                         .name(rs.getString("name"))
                         .atBat(rs.getInt("at_bat"))
                         .hit(rs.getInt("hit"))
-                        .outCount(rs.getInt("out"))
+                        .out(rs.getInt("out"))
                         .average(rs.getDouble("average"))
                         .build();
             }
