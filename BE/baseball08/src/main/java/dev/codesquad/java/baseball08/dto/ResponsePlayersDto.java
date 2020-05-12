@@ -22,10 +22,10 @@ public class ResponsePlayersDto {
         this.total = total;
     }
 
-    public ResponsePlayersDto(PlayerInfoDto playerInfoDto, PlayersDto playersDto, TotalDto totalDto) {
+    public ResponsePlayersDto(PlayerInfoDto playerInfoDto, TotalDto totalDto) {
         this.team = playerInfoDto.getTeam();
         this.user = playerInfoDto.getUser();
-        this.players = playersDto.createList(playerInfoDto);
+        this.players = playerInfoDto.createPlayers();
         this.total = totalDto;
     }
 }

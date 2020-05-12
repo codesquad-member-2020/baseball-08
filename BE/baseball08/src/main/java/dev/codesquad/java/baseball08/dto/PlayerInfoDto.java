@@ -7,6 +7,7 @@ import lombok.ToString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -41,5 +42,19 @@ public class PlayerInfoDto {
         this.hits = hits;
         this.outs = outs;
         this.averages = averages;
+    }
+
+    public List<PlayersDto> createPlayers() {
+        List<PlayersDto> players = new ArrayList<>();
+        for (int i = 0; i < names.size(); i++) {
+            players.add(PlayersDto.builder()
+                    .name(names.get(i))
+                    .atBat(Integer.parseInt(atBats.get(i)))
+                    .hit(Integer.parseInt(hits.get(i)))
+                    .out(Integer.parseInt(outs.get(i)))
+                    .average(Double.parseDouble(averages.get(i)))
+                    .build());
+        }
+        return players;
     }
 }
