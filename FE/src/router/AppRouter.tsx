@@ -5,8 +5,8 @@ import {
   Route
 } from "react-router-dom";
 
-
 import GamePlayRouter from './GamePlayRouter';
+import Intro from '../components/Intro/Intro'
 import SelectGame from '../components/SelectGame/SelectGame';
 
 function AppRouter() {
@@ -14,6 +14,9 @@ function AppRouter() {
     <Router>
       <Switch>
         <Route exact={true} path="/">
+          <Intro />
+        </Route>
+        <Route path="/gameselect">
           <SelectGame />
         </Route>
         <Route path="/gameplay">

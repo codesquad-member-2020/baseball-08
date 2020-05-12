@@ -56,9 +56,6 @@ interface Props {
 }
 
 const Record: React.FunctionComponent<Props> = function({logs}) {
-// function Record() {
-  console.log(logs);
-
   const convertSBOtoString = (abc: string) => {
     switch (abc) {
       case 'S': {
