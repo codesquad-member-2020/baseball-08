@@ -20,10 +20,10 @@ public class TeamService {
     private static final Logger logger = LoggerFactory.getLogger(TeamService.class);
 
     @Autowired
-    private  TeamDao teamDao;
+    private TeamDao teamDao;
 
     @Autowired
-    private  TeamDao2 teamDao2;
+    private TeamDao2 teamDao2;
 
     public List<ResponsePlayersDto> teamPlayerInfo(Long id) {
         Long oppositeTeamId = teamDao.findOppositeTeamByTeamId(id);
@@ -40,7 +40,7 @@ public class TeamService {
 
     public AvailableDto isTeamAvailable(Long game, Long id) {
         try {
-            Optional.of(teamDao.isTeamAvailable(game, id)).orElseThrow(NullPointerException::new);
+            Optional.ofNullable(teamDao.findUserIdByGameIdTeamId(game, id)).orElseThrow(NullPointerException::new);
             return new AvailableDto(false);
         } catch (NullPointerException e) {
             return new AvailableDto(true);

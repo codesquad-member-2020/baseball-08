@@ -33,7 +33,7 @@ public class TeamDao {
                 "SUM(p.at_bat) AS total_bat, SUM(p.hit) as total_hit, SUM(p.out_count) AS total_out\n" +
                 "FROM player p LEFT JOIN team t ON p.team = t.id WHERE p.team = ?";
 
-        RowMapper<ResponsePlayersDto> tempMapper = new RowMapper<ResponsePlayersDto>() {
+        RowMapper<ResponsePlayersDto> mapper = new RowMapper<ResponsePlayersDto>() {
             @Override
             public ResponsePlayersDto mapRow(ResultSet rs, int rowNum) throws SQLException {
                 return new ResponsePlayersDto(
@@ -63,7 +63,7 @@ public class TeamDao {
                 return result;
             }
         };
-        return jdbcTemplate.queryForObject(sql, new Object[]{id}, tempMapper);
+        return jdbcTemplate.queryForObject(sql, new Object[]{id}, mapper);
     }
 
     // 기존의 팀별 선수 데이터를 불러오는 메소드
@@ -111,7 +111,7 @@ public class TeamDao {
                 (rs, rowNum) -> rs.getString("user_id"));
     }
 
-    public String isTeamAvailable(Long game, Long id) {
+    public String findUserIdByGameIdTeamId(Long game, Long id) {
         return jdbcTemplate.queryForObject("SELECT t.user_id FROM team t WHERE t.game = ? AND t.id = ?", new Object[]{game, id},
                 (rs, rowNum) -> rs.getString("user_id"));
     }

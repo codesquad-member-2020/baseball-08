@@ -1,6 +1,7 @@
 package dev.codesquad.java.baseball08.service;
 
 import dev.codesquad.java.baseball08.dao.GameDao;
+import dev.codesquad.java.baseball08.dto.AvailableDto;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +16,7 @@ public class GameService {
     @Autowired
     private GameDao gameDao;
 
-    public void isGamePossible() {
-
+    public AvailableDto isGamePossible(Long game) {
+        return new AvailableDto(!gameDao.getGameUserId(game).contains(null));
     }
 }

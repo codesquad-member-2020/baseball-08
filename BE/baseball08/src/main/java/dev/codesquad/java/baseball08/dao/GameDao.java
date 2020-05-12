@@ -4,9 +4,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
 
 @Repository
 public class GameDao {
@@ -18,8 +22,9 @@ public class GameDao {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public String isGamePossible(Long game) {
-        return jdbcTemplate.queryForObject("", new Object[]{game}, (rs, rowNum) -> rs.getString("user_id"));
+    public List<String> getGameUserId(Long game) {
+        String sql = "SELECT t.user_id FROM team t WHERE t.game = ?";
+        return jdbcTemplate.query(sql, new Object[]{game}, (rs, rowNum) -> rs.getString("user_id"));
     }
 
 }
