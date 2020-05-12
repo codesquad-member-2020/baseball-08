@@ -1,5 +1,6 @@
 package dev.codesquad.java.baseball08.entity;
 
+import dev.codesquad.java.baseball08.entity.henry.History;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -17,4 +18,5 @@ public class Team {
     private String name;
     private String currentPlayer;
     private List<Player> players;
+    private List<History> histories;
 }

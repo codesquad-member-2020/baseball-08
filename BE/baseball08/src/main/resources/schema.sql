@@ -30,27 +30,6 @@ CREATE TABLE IF NOT EXISTS inning
     PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS history
-(
-    id           INT NOT NULL AUTO_INCREMENT,
-    name         VARCHAR (32),
-    line_up      INT,
-
-    game         INT REFERENCES game (id),
-    game_key     INT,
-    PRIMARY KEY (id)
-);
-
-CREATE TABLE IF NOT EXISTS log
-(
-    id           INT NOT NULL AUTO_INCREMENT,
-    hit_log      VARCHAR (32),
-
-    history      INT REFERENCES history (id),
-    history_key  INT,
-    PRIMARY KEY (id)
-);
-
 CREATE TABLE IF NOT EXISTS team
 (
     id             INT NOT NULL AUTO_INCREMENT,
@@ -77,5 +56,26 @@ CREATE TABLE IF NOT EXISTS player
 
     team      INT REFERENCES team (id),
     team_key  INT,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS history
+(
+    id           INT NOT NULL AUTO_INCREMENT,
+    name         VARCHAR (32),
+    line_up      INT,
+
+    team         INT REFERENCES team (id),
+    team_key     INT,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS log
+(
+    id           INT NOT NULL AUTO_INCREMENT,
+    hit_log      VARCHAR (32),
+
+    history      INT REFERENCES history (id),
+    history_key  INT,
     PRIMARY KEY (id)
 );

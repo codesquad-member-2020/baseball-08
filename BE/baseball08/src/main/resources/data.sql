@@ -106,10 +106,12 @@ INSERT INTO player (name,average,team,team_key,line_up) VALUES ('모카',0.369,6
 INSERT INTO player (name,average,team,team_key,line_up) VALUES ('엘리',0.370,6,9,9);
 
 ------- HISTORY -------
-INSERT INTO history (name, line_up, game) VALUES ('A맨', 1, 1);
-INSERT INTO history (name, line_up, game) VALUES ('B맨', 2, 1);
-INSERT INTO history (name, line_up, game) VALUES ('C맨', 3, 1);
-INSERT INTO history (name, line_up, game) VALUES ('D맨', 4, 2);
+INSERT INTO history (name, line_up, team) VALUES ('A맨', 1, 1);
+INSERT INTO history (name, line_up, team) VALUES ('B맨', 2, 1);
+INSERT INTO history (name, line_up, team) VALUES ('C맨', 3, 1);
+INSERT INTO history (name, line_up, team) VALUES ('D맨', 1, 2);
+INSERT INTO history (name, line_up, team) VALUES ('E맨', 2, 2);
+INSERT INTO history (name, line_up, team) VALUES ('F맨', 1, 3);
 
 ------- LOG -------
 INSERT INTO log (hit_log, history) VALUES ('S', 1);
@@ -118,3 +120,11 @@ INSERT INTO log (hit_log, history) VALUES ('B', 1);
 INSERT INTO log (hit_log, history) VALUES ('S', 2);
 INSERT INTO log (hit_log, history) VALUES ('O', 2);
 INSERT INTO log (hit_log, history) VALUES ('S', 1);
+INSERT INTO log (hit_log, history) VALUES ('B', 3);
+INSERT INTO log (hit_log, history) VALUES ('B', 3);
+INSERT INTO log (hit_log, history) VALUES ('S', 4);
+INSERT INTO log (hit_log, history) VALUES ('B', 5);
+INSERT INTO log (hit_log, history) VALUES ('B', 5);
+INSERT INTO log (hit_log, history) VALUES ('S', 6);
+INSERT INTO log (hit_log, history) VALUES ('S', 6);
+

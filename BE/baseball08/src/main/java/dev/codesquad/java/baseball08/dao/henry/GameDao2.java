@@ -3,6 +3,7 @@ package dev.codesquad.java.baseball08.dao.henry;
 import dev.codesquad.java.baseball08.dto.PlayerInfoDto;
 import dev.codesquad.java.baseball08.dto.henry.AvailabilityResponse;
 import dev.codesquad.java.baseball08.dto.henry.GameListResponse;
+import dev.codesquad.java.baseball08.dto.henry.PlayerLogDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +79,11 @@ public class GameDao2 {
                     .build();
         };
         return Optional.ofNullable(jdbcTemplate.queryForObject(sql, new Object[] {id}, responsePlayersDtoRowMapper));
+    }
+
+    // history 넣기 이건 쿼리 2개해야할 듯?
+    public PlayerLogDto findHistories() {
+        return null;
     }
 
     public void save(Integer homeScore, Integer awayScore) {
