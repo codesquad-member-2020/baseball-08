@@ -17,4 +17,8 @@ public class TotalDto {
         this.hit = hit;
         this.out = out;
     }
+
+    public TotalDto create(PlayerInfoDto playerInfoDto) {
+        return new TotalDto(playerInfoDto.getTotalAtBat(), playerInfoDto.getTotalHit(), playerInfoDto.getTotalOut());
+    }
 }
