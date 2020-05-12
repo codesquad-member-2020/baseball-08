@@ -45,6 +45,6 @@ public class TeamService {
     }
 
     public TeamScoreResponse getTeamScore(Long id) {
-        return teamDao2.findTeamScoreById(id);
+        return teamDao2.findHomeTeamScoreById(id);
     }
 }

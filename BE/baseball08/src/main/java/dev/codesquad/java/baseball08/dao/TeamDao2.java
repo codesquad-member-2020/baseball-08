@@ -44,9 +44,9 @@ public class TeamDao2 {
 
     public Optional<PlayerInfoDto> findTeamById(Long id) {
         String sql = "SELECT t.name, t.user_id," +
-                " GROUP_CONCAT(p.name) AS group_name, GROUP_CONCAT(p.at_bat) AS group_at_bat," +
-                " GROUP_CONCAT(p.hit) AS group_hit, GROUP_CONCAT(p.out_count) AS group_out," +
-                " GROUP_CONCAT(p.average) AS group_average," +
+                " GROUP_CONCAT(p.name ORDER BY p.line_up) AS group_name, GROUP_CONCAT(p.at_bat ORDER BY p.line_up) AS group_at_bat," +
+                " GROUP_CONCAT(p.hit ORDER BY p.line_up) AS group_hit, GROUP_CONCAT(p.out_count ORDER BY p.line_up) AS group_out," +
+                " GROUP_CONCAT(p.average ORDER BY p.line_up) AS group_average," +
                 " SUM(p.at_bat) AS total_at_bat, SUM(p.hit) AS total_hit, SUM(p.out_count) AS total_out" +
                 " FROM team t" +
                 " INNER JOIN player p" +
@@ -76,7 +76,7 @@ public class TeamDao2 {
     }
 
     // 팀 아이디로 해당 팀의 게임 점수 보기
-    public TeamScoreResponse findTeamScoreById(Long id) {
+    public TeamScoreResponse findHomeTeamScoreById(Long id) {
         String sql = "SELECT GROUP_CONCAT(DISTINCT t.name) AS team_name, GROUP_CONCAT(i.home_score) AS team_inning_score," +
                 " GROUP_CONCAT(DISTINCT t.user_id) AS team_user, GROUP_CONCAT(DISTINCT g.home_total_score) AS total_home_score" +
                 " FROM game g INNER JOIN inning i" +
@@ -95,6 +95,9 @@ public class TeamDao2 {
                     .user(rs.getString("team_user"))
                     .build();
         };
+
+        String s = "SELECT GROUP_CONCAT(DISTINCT t.name) AS team_name, GROUP_CONCAT(i.home_score) AS team_inning_score, GROUP_CONCAT(DISTINCT t.user_id) AS team_user, GROUP_CONCAT(DISTINCT g.home_total_score) AS total_home_score FROM game g INNER JOIN inning i ON g.id = i.game INNER JOIN team t ON g.id = t.game WHERE t.id = ?";
+
         return jdbcTemplate.queryForObject(sql, new Object[] {id}, rowMapper);
     }
 }

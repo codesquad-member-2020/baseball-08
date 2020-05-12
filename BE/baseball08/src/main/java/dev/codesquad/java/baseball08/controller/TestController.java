@@ -37,9 +37,9 @@ public class TestController {
 
     @GetMapping("/henry")
     public ResponseEntity test2() {
-//        return new ResponseEntity(teamService.getTeamPlayersInfo(1L), HttpStatus.OK);
+        return new ResponseEntity(teamService.getTeamPlayersInfo(1L), HttpStatus.OK);
 //        return new ResponseEntity(gameService.isGameAvailable(2L), HttpStatus.OK);
 //        return new ResponseEntity(teamService.isTeamAvailable(1L) ,HttpStatus.OK);
-        return ResponseEntity.ok(teamService.getTeamScore(1L));
+//        return ResponseEntity.ok(teamService.getTeamScore(1L));
     }
 }
