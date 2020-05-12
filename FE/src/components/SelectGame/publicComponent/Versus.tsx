@@ -22,37 +22,41 @@ const StyledGameTitle = styled.p`
   text-align: center;
 `;
 
-const StyledAwayTeamName = styled.p`
+interface TeamNamePropsType {
+  available?: boolean;
+}
+
+const StyledAwayTeamName = styled.p<TeamNamePropsType>`
   width: 250px;
   float: left;
   position: relative;
   font-size: 30px;
   margin: 0 auto;
-  color: black;
+  color: ${props => props.available ? "black" : "gray"};
   font-weight: bold;
   text-align: center;
   margin-left: 20px;
 
   &:hover {
-    color: #cc0000;
-    cursor: pointer;
+    color: ${props => props.available ? "#cc0000" : "gray"};
+    cursor: ${props => props.available ? "pointer" : "default"};
   }
 `;
 
-const StyledHomeTeamName = styled.p`
+const StyledHomeTeamName = styled.p<TeamNamePropsType>`
   width: 250px;
   float: right;
   position: relative;
   font-size: 30px;
   margin: 0 auto;
-  color: black;
+  color: ${props => props.available ? "black" : "gray"};
   font-weight: bold;
   text-align: center;
   margin-right: 20px;
 
   &:hover {
-    color: #cc0000;
-    cursor: pointer;
+    color: ${props => props.available ? "#cc0000" : "gray"};
+    cursor: ${props => props.available ? "pointer" : "default"};
   }
 `;
 
@@ -70,16 +74,19 @@ const StyledVersusText = styled.p`
 interface Props {
   index: number,
   awayTeamName: string,
-  homeTeamName: string
+  homeTeamName: string,
+  awayTeamAvailable: boolean,
+  homeTeamAvailable: boolean,
+  onTeamClick(index: number, teamName: string, isAwayTeam: boolean): void,
 }
 
-const Versus: React.FunctionComponent<Props> = function({index, awayTeamName, homeTeamName}) {
+const Versus: React.FunctionComponent<Props> = function({index, awayTeamName, homeTeamName, awayTeamAvailable, homeTeamAvailable, onTeamClick}) {
   return (
     <StyledVersus>
       <StyledGameTitle>Game {index}</StyledGameTitle>
-      <StyledAwayTeamName>{awayTeamName}</StyledAwayTeamName>
+      <StyledAwayTeamName {...(awayTeamAvailable && { onClick:() => onTeamClick(index, awayTeamName, true)})} available={awayTeamAvailable}>{awayTeamName}</StyledAwayTeamName>
       <StyledVersusText>VS</StyledVersusText>
-      <StyledHomeTeamName>{homeTeamName}</StyledHomeTeamName>
+      <StyledHomeTeamName {...(homeTeamAvailable && { onClick:() => onTeamClick(index, homeTeamName, false)})} available={homeTeamAvailable}>{homeTeamName}</StyledHomeTeamName>
     </StyledVersus>
   );
 }
