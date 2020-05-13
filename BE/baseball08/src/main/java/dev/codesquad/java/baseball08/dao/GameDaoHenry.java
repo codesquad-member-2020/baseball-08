@@ -27,6 +27,7 @@ public class GameDaoHenry {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
+    // 시작 화면. 전체 게임 리스트 및 팀 가져오기
     public List<GameListResponse> findAllGame() {
         String sql = "SELECT g.id AS game_id, GROUP_CONCAT(t.id) AS team_id," +
                 " GROUP_CONCAT(t.name) AS team_name, GROUP_CONCAT(COALESCE(t.user_id, 'none')) AS team_user" +
@@ -47,6 +48,7 @@ public class GameDaoHenry {
         );
     }
 
+    // gameId로 게임 선택 가능 여부 가져오기
     public AvailabilityResponse IsGameAvailable(Long id) {
         String sql = "SELECT on_game FROM game g WHERE g.id = ?";
 
@@ -55,6 +57,7 @@ public class GameDaoHenry {
         );
     }
 
+    // gameId로 게임 진행화면 공통부분 가져오기
     public GamePlayResponse findGameInfoById(Long id) {
         String sql = "SELECT GROUP_CONCAT(DISTINCT t.name) AS team_name," +
                 " GROUP_CONCAT(DISTINCT g.away_total_score) AS away_total_score," +
@@ -88,6 +91,7 @@ public class GameDaoHenry {
         );
     }
 
+    // gameId, teamId로 게임 진행화면 해당 팀부분 가져오기
     public GamePlayResponse findGameTeamInfoById(Long id, Long teamId) {
         String sql = "SELECT GROUP_CONCAT(DISTINCT t.user_id) AS user_id," +
                 " GROUP_CONCAT(DISTINCT t.pitcher) AS pitcher," +

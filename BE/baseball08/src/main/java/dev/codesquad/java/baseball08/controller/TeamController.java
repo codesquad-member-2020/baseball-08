@@ -27,7 +27,7 @@ public class TeamController {
 
     // 게임의 선수 정보를 불러오는 API
     @GetMapping("/detail/{gameId}/player")
-    public ResponseEntity<List<PlayersResponse>> test(@PathVariable("gameId") Long gameId) {
+    public ResponseEntity<List<PlayersResponse>> getPlayerInfoByGameId(@PathVariable("gameId") Long gameId) {
         return new ResponseEntity<>(teamService.teamPlayerInfo(gameId), HttpStatus.OK);
     }
     // team 선택 가능 여부 판단하는 API

@@ -41,8 +41,8 @@ public class GameController {
         return new ResponseEntity<>(gameService.getGameScore(gameId), HttpStatus.OK);
     }
 
-    @GetMapping("/pitch")
-    public ResponseEntity<HttpStatus> playGame() {
+    @GetMapping("/pitch/{teamId}")
+    public ResponseEntity<HttpStatus> playGame(@PathVariable("teamId") Long teamId) {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
