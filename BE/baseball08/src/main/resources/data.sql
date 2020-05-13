@@ -5,8 +5,8 @@ INSERT INTO game (id) VALUES (3);
 
 ------- TEAM -------
 
-INSERT INTO team (name,game,game_key,user_id,pitcher,hitter) VALUES ('기아 타이거즈',1,0,'haveagood','앤더슨','맥닐');
-INSERT INTO team (name,game,game_key,user_id,pitcher,hitter) VALUES ('삼성 라이온즈',1,1,'henry','옐리치','몬카다');
+INSERT INTO team (name,game,game_key,user_id,pitcher,hitter) VALUES ('기아 타이거즈',1,0,'haveagood','터너','맥닐');
+INSERT INTO team (name,game,game_key,user_id,pitcher,hitter) VALUES ('삼성 라이온즈',1,1,'henry','카스테야노','몬카다');
 INSERT INTO team (name,game,game_key) VALUES ('한화 이글스',2,0);
 INSERT INTO team (name,game,game_key,user_id) VALUES ('NC 다이노스',2,1,'test1');
 INSERT INTO team (name,game,game_key) VALUES ('롯데 자이언츠',3,0);
@@ -46,11 +46,6 @@ INSERT INTO inning (game,game_key) VALUES (1,4);
 
 ------- PLAYER -------
 
-INSERT INTO player (name,average,team,team_key,line_up) VALUES ('앤더슨',0.312,1,0,10);
-INSERT INTO player (name,average,team,team_key,line_up) VALUES ('옐리치',0.313,2,0,10);
-INSERT INTO player (name,average,team,team_key,line_up) VALUES ('마르테',0.314,3,0,10);
-INSERT INTO player (name,average,team,team_key,line_up) VALUES ('르메휴',0.315,4,0,10);
-INSERT INTO player (name,average,team,team_key,line_up) VALUES ('렌던',0.316,5,0,10);
 INSERT INTO player (name,average,team,team_key,line_up) VALUES ('맥닐',0.317,1,1,1);
 INSERT INTO player (name,average,team,team_key,line_up) VALUES ('몬카다',0.318,2,1,1);
 INSERT INTO player (name,average,team,team_key,line_up) VALUES ('아레나도',0.319,3,1,1);
@@ -96,7 +91,6 @@ INSERT INTO player (name,average,team,team_key,line_up) VALUES ('산타나',0.35
 INSERT INTO player (name,average,team,team_key,line_up) VALUES ('소토',0.359,3,9,9);
 INSERT INTO player (name,average,team,team_key,line_up) VALUES ('가르시아',0.360,4,9,9);
 INSERT INTO player (name,average,team,team_key,line_up) VALUES ('카브레라',0.361,5,9,9);
-INSERT INTO player (name,average,team,team_key,line_up) VALUES ('데이빗',0.371,6,0,10);
 INSERT INTO player (name,average,team,team_key,line_up) VALUES ('헨리',0.362,6,1,1);
 INSERT INTO player (name,average,team,team_key,line_up) VALUES ('젤로',0.363,6,2,2);
 INSERT INTO player (name,average,team,team_key,line_up) VALUES ('강운',0.364,6,3,3);

@@ -68,13 +68,13 @@ public class TeamDaoAlex {
     // 기존의 팀별 선수 데이터를 불러오는 메소드
     // 팀 id 를 입력받아서 해당 팀의 선수들을 순서대로 조회하도록 구현
     public List<PlayersDto> findPlayersByTeamId(Long id) {
-        String sql = "SELECT p.name,p.at_bat,p.hit,p.out,p.average FROM team t INNER JOIN player p ON t.id = p.team WHERE t.id = ?";
+        String sql = "SELECT p.name,p.at_bat,p.hit,p.out_count,p.average FROM team t INNER JOIN player p ON t.id = p.team WHERE t.id = ?";
         return jdbcTemplate.query(sql, new Object[]{id}, (rs, rowNum) ->
                 PlayersDto.builder()
                         .name(rs.getString("name"))
                         .atBat(rs.getInt("at_bat"))
                         .hit(rs.getInt("hit"))
-                        .out(rs.getInt("out"))
+                        .out(rs.getInt("out_count"))
                         .average(rs.getDouble("average"))
                         .build());
     }

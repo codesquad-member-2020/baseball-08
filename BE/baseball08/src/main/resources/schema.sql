@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS team
     name     VARCHAR(32),
     user_id  VARCHAR(32),
     pitcher  VARCHAR(32),
+    pitches  INT DEFAULT (0),
     hitter   VARCHAR(32),
 
     game     INT REFERENCES game (id),

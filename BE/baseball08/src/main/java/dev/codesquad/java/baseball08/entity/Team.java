@@ -16,6 +16,7 @@ public class Team {
 
     private String name;
     private String pitcher;
+    private Integer pitches;
     private String hitter;
 
     private List<Player> players;

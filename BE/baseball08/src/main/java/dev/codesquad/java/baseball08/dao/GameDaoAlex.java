@@ -110,7 +110,7 @@ public class GameDaoAlex {
                 (rs, rowNum) -> Inning.builder()
                         .awayName(rs.getString("away_name"))
                         .homeName(rs.getString("home_name"))
-                        .topBottom(rs.getBoolean("topBottom"))
+                        .topBottom(rs.getBoolean("top_bottom"))
                         .awayScore(rs.getInt("away_score"))
                         .homeScore(rs.getInt("away_score"))
                         .strikeCount(rs.getInt("strike_count"))
