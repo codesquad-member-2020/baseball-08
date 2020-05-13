@@ -20,7 +20,7 @@ public class GameDaoHenry {
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
-    private TeamDaoHenry teamDao2;
+    private TeamDaoHenry teamDaoHenry;
 
     @Autowired
     public GameDaoHenry(DataSource dataSource) {
@@ -109,7 +109,7 @@ public class GameDaoHenry {
                                 .atBat(rs.getInt("at_bat"))
                                 .hit(rs.getInt("hit"))
                                 .build())
-                        .history(teamDao2.findHistoriesById(teamId))
+                        .history(teamDaoHenry.findHistoriesById(teamId))
                         .build()
         );
     }

@@ -24,53 +24,53 @@ public class TeamService {
     private static final Logger logger = LoggerFactory.getLogger(TeamService.class);
 
     @Autowired
-    private TeamDaoAlex teamDao;
+    private TeamDaoAlex teamDaoAlex;
 
     @Autowired
-    private TeamDaoHenry teamDao2;
+    private TeamDaoHenry teamDaoHenry;
 
     @Autowired
-    private GameDaoAlex gameDao;
+    private GameDaoAlex gameDaoAlex;
 
     public List<PlayersResponse> teamPlayerInfo(Long gameid) {
-        List<Long> teamIds = gameDao.getGameTeamId(gameid);
+        List<Long> teamIds = gameDaoAlex.getGameTeamId(gameid);
         List<PlayersResponse> playersResponses = new ArrayList<>();
-        playersResponses.add(teamDao.findTeamPlayerInfo(teamIds.get(0)));
-        playersResponses.add(teamDao.findTeamPlayerInfo(teamIds.get(1)));
+        playersResponses.add(teamDaoAlex.findTeamPlayerInfo(teamIds.get(0)));
+        playersResponses.add(teamDaoAlex.findTeamPlayerInfo(teamIds.get(1)));
         return playersResponses;
-    }
-
-    public PlayersResponse getTeamPlayersInfo(Long id) {
-        PlayerInfoDto playerInfoDto = teamDao2.findTeamById(id).orElseThrow(null);
-        return new PlayersResponse(playerInfoDto);
     }
 
     public AvailableDto isTeamAvailable2(Long game, Long id) {
         try {
-            Optional.ofNullable(teamDao.findUserIdByGameIdTeamId(game, id)).orElseThrow(CustomException::new);
+            Optional.ofNullable(teamDaoAlex.findUserIdByGameIdTeamId(game, id)).orElseThrow(CustomException::new);
             return new AvailableDto(false);
         } catch (CustomException e) {
             return new AvailableDto(true);
         }
     }
 
+    //--------------------------------------------------------------------------------------------------------------------//
+
+    public PlayersResponse getTeamPlayersInfo(Long id) {
+        PlayerInfoDto playerInfoDto = teamDaoHenry.findTeamById(id).orElseThrow(null);
+        return new PlayersResponse(playerInfoDto);
+    }
+
     public AvailabilityResponse isTeamAvailable(String teamName) {
         // 수정 필요!!!
         Long id = 1L;
-        String userId = teamDao2.findUserById(id);
+        String userId = teamDaoHenry.findUserById(id);
         if (userId != null) {
             return new AvailabilityResponse(false);
         }
         return new AvailabilityResponse(true);
     }
 
-
-
     public TeamScoreResponse getTeamScore(Long id) {
-        return teamDao2.findHomeTeamScoreById(id);
+        return teamDaoHenry.findHomeTeamScoreById(id);
     }
 
     public List<PlayerLogDto> getPlayerLog(Long id) {
-        return teamDao2.findHistoriesById(id);
+        return teamDaoHenry.findHistoriesById(id);
     }
 }

@@ -31,6 +31,7 @@ public class TeamController {
         return new ResponseEntity<>(teamService.teamPlayerInfo(gameId), HttpStatus.OK);
     }
     // team 선택 가능 여부 판단하는 API
+    // 기존에는 /game/{gameId}/{teamName} 이었는데 API 변경됨
     @GetMapping("/team/{teamName}")
     public ResponseEntity<AvailabilityResponse> isTeamAvailable(@PathVariable("teamName") String teamName) {
         return new ResponseEntity<>(teamService.isTeamAvailable(teamName), HttpStatus.OK);
