@@ -15,6 +15,30 @@ const StyledDiv = styled.div`
   z-index: 0;
 `;
 
+const StyledWaitingWrap = styled.div`
+  position: absolute;
+  width: 1280px;
+  height: 720px;
+  margin: 0 auto;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1;
+`;
+
+const StyledWaitingImage = styled.div`
+  position: relative;
+  width: 720px;
+  height: 480px;
+  margin: 0 auto;
+  margin-top: 125px;
+  background-color: black;
+  background-image: url("http://dev-angelo.dlinkddns.com/giphy_2.gif");
+  background-size: 100% 100%;
+  font-size: 24px;
+  z-index: 1;
+  color: black;
+`;
+
 interface Score {
   strike: number,
   ball: number,
@@ -35,11 +59,13 @@ interface GameData {
 
 function GamePlay() {
   const [gameDetailObj, setGameDetailObj] = useState<any>(undefined);
+  const [waiting, setWaiting] = useState(true);
 
   useEffect(() => {
     fetchRequest(process.env.REACT_APP_GAME_STATUS, "GET")
     .then((response) => response.json())
     .then((games) => {
+      setWaiting(false);
       setGameDetailObj(games);
     })
     .catch((error) => {
@@ -49,6 +75,7 @@ function GamePlay() {
 
   return (
     <StyledDiv>
+      {waiting && <StyledWaitingWrap><StyledWaitingImage>게임을 불러오는중입니다...</StyledWaitingImage></StyledWaitingWrap>}
       <StadiumBackground></StadiumBackground>
       {gameDetailObj && 
       <>
