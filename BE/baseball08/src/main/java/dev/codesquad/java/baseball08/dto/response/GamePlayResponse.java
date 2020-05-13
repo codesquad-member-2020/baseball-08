@@ -20,6 +20,8 @@ public class GamePlayResponse {
     private String home;
     private Integer awayTotalScore;
     private Integer homeTotalScore;
+    private String awayUser;
+    private String homeUser;
     private String user;
     private Integer inning;
     private String turn;
@@ -31,11 +33,14 @@ public class GamePlayResponse {
     public GamePlayResponse() {}
 
     @Builder
-    public GamePlayResponse(String away, String home, Integer awayTotalScore, Integer homeTotalScore, String user, Integer inning, String turn, ScoreDto score, PitcherDto pitcher, HitterDto hitter, List<PlayerLogDto> history) {
+
+    public GamePlayResponse(String away, String home, Integer awayTotalScore, Integer homeTotalScore, String awayUser, String homeUser, String user, Integer inning, String turn, ScoreDto score, PitcherDto pitcher, HitterDto hitter, List<PlayerLogDto> history) {
         this.away = away;
         this.home = home;
         this.awayTotalScore = awayTotalScore;
         this.homeTotalScore = homeTotalScore;
+        this.awayUser = awayUser;
+        this.homeUser = homeUser;
         this.user = user;
         this.inning = inning;
         this.turn = turn;

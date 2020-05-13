@@ -62,6 +62,7 @@ public class GameDaoHenry {
         String sql = "SELECT GROUP_CONCAT(DISTINCT t.name) AS team_name," +
                 " GROUP_CONCAT(DISTINCT g.away_total_score) AS away_total_score," +
                 " GROUP_CONCAT(DISTINCT g.home_total_score) AS home_total_score," +
+                " GROUP_CONCAT(DISTINCT t.user_id) AS users," +
                 " GROUP_CONCAT(DISTINCT g.current_inning) AS current_inning," +
                 " GROUP_CONCAT(DISTINCT g.turn) AS turn," +
                 " GROUP_CONCAT(DISTINCT i.strike_count) AS strike_count," +
@@ -79,6 +80,8 @@ public class GameDaoHenry {
                         .home(rs.getString("team_name").split(",")[1])
                         .awayTotalScore(rs.getInt("away_total_score"))
                         .homeTotalScore(rs.getInt("home_total_score"))
+                        .awayUser(rs.getString("users").split(",")[0])
+                        .homeUser(rs.getString("users").split(",")[1])
                         .inning(rs.getInt("current_inning"))
                         .turn(rs.getString("turn"))
                         .score(ScoreDto.builder()

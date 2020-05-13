@@ -36,15 +36,15 @@ public class TeamController {
         return new ResponseEntity<>(teamService.isTeamAvailable(teamId), HttpStatus.OK);
     }
 
-    @GetMapping("/henry")
-    public ResponseEntity test2() {
+    @GetMapping("/henry/{gameId}/{teamId}")
+    public ResponseEntity test2(@PathVariable("gameId") Long gameId, @PathVariable("teamId") Long teamId) {
 //        return new ResponseEntity(teamService.getTeamPlayersInfo(1L), HttpStatus.OK);
 //        return new ResponseEntity(gameService.isGameAvailable(2L), HttpStatus.OK);
 //        return new ResponseEntity(teamService.isTeamAvailable(1L) ,HttpStatus.OK);
 //        return ResponseEntity.ok(teamService.getTeamScore(1L));
 //        return ResponseEntity.ok(gameService.getGameList());
 //        return ResponseEntity.ok(teamService.getPlayerLog(1L));
-        return ResponseEntity.ok(gameService.getGamePlay(1L, 1L));
+        return ResponseEntity.ok(gameService.getGamePlay(gameId, teamId));
     }
 
 }
