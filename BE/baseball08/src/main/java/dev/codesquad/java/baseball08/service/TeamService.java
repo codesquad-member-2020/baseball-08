@@ -8,6 +8,7 @@ import dev.codesquad.java.baseball08.dto.ResponsePlayersDto;
 import dev.codesquad.java.baseball08.dto.henry.AvailabilityResponse;
 import dev.codesquad.java.baseball08.dto.henry.PlayerLogDto;
 import dev.codesquad.java.baseball08.dto.henry.TeamScoreResponse;
+import dev.codesquad.java.baseball08.exception.CustomException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,9 +43,9 @@ public class TeamService {
 
     public AvailableDto isTeamAvailable2(Long game, Long id) {
         try {
-            Optional.ofNullable(teamDao.findUserIdByGameIdTeamId(game, id)).orElseThrow(NullPointerException::new);
+            Optional.ofNullable(teamDao.findUserIdByGameIdTeamId(game, id)).orElseThrow(CustomException::new);
             return new AvailableDto(false);
-        } catch (NullPointerException e) {
+        } catch (CustomException e) {
             return new AvailableDto(true);
         }
     }

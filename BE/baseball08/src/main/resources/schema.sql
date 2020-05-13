@@ -8,24 +8,30 @@ DROP TABLE IF EXISTS log;
 CREATE TABLE IF NOT EXISTS game
 (
     id               INT NOT NULL AUTO_INCREMENT,
-    on_game          BOOLEAN DEFAULT (false),
-    home_total_score INT     DEFAULT (0),
-    away_total_score INT     DEFAULT (0),
-    current_inning   INT     DEFAULT (0),
-    turn             VARCHAR (32) DEFAULT ('초'),
+    on_game          BOOLEAN     DEFAULT (false),
+    home_total_score INT         DEFAULT (0),
+    away_total_score INT         DEFAULT (0),
+    current_inning   INT         DEFAULT (0),
+    turn             VARCHAR(32) DEFAULT ('초'),
     PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS inning
 (
     id           INT NOT NULL AUTO_INCREMENT,
-    home_score   INT DEFAULT (0),
-    away_score   INT DEFAULT (0),
+    home_name    VARCHAR(32),
+    away_name    VARCHAR(32),
 
-    out_count    INT DEFAULT (0),
-    strike_count INT DEFAULT (0),
-    ball_count   INT DEFAULT (0),
-    base_count   INT DEFAULT (0),
+    home_attack  BOOLEAN DEFAULT false,
+    away_attack  BOOLEAN DEFAULT false,
+
+    home_score   INT     DEFAULT (0),
+    away_score   INT     DEFAULT (0),
+
+    strike_count INT     DEFAULT (0),
+    ball_count   INT     DEFAULT (0),
+    out_count    INT     DEFAULT (0),
+    base_count   INT     DEFAULT (0),
 
     game         INT REFERENCES game (id),
     game_key     INT,
@@ -34,14 +40,14 @@ CREATE TABLE IF NOT EXISTS inning
 
 CREATE TABLE IF NOT EXISTS team
 (
-    id             INT NOT NULL AUTO_INCREMENT,
-    name           VARCHAR(32),
-    user_id        VARCHAR(32),
-    pitcher        VARCHAR(32),
-    hitter         VARCHAR(32),
+    id       INT NOT NULL AUTO_INCREMENT,
+    name     VARCHAR(32),
+    user_id  VARCHAR(32),
+    pitcher  VARCHAR(32),
+    hitter   VARCHAR(32),
 
-    game           INT REFERENCES game (id),
-    game_key       INT,
+    game     INT REFERENCES game (id),
+    game_key INT,
     PRIMARY KEY (id)
 );
 
@@ -64,21 +70,23 @@ CREATE TABLE IF NOT EXISTS player
 
 CREATE TABLE IF NOT EXISTS history
 (
-    id           INT NOT NULL AUTO_INCREMENT,
-    name         VARCHAR (32),
-    line_up      INT,
+    id       INT NOT NULL AUTO_INCREMENT,
+    name     VARCHAR(32),
+    line_up  INT,
 
-    team         INT REFERENCES team (id),
-    team_key     INT,
+    team     INT REFERENCES team (id),
+    team_key INT,
+    game     INT REFERENCES game (id),
+    game_key INT,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS log
 (
-    id           INT NOT NULL AUTO_INCREMENT,
-    hit_log      VARCHAR (32),
+    id          INT NOT NULL AUTO_INCREMENT,
+    hit_log     VARCHAR(32),
 
-    history      INT REFERENCES history (id),
-    history_key  INT,
+    history     INT REFERENCES history (id),
+    history_key INT,
     PRIMARY KEY (id)
 );

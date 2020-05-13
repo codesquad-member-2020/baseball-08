@@ -18,6 +18,7 @@ public class Team {
     private String name;
     private String pitcher;
     private String hitter;
+
     private List<Player> players;
     private List<History> histories;
 }

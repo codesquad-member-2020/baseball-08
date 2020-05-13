@@ -13,9 +13,7 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Repository
 public class TeamDao {
@@ -29,7 +27,7 @@ public class TeamDao {
 
     public ResponsePlayersDto findTeamPlayerInfo(Long id) {
         String sql = "SELECT t.name, t.user_id," +
-                "GROUP_CONCAT(CONCAT_WS(',',p.name,p.at_bat,p.hit,p.out_count,p.average) SEPARATOR '/') AS players,\n" +
+                "GROUP_CONCAT(CONCAT_WS(',',p.name,p.at_bat,p.hit,p.out_count,p.average,p.line_up) SEPARATOR '/') AS players,\n" +
                 "SUM(p.at_bat) AS total_bat, SUM(p.hit) as total_hit, SUM(p.out_count) AS total_out\n" +
                 "FROM player p LEFT JOIN team t ON p.team = t.id WHERE p.team = ?";
 
@@ -49,7 +47,6 @@ public class TeamDao {
             private List<PlayersDto> playersParser(String[] playersSplit) {
                 List<String> players = Arrays.asList(playersSplit);
                 List<PlayersDto> result = new ArrayList<>();
-
                 for (String player : players) {
                     List<String> playerInfo = Arrays.asList(player.split(","));
                     result.add(PlayersDto.builder()
@@ -58,8 +55,10 @@ public class TeamDao {
                             .hit(Integer.parseInt(playerInfo.get(2)))
                             .out(Integer.parseInt(playerInfo.get(3)))
                             .average(Double.parseDouble(playerInfo.get(4)))
+                            .lineUp(Integer.parseInt(playerInfo.get(5)))
                             .build());
                 }
+                result.sort(Comparator.comparing(PlayersDto::getLineUp));
                 return result;
             }
         };

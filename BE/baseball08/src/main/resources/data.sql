@@ -8,7 +8,7 @@ INSERT INTO game (id) VALUES (3);
 INSERT INTO team (name,game,game_key,user_id,pitcher,hitter) VALUES ('기아 타이거즈',1,0,'haveagood','앤더슨','맥닐');
 INSERT INTO team (name,game,game_key,user_id,pitcher,hitter) VALUES ('삼성 라이온즈',1,1,'henry','옐리치','몬카다');
 INSERT INTO team (name,game,game_key) VALUES ('한화 이글스',2,0);
-INSERT INTO team (name,game,game_key) VALUES ('NC 다이노스',2,1);
+INSERT INTO team (name,game,game_key,user_id) VALUES ('NC 다이노스',2,1,'test1');
 INSERT INTO team (name,game,game_key) VALUES ('롯데 자이언츠',3,0);
 INSERT INTO team (name,game,game_key) VALUES ('코쿼 호눅스',3,1);
 
@@ -45,6 +45,7 @@ INSERT INTO inning (game,game_key) VALUES (3,8);
 INSERT INTO inning (game,game_key) VALUES (3,9);
 
 ------- PLAYER -------
+
 INSERT INTO player (name,average,team,team_key,line_up) VALUES ('앤더슨',0.312,1,0,10);
 INSERT INTO player (name,average,team,team_key,line_up) VALUES ('옐리치',0.313,2,0,10);
 INSERT INTO player (name,average,team,team_key,line_up) VALUES ('마르테',0.314,3,0,10);
