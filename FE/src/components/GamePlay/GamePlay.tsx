@@ -5,6 +5,8 @@ import ScoreBoard from './publicComponent/ScoreBoard'
 import SBOBoard from './publicComponent/SBOBoard';
 import PAandNP from './publicComponent/PAandNP';
 import Record from './publicComponent/Record';
+import Inning from './publicComponent/Inning';
+import PitchButton from './publicComponent/PitchButton';
 import fetchRequest from '../../util/fetchRequest'
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import GameData from '../../data/GameData'
@@ -53,17 +55,48 @@ type props = RouteComponentProps;
 const GamePlay: React.FunctionComponent<props> = function({history}) {
   const [gameDetailObj, setGameDetailObj] = useState<any>(undefined);
   const [waiting, setWaiting] = useState(true);
+  const [isDefence, setIsDefence] = useState(false);
 
-  useEffect(() => {
-    fetchRequest(process.env.REACT_APP_GAME_STATUS, "GET")
+  function requestPitch() {
+    const url = process.env.REACT_APP_GAME_PITCH;
+    const cvtUrl = url?.replace(`{teamId}`, (GameData.getInstance().getTeamId()).toString());
+
+    fetchRequest(cvtUrl, "GET")
     .then((response) => response.json())
     .then((games) => {
-      setWaiting(false);
-      setGameDetailObj(games);
+      requestCurrentStatus();
     })
     .catch((error) => {
       alert("주의");
     });
+  }
+
+  function requestCurrentStatus() {
+    fetchRequest(process.env.REACT_APP_GAME_STATUS, "GET")
+    .then((response) => response.json())
+    .then((games) => {
+      setGameDetailObj(games);
+
+      if ( (GameData.getInstance().getIsAwayTeam() && games.turn === "초") ||
+           (!GameData.getInstance().getIsAwayTeam() && games.turn === "말") ) {
+        setTimeout(() => {
+          setIsDefence(false);
+          requestCurrentStatus();
+        }, 1000);
+      }
+      else {
+        setIsDefence(true);
+        console.log("체인지");
+      }
+    })
+    .catch((error) => {
+      alert("주의");
+    });
+  }
+
+  useEffect(() => {
+    requestCurrentStatus();
+    setWaiting(false);
   }, [])
 
   function onScoreBoardClick() {
@@ -77,7 +110,7 @@ const GamePlay: React.FunctionComponent<props> = function({history}) {
   return (
     <StyledDiv>
       {waiting && <StyledWaitingWrap><StyledWaitingImage>게임을 불러오는중입니다...</StyledWaitingImage></StyledWaitingWrap>}
-      <StadiumBackground></StadiumBackground>
+      <StadiumBackground />
       {gameDetailObj && 
       <>
       <ScoreBoard onScoreBoardClick={onScoreBoardClick}
@@ -102,6 +135,15 @@ const GamePlay: React.FunctionComponent<props> = function({history}) {
       <Record onRecordClick={onRecordClick}
         logs={gameDetailObj.history}
       />
+      <Inning
+        inningText={gameDetailObj.inning + `회 ` + gameDetailObj.turn}
+      />
+      {isDefence &&
+      <PitchButton
+        pitchText="PITCH!"
+        onRequestButtonClick={requestPitch}
+      />
+      }
       </>
       }
     </StyledDiv>

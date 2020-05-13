@@ -3,11 +3,7 @@ class GameData {
   private static _instance: GameData = new GameData();
 
   private _isAwayTeam: boolean = false;
-
-  private _awayTeamScore: number = 0;
-  private _homeTeamScore: number = 0;
-
-  private _onBaseCount: number = 0;
+  private _teamId: number = -1;
 
   constructor() {
       if(GameData._instance){
@@ -31,34 +27,14 @@ class GameData {
       return this._isAwayTeam;
   }
 
-  public setAwayTeamScore(awayTeamScore: number): void
+  public setTeamId(teamId: number): void
   {
-      this._awayTeamScore = awayTeamScore;
+      this._teamId = teamId;
   }
 
-  public getAwayTeamScore(): number
+  public getTeamId(): number
   {
-      return this._awayTeamScore;
-  }
-
-  public setHomeTeamScore(homeTeamScore: number): void
-  {
-      this._homeTeamScore = homeTeamScore;
-  }
-
-  public getHomeTeamScore(): number
-  {
-      return this._homeTeamScore;
-  }
-
-  public setOnBaseCount(onBaseCount: number): void
-  {
-      this._onBaseCount = onBaseCount;
-  }
-
-  public getOnBaseCount(): number
-  {
-      return this._onBaseCount;
+      return this._teamId;
   }
 }
 

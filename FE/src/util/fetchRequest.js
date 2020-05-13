@@ -1,12 +1,12 @@
-const fetchRequest = (url, method, data) => {
+const fetchRequest = (url, method, userId) => {
   return fetch(url, {
     method: method,
     mode: "cors",
     cache: "no-cache",
     headers: {
       "Content-Type": "application/json",
+      "userId": userId
     },
-    body: JSON.stringify(data),
   });
 };
 
