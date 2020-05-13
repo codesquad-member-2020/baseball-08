@@ -26,6 +26,7 @@ public class TeamDaoHenry {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
+    // teamId로 팀의 선수 정보 리스트 가져오기
     public Optional<List<PlayersDto>> findPlayerInfoById(Long id) {
         String sql = "SELECT p.name, p.at_bat, p.hit, p.out_count, p.average" +
                 " FROM team t" +
@@ -43,6 +44,7 @@ public class TeamDaoHenry {
         ));
     }
 
+    // teamId로 팀 정보 가져오기
     public Optional<PlayerInfoDto> findTeamById(Long id) {
         String sql = "SELECT t.name, t.user_id," +
                 " GROUP_CONCAT(p.name ORDER BY p.line_up) AS group_name, GROUP_CONCAT(p.at_bat ORDER BY p.line_up) AS group_at_bat," +
@@ -69,12 +71,13 @@ public class TeamDaoHenry {
         ));
     }
 
+    // teamId로 해당 팀의 userId 가져오기
     public String findUserById(Long id) {
         String sql = "SELECT user_id FROM team t WHERE t.id = ?";
         return jdbcTemplate.queryForObject(sql, new Object[] {id}, (rs, rowNum) -> rs.getString("user_id"));
     }
 
-    // 팀 아이디로 해당 팀의 게임 점수 보기
+    // teamId로 해당 home 팀의 게임 점수 가져오기
     public TeamScoreResponse findHomeTeamScoreById(Long id) {
         String sql = "SELECT GROUP_CONCAT(DISTINCT t.name) AS team_name, GROUP_CONCAT(i.home_score) AS team_inning_score," +
                 " GROUP_CONCAT(DISTINCT t.user_id) AS team_user, GROUP_CONCAT(DISTINCT g.home_total_score) AS total_home_score" +
@@ -96,6 +99,29 @@ public class TeamDaoHenry {
         );
     }
 
+    // teamId로 해당 away 팀의 게임 점수 가져오기
+    public TeamScoreResponse findAwayTeamScoreById(Long id) {
+        String sql = "SELECT GROUP_CONCAT(DISTINCT t.name) AS team_name, GROUP_CONCAT(i.away_score) AS team_inning_score," +
+                " GROUP_CONCAT(DISTINCT t.user_id) AS team_user, GROUP_CONCAT(DISTINCT g.away_total_score) AS total_away_score" +
+                " FROM game g" +
+                " INNER JOIN inning i ON g.id = i.game" +
+                " INNER JOIN team t ON g.id = t.game" +
+                " WHERE t.id = ?";
+
+        return jdbcTemplate.queryForObject(sql, new Object[] {id}, (rs, rowNum) ->
+                TeamScoreResponse.builder()
+                        .team(rs.getString("team_name"))
+                        .score(Arrays.asList(rs.getString("team_inning_score").split(","))
+                                .stream()
+                                .map(Integer::parseInt)
+                                .collect(Collectors.toList()))
+                        .totalScore(rs.getInt("total_away_score"))
+                        .user(rs.getString("team_user"))
+                        .build()
+        );
+    }
+
+    // teamId로 해당 팀의 선수 로그 가져오기
     public List<PlayerLogDto> findHistoriesById(Long id) {
         String sql = "SELECT GROUP_CONCAT(DISTINCT h.name) AS hitter_name," +
                 " GROUP_CONCAT(DISTINCT h.line_up) AS hitter_line_up, GROUP_CONCAT(l.hit_log ORDER BY l.id DESC) AS hit_logs" +

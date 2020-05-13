@@ -56,17 +56,19 @@ public class TeamService {
         return new PlayersResponse(playerInfoDto);
     }
 
-    public AvailabilityResponse isTeamAvailable(String teamName) {
-        // 수정 필요!!!
-        Long id = 1L;
-        String userId = teamDaoHenry.findUserById(id);
+    public AvailabilityResponse isTeamAvailable(Long teamId) {
+        String userId = teamDaoHenry.findUserById(teamId);
         if (userId != null) {
             return new AvailabilityResponse(false);
         }
         return new AvailabilityResponse(true);
     }
 
-    public TeamScoreResponse getTeamScore(Long id) {
+    public TeamScoreResponse getAwayTeamScore(Long id) {
+        return teamDaoHenry.findAwayTeamScoreById(id);
+    }
+
+    public TeamScoreResponse getHomeTeamScore(Long id) {
         return teamDaoHenry.findHomeTeamScoreById(id);
     }
 

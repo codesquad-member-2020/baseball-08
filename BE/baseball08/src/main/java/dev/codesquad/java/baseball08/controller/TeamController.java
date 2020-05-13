@@ -27,25 +27,24 @@ public class TeamController {
 
     // 게임의 선수 정보를 불러오는 API
     @GetMapping("/detail/{gameId}/player")
-    public ResponseEntity<List<PlayersResponse>> test(@PathVariable("gameId") Long gameId) {
+    public ResponseEntity<List<PlayersResponse>> getPlayerInfoByGameId(@PathVariable("gameId") Long gameId) {
         return new ResponseEntity<>(teamService.teamPlayerInfo(gameId), HttpStatus.OK);
     }
     // team 선택 가능 여부 판단하는 API
-    // 기존에는 /game/{gameId}/{teamName} 이었는데 API 변경됨
-    @GetMapping("/team/{teamName}")
-    public ResponseEntity<AvailabilityResponse> isTeamAvailable(@PathVariable("teamName") String teamName) {
-        return new ResponseEntity<>(teamService.isTeamAvailable(teamName), HttpStatus.OK);
+    @GetMapping("/team/{teamId}")
+    public ResponseEntity<AvailabilityResponse> isTeamAvailable(@PathVariable("teamId") Long teamId) {
+        return new ResponseEntity<>(teamService.isTeamAvailable(teamId), HttpStatus.OK);
     }
 
-    @GetMapping("/henry")
-    public ResponseEntity test2() {
+    @GetMapping("/henry/{gameId}")
+    public ResponseEntity test2(@PathVariable("gameId") Long gameId) {
 //        return new ResponseEntity(teamService.getTeamPlayersInfo(1L), HttpStatus.OK);
 //        return new ResponseEntity(gameService.isGameAvailable(2L), HttpStatus.OK);
 //        return new ResponseEntity(teamService.isTeamAvailable(1L) ,HttpStatus.OK);
 //        return ResponseEntity.ok(teamService.getTeamScore(1L));
 //        return ResponseEntity.ok(gameService.getGameList());
 //        return ResponseEntity.ok(teamService.getPlayerLog(1L));
-        return ResponseEntity.ok(gameService.getGamePlay(1L, 1L));
+        return ResponseEntity.ok(gameService.getGamePlay(gameId));
     }
 
 }
