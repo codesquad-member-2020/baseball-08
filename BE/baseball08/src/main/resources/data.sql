@@ -1,5 +1,5 @@
 ------- GAME -------
-INSERT INTO game (id) VALUES (1);
+INSERT INTO game (id,current_hitter,current_pitcher) VALUES (1,'김구','박정희');
 INSERT INTO game (id) VALUES (2);
 INSERT INTO game (id) VALUES (3);
 

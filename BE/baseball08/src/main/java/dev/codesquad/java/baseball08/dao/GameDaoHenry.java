@@ -123,4 +123,33 @@ public class GameDaoHenry {
                         .build()
         );
     }
+
+    public HitterDto findHitterById(Long teamId) {
+        String sql = "SELECT DISTINCT t.hitter AS hitter, p.at_bat AS at_bat, p.hit AS hit" +
+                " FROM team t" +
+                " INNER JOIN player p ON t.id = p.team" +
+                " WHERE t.id = ?";
+
+        return jdbcTemplate.queryForObject(sql, new Object[] {teamId}, (rs, rowNum) ->
+                HitterDto.builder()
+                        .name(rs.getString("hitter"))
+                        .atBat(rs.getInt("at_bat"))
+                        .hit(rs.getInt("hit"))
+                        .build()
+        );
+    }
+
+    public PitcherDto findPitcherById(Long teamId) {
+        String sql = "SELECT DISTINCT t.pitcher AS pitcher, p.pitches AS pitches" +
+                " FROM team t" +
+                " INNER JOIN player p ON t.id = p.team" +
+                " WHERE t.id = ?";
+
+        return jdbcTemplate.queryForObject(sql, new Object[] {teamId}, (rs, rowNum) ->
+                PitcherDto.builder()
+                        .name(rs.getString("pitcher"))
+                        .pitches(rs.getInt("pitches"))
+                        .build()
+        );
+    }
 }
