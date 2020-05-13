@@ -6,6 +6,7 @@ import dev.codesquad.java.baseball08.dto.response.PlayersResponse;
 import dev.codesquad.java.baseball08.dto.response.AvailabilityResponse;
 import dev.codesquad.java.baseball08.service.GameService;
 import dev.codesquad.java.baseball08.service.TeamService;
+import dev.codesquad.java.baseball08.service.henry.PitchService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,7 @@ public class TeamController {
     private static final Logger logger = LoggerFactory.getLogger(TeamController.class);
     private final TeamService teamService;
     private final GameService gameService;
+    private final PitchService pitchService;
 
     // 게임의 선수 정보를 불러오는 API
     @GetMapping("/detail/{gameId}/player")
@@ -36,15 +38,17 @@ public class TeamController {
         return new ResponseEntity<>(teamService.isTeamAvailable(teamId), HttpStatus.OK);
     }
 
-    @GetMapping("/henry/{gameId}")
-    public ResponseEntity test2(@PathVariable("gameId") Long gameId) {
+    @GetMapping("/henry")
+    public ResponseEntity test2() {
 //        return new ResponseEntity(teamService.getTeamPlayersInfo(1L), HttpStatus.OK);
 //        return new ResponseEntity(gameService.isGameAvailable(2L), HttpStatus.OK);
 //        return new ResponseEntity(teamService.isTeamAvailable(1L) ,HttpStatus.OK);
 //        return ResponseEntity.ok(teamService.getTeamScore(1L));
 //        return ResponseEntity.ok(gameService.getGameList());
 //        return ResponseEntity.ok(teamService.getPlayerLog(1L));
-        return ResponseEntity.ok(gameService.getGamePlay(gameId));
+//        return ResponseEntity.ok(gameService.getGamePlay(gameId));
+        pitchService.pitch();
+        return ResponseEntity.ok("");
     }
 
 }

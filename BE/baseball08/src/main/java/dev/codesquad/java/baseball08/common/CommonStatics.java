@@ -15,4 +15,11 @@ public class CommonStatics {
 
     public static final String HEADER_LOCATION = "Location";
     public static final String REDIRECT_URL = "http://localhost:8080";
+
+    public static final String HIT = "H";
+    public static final String STRIKE = "S";
+    public static final String BALL = "B";
+    public static final String OUT = "O";
+
+    public static final int RANDOM_BOUND = 100;
 }
