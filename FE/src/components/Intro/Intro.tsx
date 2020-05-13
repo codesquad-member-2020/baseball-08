@@ -17,7 +17,6 @@ const StyledIntroMovie = styled.div`
   position: absolute;
   width: 720px;
   height: 480px;
-  /* margin: 0 auto; */
   margin-top: 126px;
   margin-left: 340px;
 `;
@@ -41,7 +40,6 @@ const StyledStartGameButton = styled.button`
 type props = RouteComponentProps;
 
 const Intro: React.FC<props> = ({history}) => {
-// function Intro() {
   useEffect(() => {
     const cookies = new Cookies();
     console.log(cookies.get('userId'));
