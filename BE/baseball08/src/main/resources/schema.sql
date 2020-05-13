@@ -22,8 +22,7 @@ CREATE TABLE IF NOT EXISTS inning
     home_name    VARCHAR(32),
     away_name    VARCHAR(32),
 
-    home_attack  BOOLEAN DEFAULT false,
-    away_attack  BOOLEAN DEFAULT false,
+    top_bottom  BOOLEAN DEFAULT false,
 
     home_score   INT     DEFAULT (0),
     away_score   INT     DEFAULT (0),

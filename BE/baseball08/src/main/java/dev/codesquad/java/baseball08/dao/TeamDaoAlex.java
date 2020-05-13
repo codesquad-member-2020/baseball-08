@@ -114,4 +114,9 @@ public class TeamDaoAlex {
         return jdbcTemplate.queryForObject("SELECT t.user_id FROM team t WHERE t.game = ? AND t.id = ?", new Object[]{game, id},
                 (rs, rowNum) -> rs.getString("user_id"));
     }
+
+    public List<String> findPlayersNameByTeamId(Long id) {
+        String sql = "SELECT p.name FROM player p WHERE p.team = ?";
+        return jdbcTemplate.query(sql, new Object[]{id}, (rs, rowNum) -> rs.getString("name"));
+    }
 }

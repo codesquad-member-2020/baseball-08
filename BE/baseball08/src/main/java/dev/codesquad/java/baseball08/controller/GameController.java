@@ -1,10 +1,10 @@
 package dev.codesquad.java.baseball08.controller;
 
 import dev.codesquad.java.baseball08.dto.dto.AvailableDto;
-import dev.codesquad.java.baseball08.dto.dto.StageDto;
 import dev.codesquad.java.baseball08.dto.response.GameListResponse;
 import dev.codesquad.java.baseball08.dto.response.TeamScoreResponse;
 import dev.codesquad.java.baseball08.service.GameService;
+import dev.codesquad.java.baseball08.service.alex.Alex;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +22,7 @@ public class GameController {
 
     private static final Logger logger = LoggerFactory.getLogger(GameController.class);
     private final GameService gameService;
+    private final Alex alex;
 
     // 게임 초기 데이터 출력
     @GetMapping("/game")
@@ -41,8 +42,9 @@ public class GameController {
         return new ResponseEntity<>(gameService.getGameScore(gameId), HttpStatus.OK);
     }
 
-    @GetMapping("/pitch")
-    public ResponseEntity<HttpStatus> playGame() {
+    @GetMapping("/pitch/{teamId}")
+    public ResponseEntity<HttpStatus> playGame(@PathVariable("teamId") Long teamId) {
+        alex.pitch(teamId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

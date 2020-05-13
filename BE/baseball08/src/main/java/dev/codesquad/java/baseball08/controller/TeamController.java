@@ -34,6 +34,7 @@ public class TeamController {
     // 기존에는 /game/{gameId}/{teamName} 이었는데 API 변경됨
     @GetMapping("/team/{teamName}")
     public ResponseEntity<AvailabilityResponse> isTeamAvailable(@PathVariable("teamName") String teamName) {
+
         return new ResponseEntity<>(teamService.isTeamAvailable(teamName), HttpStatus.OK);
     }
 

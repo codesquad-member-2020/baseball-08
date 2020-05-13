@@ -48,6 +48,11 @@ public class GameDaoAlex {
                         .build());
     }
 
+    public Long getGameIdByTeamId(Long teamId) {
+        String sql = "SELECT t.game FROM team t WHERE t.id = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{teamId}, (rs, rowNum) -> rs.getLong("game"));
+    }
+
 //    public void saveHistory(History history) {
 //        String sql = "INSERT INTO history (name,line_up,hit_log,game,game_key) VALUES(?,?,?,?,?)";
 //        String[] param = new String[]{"id"};
@@ -94,12 +99,26 @@ public class GameDaoAlex {
         return jdbcTemplate.queryForObject(sql, new Object[]{game}, (rs, rowNum) -> rs.getInt("inning_count"));
     }
 
-    public List<String> getTeamNamesByGameId(Long game) {
+    public List<String> getTeamNamesByGameId(Long gameId) {
         String sql = "SELECT t.name FROM team t WHERE t.game = ?";
-        return jdbcTemplate.query(sql, new Object[]{game}, (rs, rowNum) -> rs.getString("name"));
+        return jdbcTemplate.query(sql, new Object[]{gameId}, (rs, rowNum) -> rs.getString("name"));
     }
 
-    public void getGameInning(Long game) {
-
+    public Inning getPresentInning(Long gameId) {
+        String sql = "SELECT * FROM inning WHERE inning.game_key = (SELECT MAX(game_key) FROM inning) AND inning.game = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{gameId},
+                (rs, rowNum) -> Inning.builder()
+                        .awayName(rs.getString("away_name"))
+                        .homeName(rs.getString("home_name"))
+                        .topBottom(rs.getBoolean("topBottom"))
+                        .awayScore(rs.getInt("away_score"))
+                        .homeScore(rs.getInt("away_score"))
+                        .strikeCount(rs.getInt("strike_count"))
+                        .ballCount(rs.getInt("ball_count"))
+                        .outCount(rs.getInt("out_count"))
+                        .baseCount(rs.getInt("base_count"))
+                        .game(rs.getLong("game"))
+                        .game_key(rs.getInt("game_key"))
+                        .build());
     }
 }

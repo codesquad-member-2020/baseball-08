@@ -16,8 +16,7 @@ public class Inning {
     private String homeName;
     private String awayName;
 
-    private boolean homeAttack;
-    private boolean awayAttack;
+    private boolean topBottom;
 
     private Integer homeScore;
     private Integer awayScore;
@@ -30,12 +29,11 @@ public class Inning {
     private Integer game_key;
 
     @Builder
-    public Inning(String homeName, String awayName, boolean homeAttack, boolean awayAttack, Integer homeScore, Integer awayScore, Integer strikeCount,
+    public Inning(String homeName, String awayName, boolean topBottom, Integer homeScore, Integer awayScore, Integer strikeCount,
                   Integer ballCount, Integer outCount, Integer baseCount, Long game, Integer game_key) {
         this.homeName = homeName;
         this.awayName = awayName;
-        this.homeAttack = homeAttack;
-        this.awayAttack = awayAttack;
+        this.topBottom = topBottom;
         this.homeScore = homeScore;
         this.awayScore = awayScore;
         this.strikeCount = strikeCount;
