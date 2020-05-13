@@ -82,21 +82,15 @@ public class GameService {
         return gamePlayResponse;
     }
 
-    public GamePlayResponse getGamePlay2(Long id, Long awayId1, Long homeId1) {
-        Long awayId = 1L; // findAwayIdByGameId
-        Long homeId = 2L; // findHomeIdByGameId
-        String turn = "말"; // findTurnByGame
-        Long teamId = turn.equals("초") ? awayId : homeId;
+    public GamePlayResponse getGamePlay2(Long id, Long awayId, Long homeId) {
+        Long tempAwayId = 1L; // findAwayIdByGameId
+        Long teampHomeId = 2L; // findHomeIdByGameId
+        String turn = "초"; // findTurnByGame
 
-        logger.info(">>>>>>>> {}", gameDaoHenry.findPitcherById(1L));
-
-        GamePlayResponse gamePlayResponse = gameDaoHenry.findGameInfoById(id);
-        GamePlayResponse gamePlayResponse2 = gameDaoHenry.findGameTeamInfoById(id, teamId);
-        gamePlayResponse.setUser(gamePlayResponse2.getUser());
-        gamePlayResponse.setPitcher(gamePlayResponse2.getPitcher());
-        gamePlayResponse.setHitter(gamePlayResponse2.getHitter());
-        gamePlayResponse.setHistory(gamePlayResponse2.getHistory());
-        return gamePlayResponse;
+        if (turn.equals("초")) {
+            return gameDaoHenry.findGameInfoById(id, tempAwayId, teampHomeId);
+        }
+        return gameDaoHenry.findGameInfoById(id, teampHomeId, tempAwayId);
     }
 
     public AvailabilityResponse isGameAvailable(Long id) {

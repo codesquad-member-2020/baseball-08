@@ -124,6 +124,7 @@ public class GameDaoHenry {
         );
     }
 
+    // teamId로 현재 타자 정보 가져오기
     public HitterDto findHitterById(Long teamId) {
         String sql = "SELECT DISTINCT t.hitter AS hitter, p.at_bat AS at_bat, p.hit AS hit" +
                 " FROM team t" +
@@ -139,6 +140,7 @@ public class GameDaoHenry {
         );
     }
 
+    // teamId로 현재 투수 정보 가져오기
     public PitcherDto findPitcherById(Long teamId) {
         String sql = "SELECT DISTINCT t.pitcher AS pitcher, p.pitches AS pitches" +
                 " FROM team t" +
@@ -149,6 +151,46 @@ public class GameDaoHenry {
                 PitcherDto.builder()
                         .name(rs.getString("pitcher"))
                         .pitches(rs.getInt("pitches"))
+                        .build()
+        );
+    }
+
+    // gameId, hittingTeamId, pitchingTeamId로 게임 진행화면 가져오기
+    public GamePlayResponse findGameInfoById(Long id, Long hittingTeamId, Long pitchingTeamId) {
+        String sql = "SELECT GROUP_CONCAT(DISTINCT t.name) AS team_name," +
+                " GROUP_CONCAT(DISTINCT g.away_total_score) AS away_total_score," +
+                " GROUP_CONCAT(DISTINCT g.home_total_score) AS home_total_score," +
+                " GROUP_CONCAT(DISTINCT t.user_id) AS users," +
+                " GROUP_CONCAT(DISTINCT g.current_inning) AS current_inning," +
+                " GROUP_CONCAT(DISTINCT g.turn) AS turn," +
+                " GROUP_CONCAT(DISTINCT i.strike_count) AS strike_count," +
+                " GROUP_CONCAT(DISTINCT i.ball_count) AS ball_count," +
+                " GROUP_CONCAT(DISTINCT i.out_count) AS out_count," +
+                " GROUP_CONCAT(DISTINCT i.base_count) AS base_count" +
+                " FROM game g" +
+                " INNER JOIN inning i ON g.id = i.game" +
+                " INNER JOIN team t ON g.id = t.game" +
+                " WHERE g.id = ?";
+
+        return jdbcTemplate.queryForObject(sql, new Object[] {id}, (rs, rowNum) ->
+                GamePlayResponse.builder()
+                        .away(rs.getString("team_name").split(",")[0])
+                        .home(rs.getString("team_name").split(",")[1])
+                        .awayTotalScore(rs.getInt("away_total_score"))
+                        .homeTotalScore(rs.getInt("home_total_score"))
+                        .awayUser(rs.getString("users").split(",")[0])
+                        .homeUser(rs.getString("users").split(",")[1])
+                        .inning(rs.getInt("current_inning"))
+                        .turn(rs.getString("turn"))
+                        .score(ScoreDto.builder()
+                                .strike(rs.getInt("strike_count"))
+                                .ball(rs.getInt("ball_count"))
+                                .out(rs.getInt("out_count"))
+                                .base(rs.getInt("base_count"))
+                                .build())
+                        .pitcher(findPitcherById(pitchingTeamId))
+                        .hitter(findHitterById(hittingTeamId))
+                        .history(teamDaoHenry.findHistoriesById(hittingTeamId))
                         .build()
         );
     }
