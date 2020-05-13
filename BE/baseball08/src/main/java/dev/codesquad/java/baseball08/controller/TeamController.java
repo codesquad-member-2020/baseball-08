@@ -38,6 +38,15 @@ public class TeamController {
         return new ResponseEntity<>(teamService.isTeamAvailable(teamId), HttpStatus.OK);
     }
 
+    // team 선택 하는 API
+    @GetMapping("/team/{teamId}/select")
+    public ResponseEntity<HttpStatus> selectTeam(@PathVariable("teamId") Long teamId) {
+        // githubId header로부터 받고 null (로그인 안하면)이면 예외처리 진행
+        String userId = "userIdFromHeader";
+        teamService.updateUserId(teamId, userId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @GetMapping("/henry")
     public ResponseEntity test2() {
 //        return new ResponseEntity(teamService.getTeamPlayersInfo(1L), HttpStatus.OK);

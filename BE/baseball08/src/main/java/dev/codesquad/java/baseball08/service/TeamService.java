@@ -75,4 +75,8 @@ public class TeamService {
     public List<PlayerLogDto> getPlayerLog(Long id) {
         return teamDaoHenry.findHistoriesById(id);
     }
+
+    public void updateUserId(Long teamId, String userId) {
+        teamDaoHenry.updateUserId(teamId, userId);
+    }
 }
