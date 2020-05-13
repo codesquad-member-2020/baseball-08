@@ -1,13 +1,14 @@
 package dev.codesquad.java.baseball08.service;
 
-import dev.codesquad.java.baseball08.dao.TeamDao;
-import dev.codesquad.java.baseball08.dao.TeamDao2;
-import dev.codesquad.java.baseball08.dto.PlayerInfoDto;
-import dev.codesquad.java.baseball08.dto.AvailableDto;
-import dev.codesquad.java.baseball08.dto.ResponsePlayersDto;
-import dev.codesquad.java.baseball08.dto.henry.AvailabilityResponse;
-import dev.codesquad.java.baseball08.dto.henry.PlayerLogDto;
-import dev.codesquad.java.baseball08.dto.henry.TeamScoreResponse;
+import dev.codesquad.java.baseball08.dao.GameDaoAlex;
+import dev.codesquad.java.baseball08.dao.TeamDaoAlex;
+import dev.codesquad.java.baseball08.dao.TeamDaoHenry;
+import dev.codesquad.java.baseball08.dto.dto.PlayerInfoDto;
+import dev.codesquad.java.baseball08.dto.dto.AvailableDto;
+import dev.codesquad.java.baseball08.dto.response.PlayersResponse;
+import dev.codesquad.java.baseball08.dto.response.AvailabilityResponse;
+import dev.codesquad.java.baseball08.dto.dto.PlayerLogDto;
+import dev.codesquad.java.baseball08.dto.response.TeamScoreResponse;
 import dev.codesquad.java.baseball08.exception.CustomException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,22 +24,25 @@ public class TeamService {
     private static final Logger logger = LoggerFactory.getLogger(TeamService.class);
 
     @Autowired
-    private TeamDao teamDao;
+    private TeamDaoAlex teamDao;
 
     @Autowired
-    private TeamDao2 teamDao2;
+    private TeamDaoHenry teamDao2;
 
-    public List<ResponsePlayersDto> teamPlayerInfo(Long id) {
-        Long oppositeTeamId = teamDao.findOppositeTeamByTeamId(id);
-        List<ResponsePlayersDto> responsePlayersDtos = new ArrayList<>();
-        responsePlayersDtos.add(teamDao.findTeamPlayerInfo(id));
-        responsePlayersDtos.add(teamDao.findTeamPlayerInfo(oppositeTeamId));
-        return responsePlayersDtos;
+    @Autowired
+    private GameDaoAlex gameDao;
+
+    public List<PlayersResponse> teamPlayerInfo(Long gameid) {
+        List<Long> teamIds = gameDao.getGameTeamId(gameid);
+        List<PlayersResponse> playersResponses = new ArrayList<>();
+        playersResponses.add(teamDao.findTeamPlayerInfo(teamIds.get(0)));
+        playersResponses.add(teamDao.findTeamPlayerInfo(teamIds.get(1)));
+        return playersResponses;
     }
 
-    public ResponsePlayersDto getTeamPlayersInfo(Long id) {
+    public PlayersResponse getTeamPlayersInfo(Long id) {
         PlayerInfoDto playerInfoDto = teamDao2.findTeamById(id).orElseThrow(null);
-        return new ResponsePlayersDto(playerInfoDto);
+        return new PlayersResponse(playerInfoDto);
     }
 
     public AvailableDto isTeamAvailable2(Long game, Long id) {
@@ -50,19 +54,23 @@ public class TeamService {
         }
     }
 
-        public AvailabilityResponse isTeamAvailable (Long id){
-            String userId = teamDao2.findUserById(id);
-            if (userId != null) {
-                return new AvailabilityResponse(false);
-            }
-            return new AvailabilityResponse(true);
+    public AvailabilityResponse isTeamAvailable(String teamName) {
+        // 수정 필요!!!
+        Long id = 1L;
+        String userId = teamDao2.findUserById(id);
+        if (userId != null) {
+            return new AvailabilityResponse(false);
         }
-
-        public TeamScoreResponse getTeamScore (Long id){
-            return teamDao2.findHomeTeamScoreById(id);
-        }
-
-        public List<PlayerLogDto> getPlayerLog (Long id){
-            return teamDao2.findHistoriesById(id);
-        }
+        return new AvailabilityResponse(true);
     }
+
+
+
+    public TeamScoreResponse getTeamScore(Long id) {
+        return teamDao2.findHomeTeamScoreById(id);
+    }
+
+    public List<PlayerLogDto> getPlayerLog(Long id) {
+        return teamDao2.findHistoriesById(id);
+    }
+}

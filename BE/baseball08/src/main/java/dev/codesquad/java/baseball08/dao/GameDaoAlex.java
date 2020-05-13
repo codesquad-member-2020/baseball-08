@@ -1,6 +1,6 @@
 package dev.codesquad.java.baseball08.dao;
 
-import dev.codesquad.java.baseball08.dto.StageDto;
+import dev.codesquad.java.baseball08.dto.dto.StageDto;
 import dev.codesquad.java.baseball08.entity.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,19 +16,24 @@ import java.sql.PreparedStatement;
 import java.util.List;
 
 @Repository
-public class GameDao {
-    private static final Logger logger = LoggerFactory.getLogger(GameDao.class);
+public class GameDaoAlex {
+    private static final Logger logger = LoggerFactory.getLogger(GameDaoAlex.class);
     private JdbcTemplate jdbcTemplate;
     private SimpleJdbcInsert jdbcInsert;
 
     @Autowired
-    public GameDao(DataSource dataSource) {
+    public GameDaoAlex(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public List<String> getGameUserId(Long game) {
+    public List<String> getGameUserId(Long gameId) {
         String sql = "SELECT t.user_id FROM team t WHERE t.game = ?";
-        return jdbcTemplate.query(sql, new Object[]{game}, (rs, rowNum) -> rs.getString("user_id"));
+        return jdbcTemplate.query(sql, new Object[]{gameId}, (rs, rowNum) -> rs.getString("user_id"));
+    }
+
+    public List<Long> getGameTeamId(Long gameId) {
+        String sql = "SELECT t.id FROM team t WHERE t.game = ?";
+        return jdbcTemplate.query(sql, new Object[]{gameId}, (rs, rowNum) -> rs.getLong("id"));
     }
 
     public List<StageDto> getGameInfo() {
@@ -43,20 +48,20 @@ public class GameDao {
                         .build());
     }
 
-    public void saveHistory(History history) {
-        String sql = "INSERT INTO history (name,line_up,hit_log,game,game_key) VALUES(?,?,?,?,?)";
-        String[] param = new String[]{"id"};
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update(con -> {
-            PreparedStatement statement = con.prepareStatement(sql, param);
-            statement.setString(1, history.getName());
-            statement.setInt(2, history.getLineUp());
-            statement.setString(3, history.getHitLog());
-            statement.setLong(4, history.getGame());
-            statement.setInt(5, history.getGameKey());
-            return statement;
-        }, keyHolder);
-    }
+//    public void saveHistory(History history) {
+//        String sql = "INSERT INTO history (name,line_up,hit_log,game,game_key) VALUES(?,?,?,?,?)";
+//        String[] param = new String[]{"id"};
+//        KeyHolder keyHolder = new GeneratedKeyHolder();
+//        jdbcTemplate.update(con -> {
+//            PreparedStatement statement = con.prepareStatement(sql, param);
+//            statement.setString(1, history.getName());
+//            statement.setInt(2, history.getLineUp());
+//            statement.setString(3, history.getHitLog());
+//            statement.setLong(4, history.getGame());
+//            statement.setInt(5, history.getGameKey());
+//            return statement;
+//        }, keyHolder);
+//    }
 
     public void saveInning(Inning inning) {
         String sql = "INSERT INTO inning(home_name,away_name,home_score,away_score,strike_count,ball_count,out_count,base_count,game,game_key) " +
@@ -79,10 +84,10 @@ public class GameDao {
         }, keyHolder);
     }
 
-    public int getHistoryCount(Long game) {
-        String sql = "SELECT COUNT(h.id) AS history_count FROM history h WHERE h.game = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{game}, (rs, rowNum) -> rs.getInt("history_count"));
-    }
+//    public int getHistoryCount(Long game) {
+//        String sql = "SELECT COUNT(h.id) AS history_count FROM history h WHERE h.game = ?";
+//        return jdbcTemplate.queryForObject(sql, new Object[]{game}, (rs, rowNum) -> rs.getInt("history_count"));
+//    }
 
     public int getGameKeyForInning(Long game) {
         String sql = "SELECT COUNT(i.id) AS inning_count FROM inning i WHERE i.game = ?";

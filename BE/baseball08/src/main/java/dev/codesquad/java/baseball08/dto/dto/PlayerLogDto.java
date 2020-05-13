@@ -1,26 +1,22 @@
-package dev.codesquad.java.baseball08.entity.henry;
+package dev.codesquad.java.baseball08.dto.dto;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.annotation.Id;
 
 import java.util.List;
 
 @Getter
-@Setter
 @ToString
-public class History {
-    @Id
-    private Long id;
-
+public class PlayerLogDto {
     private String name;
     private Integer lineUp;
     private List<String> hitLog;
 
+    public PlayerLogDto() {}
+
     @Builder
-    public History(String name, Integer lineUp, List<String> hitLog) {
+    public PlayerLogDto(String name, Integer lineUp, List<String> hitLog) {
         this.name = name;
         this.lineUp = lineUp;
         this.hitLog = hitLog;

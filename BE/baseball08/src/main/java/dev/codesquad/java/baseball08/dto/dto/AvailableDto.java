@@ -1,4 +1,4 @@
-package dev.codesquad.java.baseball08.dto;
+package dev.codesquad.java.baseball08.dto.dto;
 
 import lombok.Getter;
 

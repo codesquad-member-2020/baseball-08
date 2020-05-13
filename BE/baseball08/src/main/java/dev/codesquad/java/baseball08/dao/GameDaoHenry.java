@@ -1,7 +1,9 @@
-package dev.codesquad.java.baseball08.dao.henry;
+package dev.codesquad.java.baseball08.dao;
 
-import dev.codesquad.java.baseball08.dao.TeamDao2;
-import dev.codesquad.java.baseball08.dto.henry.*;
+import dev.codesquad.java.baseball08.dto.dto.HitterDto;
+import dev.codesquad.java.baseball08.dto.dto.PitcherDto;
+import dev.codesquad.java.baseball08.dto.dto.ScoreDto;
+import dev.codesquad.java.baseball08.dto.response.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,16 +14,16 @@ import javax.sql.DataSource;
 import java.util.List;
 
 @Repository
-public class GameDao2 {
-    private Logger logger = LoggerFactory.getLogger(GameDao2.class);
+public class GameDaoHenry {
+    private Logger logger = LoggerFactory.getLogger(GameDaoHenry.class);
 
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
-    private TeamDao2 teamDao2;
+    private TeamDaoHenry teamDao2;
 
     @Autowired
-    public GameDao2(DataSource dataSource) {
+    public GameDaoHenry(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 

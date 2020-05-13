@@ -1,4 +1,4 @@
-package dev.codesquad.java.baseball08.dto.henry;
+package dev.codesquad.java.baseball08.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -1,6 +1,5 @@
 package dev.codesquad.java.baseball08.entity;
 
-import dev.codesquad.java.baseball08.entity.henry.History;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

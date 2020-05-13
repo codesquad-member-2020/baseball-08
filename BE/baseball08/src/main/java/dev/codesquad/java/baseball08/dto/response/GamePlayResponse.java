@@ -1,5 +1,9 @@
-package dev.codesquad.java.baseball08.dto.henry;
+package dev.codesquad.java.baseball08.dto.response;
 
+import dev.codesquad.java.baseball08.dto.dto.HitterDto;
+import dev.codesquad.java.baseball08.dto.dto.PitcherDto;
+import dev.codesquad.java.baseball08.dto.dto.PlayerLogDto;
+import dev.codesquad.java.baseball08.dto.dto.ScoreDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

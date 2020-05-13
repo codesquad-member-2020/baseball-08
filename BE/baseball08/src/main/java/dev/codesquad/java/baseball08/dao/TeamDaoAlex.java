@@ -1,8 +1,8 @@
 package dev.codesquad.java.baseball08.dao;
 
-import dev.codesquad.java.baseball08.dto.PlayersDto;
-import dev.codesquad.java.baseball08.dto.ResponsePlayersDto;
-import dev.codesquad.java.baseball08.dto.TotalDto;
+import dev.codesquad.java.baseball08.dto.dto.PlayersDto;
+import dev.codesquad.java.baseball08.dto.response.PlayersResponse;
+import dev.codesquad.java.baseball08.dto.dto.TotalDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,25 +16,25 @@ import java.sql.SQLException;
 import java.util.*;
 
 @Repository
-public class TeamDao {
-    private static final Logger logger = LoggerFactory.getLogger(TeamDao.class);
+public class TeamDaoAlex {
+    private static final Logger logger = LoggerFactory.getLogger(TeamDaoAlex.class);
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public TeamDao(DataSource dataSource) {
+    public TeamDaoAlex(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public ResponsePlayersDto findTeamPlayerInfo(Long id) {
+    public PlayersResponse findTeamPlayerInfo(Long id) {
         String sql = "SELECT t.name, t.user_id," +
                 "GROUP_CONCAT(CONCAT_WS(',',p.name,p.at_bat,p.hit,p.out_count,p.average,p.line_up) SEPARATOR '/') AS players,\n" +
                 "SUM(p.at_bat) AS total_bat, SUM(p.hit) as total_hit, SUM(p.out_count) AS total_out\n" +
                 "FROM player p LEFT JOIN team t ON p.team = t.id WHERE p.team = ?";
 
-        RowMapper<ResponsePlayersDto> mapper = new RowMapper<ResponsePlayersDto>() {
+        RowMapper<PlayersResponse> mapper = new RowMapper<PlayersResponse>() {
             @Override
-            public ResponsePlayersDto mapRow(ResultSet rs, int rowNum) throws SQLException {
-                return new ResponsePlayersDto(
+            public PlayersResponse mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return new PlayersResponse(
                         rs.getString("name"), rs.getString("user_id"),
                         playersParser(rs.getString("players").split("/")),
                         TotalDto.builder()

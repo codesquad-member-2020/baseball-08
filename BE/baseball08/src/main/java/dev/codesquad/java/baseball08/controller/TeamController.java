@@ -1,8 +1,9 @@
 package dev.codesquad.java.baseball08.controller;
 
-import dev.codesquad.java.baseball08.dto.AvailableDto;
-import dev.codesquad.java.baseball08.dto.ResponsePlayersDto;
-import dev.codesquad.java.baseball08.dto.henry.AvailabilityResponse;
+import dev.codesquad.java.baseball08.dto.dto.AvailableDto;
+import dev.codesquad.java.baseball08.dto.response.GameListResponse;
+import dev.codesquad.java.baseball08.dto.response.PlayersResponse;
+import dev.codesquad.java.baseball08.dto.response.AvailabilityResponse;
 import dev.codesquad.java.baseball08.service.GameService;
 import dev.codesquad.java.baseball08.service.TeamService;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -23,15 +25,15 @@ public class TeamController {
     private final TeamService teamService;
     private final GameService gameService;
 
-    @GetMapping("/")
-    public ResponseEntity<List<ResponsePlayersDto>> test() {
-        return new ResponseEntity<>(teamService.teamPlayerInfo(1L), HttpStatus.OK);
+    // 게임의 선수 정보를 불러오는 API
+    @GetMapping("/detail/{gameId}/player")
+    public ResponseEntity<List<PlayersResponse>> test(@PathVariable("gameId") Long gameId) {
+        return new ResponseEntity<>(teamService.teamPlayerInfo(gameId), HttpStatus.OK);
     }
-
-    @GetMapping("/alex")
-    public String test1() {
-        teamService.teamPlayerInfo(1L);
-        return "ok";
+    // team 선택 가능 여부 판단하는 API
+    @GetMapping("/team/{teamName}")
+    public ResponseEntity<AvailabilityResponse> isTeamAvailable(@PathVariable("teamName") String teamName) {
+        return new ResponseEntity<>(teamService.isTeamAvailable(teamName), HttpStatus.OK);
     }
 
     @GetMapping("/henry")
@@ -42,17 +44,7 @@ public class TeamController {
 //        return ResponseEntity.ok(teamService.getTeamScore(1L));
 //        return ResponseEntity.ok(gameService.getGameList());
 //        return ResponseEntity.ok(teamService.getPlayerLog(1L));
-        return ResponseEntity.ok(gameService.getGamePlay(1L,1L));
-    }
-
-    @GetMapping("/test")
-    public ResponseEntity<AvailableDto> test3() {
-        return new ResponseEntity<>(teamService.isTeamAvailable2(1L, 2L), HttpStatus.OK);
-    }
-
-    @GetMapping("/test/henry")
-    public ResponseEntity<AvailabilityResponse> test4() {
-        return new ResponseEntity<>(teamService.isTeamAvailable(1L), HttpStatus.OK);
+        return ResponseEntity.ok(gameService.getGamePlay(1L, 1L));
     }
 
 }
