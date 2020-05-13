@@ -28,7 +28,8 @@ public class GameDaoHenry {
     }
 
     public List<GameListResponse> findAllGame() {
-        String sql = "SELECT g.id AS game_id, GROUP_CONCAT(t.name) AS team_name, GROUP_CONCAT(COALESCE(t.user_id, 'none')) AS team_user" +
+        String sql = "SELECT g.id AS game_id, GROUP_CONCAT(t.id) AS team_id," +
+                " GROUP_CONCAT(t.name) AS team_name, GROUP_CONCAT(COALESCE(t.user_id, 'none')) AS team_user" +
                 " FROM game g" +
                 " LEFT JOIN team t ON g.id = t.game" +
                 " GROUP BY g.id";
@@ -36,6 +37,8 @@ public class GameDaoHenry {
         return jdbcTemplate.query(sql, new Object[] {}, (rs, rowNum) ->
                 GameListResponse.builder()
                         .game(rs.getInt("game_id"))
+                        .awayId(Long.parseLong(rs.getString("team_id").split(",")[0]))
+                        .homeId(Long.parseLong(rs.getString("team_id").split(",")[1]))
                         .away(rs.getString("team_name").split(",")[0])
                         .home(rs.getString("team_name").split(",")[1])
                         .awayUser(rs.getString("team_user").split(",")[0])
