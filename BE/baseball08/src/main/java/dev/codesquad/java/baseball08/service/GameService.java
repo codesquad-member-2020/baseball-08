@@ -3,6 +3,7 @@ package dev.codesquad.java.baseball08.service;
 import dev.codesquad.java.baseball08.dao.GameDaoAlex;
 import dev.codesquad.java.baseball08.dto.dto.AvailableDto;
 import dev.codesquad.java.baseball08.dao.GameDaoHenry;
+import dev.codesquad.java.baseball08.dto.dto.TeamIdAndTurnDto;
 import dev.codesquad.java.baseball08.dto.response.AvailabilityResponse;
 import dev.codesquad.java.baseball08.dto.response.GameListResponse;
 import dev.codesquad.java.baseball08.dto.response.GamePlayResponse;
@@ -82,15 +83,16 @@ public class GameService {
         return gamePlayResponse;
     }
 
-    public GamePlayResponse getGamePlay2(Long id, Long awayId, Long homeId) {
-        Long tempAwayId = 1L; // findAwayIdByGameId
-        Long teampHomeId = 2L; // findHomeIdByGameId
-        String turn = "초"; // findTurnByGame
+    public GamePlayResponse getGamePlay2(Long id) {
+        TeamIdAndTurnDto teamInfo = gameDaoHenry.findTeamIdAndTurnById(id);
+        Long awayId = teamInfo.getAwayId();
+        Long homeId = teamInfo.getHomeId();
+        String turn = teamInfo.getTurn();
 
         if (turn.equals("초")) {
-            return gameDaoHenry.findGameInfoById(id, tempAwayId, teampHomeId);
+            return gameDaoHenry.findGameInfoById(id, awayId, homeId);
         }
-        return gameDaoHenry.findGameInfoById(id, teampHomeId, tempAwayId);
+        return gameDaoHenry.findGameInfoById(id, homeId, awayId);
     }
 
     public AvailabilityResponse isGameAvailable(Long id) {

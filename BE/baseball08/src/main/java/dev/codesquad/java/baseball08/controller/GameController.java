@@ -47,7 +47,7 @@ public class GameController {
 
     @GetMapping("/test")
     public ResponseEntity testCode() {
-        return ResponseEntity.ok(gameService.getGamePlay2(1L,1L,2L));
+        return ResponseEntity.ok(gameService.getGamePlay2(1L));
     }
 
     @GetMapping("/init/inning")

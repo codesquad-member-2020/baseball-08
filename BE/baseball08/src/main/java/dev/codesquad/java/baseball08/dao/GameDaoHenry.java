@@ -3,6 +3,7 @@ package dev.codesquad.java.baseball08.dao;
 import dev.codesquad.java.baseball08.dto.dto.HitterDto;
 import dev.codesquad.java.baseball08.dto.dto.PitcherDto;
 import dev.codesquad.java.baseball08.dto.dto.ScoreDto;
+import dev.codesquad.java.baseball08.dto.dto.TeamIdAndTurnDto;
 import dev.codesquad.java.baseball08.dto.response.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -193,5 +194,20 @@ public class GameDaoHenry {
                         .history(teamDaoHenry.findHistoriesById(hittingTeamId))
                         .build()
         );
+    }
+
+    public TeamIdAndTurnDto findTeamIdAndTurnById(Long id) {
+        String sql = "SELECT g.turn AS turn, GROUP_CONCAT(t.id) AS team_id" +
+                " FROM game g" +
+                " INNER JOIN team t ON g.id = t.game" +
+                " WHERE g.id = ?";
+
+        return jdbcTemplate.queryForObject(sql, new Object[] {id}, (rs, rowNum) ->
+                TeamIdAndTurnDto.builder()
+                        .awayId(Long.parseLong(rs.getString("team_id").split(",")[0]))
+                        .homeId(Long.parseLong(rs.getString("team_id").split(",")[1]))
+                        .turn(rs.getString("turn"))
+                        .build()
+                );
     }
 }
