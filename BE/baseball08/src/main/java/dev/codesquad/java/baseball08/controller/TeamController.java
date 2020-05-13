@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -40,11 +41,12 @@ public class TeamController {
 
     // team 선택 하는 API
     @GetMapping("/team/{teamId}/select")
-    public ResponseEntity<HttpStatus> selectTeam(@PathVariable("teamId") Long teamId) {
-        // githubId header로부터 받고 null (로그인 안하면)이면 예외처리 진행
-        String userId = "userIdFromHeader";
-        teamService.updateUserId(teamId, userId);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<HttpStatus> selectTeam(@RequestHeader(value = "userId") String userId, @PathVariable("teamId") Long teamId) {
+        if (userId != null) {
+            teamService.updateUserId(teamId, userId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/henry")
