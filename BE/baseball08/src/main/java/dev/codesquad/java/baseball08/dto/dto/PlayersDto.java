@@ -1,5 +1,6 @@
-package dev.codesquad.java.baseball08.dto;
+package dev.codesquad.java.baseball08.dto.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -11,14 +12,19 @@ public class PlayersDto {
     private Integer out;
     private Double average;
 
-    public PlayersDto() {}
+    @JsonIgnore
+    private Integer lineUp;
+
+    public PlayersDto() {
+    }
 
     @Builder
-    public PlayersDto(String name, Integer atBat, Integer hit, Integer out, Double average) {
+    public PlayersDto(String name, Integer atBat, Integer hit, Integer out, Double average, Integer lineUp) {
         this.name = name;
         this.atBat = atBat;
         this.hit = hit;
         this.out = out;
         this.average = average;
+        this.lineUp = lineUp;
     }
 }
