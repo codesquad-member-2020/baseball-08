@@ -15,7 +15,7 @@ public class CommonStatics {
     public static final Integer EXPIRE_TIME = 60*60*6;
 
     public static final String HEADER_LOCATION = "Location";
-    public static final String REDIRECT_URL = "http://localhost:8080/game";
+    public static final String REDIRECT_URL = "http://13.125.56.23/api/game";
 
     public static final String HIT = "H";
     public static final String STRIKE = "S";
