@@ -12,8 +12,6 @@ CREATE TABLE IF NOT EXISTS game
     home_total_score INT         DEFAULT (0),
     away_total_score INT         DEFAULT (0),
     current_inning   INT         DEFAULT (0),
-    current_pitcher  VARCHAR(32) DEFAULT ('none'),
-    current_hitter   VARCHAR(32) DEFAULT ('none'),
     turn             VARCHAR(32) DEFAULT ('초'),
     PRIMARY KEY (id)
 );

@@ -72,18 +72,7 @@ public class GameService {
 
     //--------------------------------------------------------------------------------------------------------------------//
 
-    public GamePlayResponse getGamePlay(Long id, Long teamId) {
-        GamePlayResponse gamePlayResponse = gameDaoHenry.findGameInfoById(id);
-        GamePlayResponse gamePlayResponse2 = gameDaoHenry.findGameTeamInfoById(id, teamId);
-        gamePlayResponse.setUser(gamePlayResponse2.getUser());
-        gamePlayResponse.setPitcher(gamePlayResponse2.getPitcher());
-        gamePlayResponse.setHitter(gamePlayResponse2.getHitter());
-        gamePlayResponse.setHistory(gamePlayResponse2.getHistory());
-        //return gameDao2.findGameInfoById(id);
-        return gamePlayResponse;
-    }
-
-    public GamePlayResponse getGamePlay2(Long id) {
+    public GamePlayResponse getGamePlay(Long id) {
         TeamIdAndTurnDto teamInfo = gameDaoHenry.findTeamIdAndTurnById(id);
         Long awayId = teamInfo.getAwayId();
         Long homeId = teamInfo.getHomeId();

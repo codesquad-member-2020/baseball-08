@@ -2,6 +2,7 @@ package dev.codesquad.java.baseball08.controller;
 
 import dev.codesquad.java.baseball08.dto.dto.AvailableDto;
 import dev.codesquad.java.baseball08.dto.response.GameListResponse;
+import dev.codesquad.java.baseball08.dto.response.GamePlayResponse;
 import dev.codesquad.java.baseball08.dto.response.TeamScoreResponse;
 import dev.codesquad.java.baseball08.service.GameService;
 import lombok.RequiredArgsConstructor;
@@ -45,9 +46,9 @@ public class GameController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/test")
-    public ResponseEntity testCode() {
-        return ResponseEntity.ok(gameService.getGamePlay2(1L));
+    @GetMapping("/detail/{gameId}")
+    public ResponseEntity<GamePlayResponse> getGameInfo(@PathVariable("gameId") Long gameId) {
+        return new ResponseEntity<>(gameService.getGamePlay(gameId), HttpStatus.OK);
     }
 
     @GetMapping("/init/inning")
