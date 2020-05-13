@@ -5,6 +5,7 @@ import dev.codesquad.java.baseball08.dto.response.GameListResponse;
 import dev.codesquad.java.baseball08.dto.response.GamePlayResponse;
 import dev.codesquad.java.baseball08.dto.response.TeamScoreResponse;
 import dev.codesquad.java.baseball08.service.GameService;
+import dev.codesquad.java.baseball08.service.henry.PitchService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,7 @@ public class GameController {
 
     private static final Logger logger = LoggerFactory.getLogger(GameController.class);
     private final GameService gameService;
+    private final PitchService pitchService;
 
     // 게임 초기 데이터 출력
     @GetMapping("/game")
