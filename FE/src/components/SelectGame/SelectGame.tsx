@@ -68,7 +68,7 @@ const SelectGame: React.FC<props> = ({history}) => {
     .then((result) => {
       if (result.available) {
         GameData.getInstance().setIsAwayTeam(isAwayTeam);
-        history.push('/gameplay')
+        history.push('/gameplay');
       }
       else {
         setTimeout(() => {
@@ -103,7 +103,7 @@ const SelectGame: React.FC<props> = ({history}) => {
 
   return (
     <>
-    {waiting && <StyledWaitingWrap><StyledWaitingImage>Now Loading...</StyledWaitingImage></StyledWaitingWrap>}
+    {waiting && <StyledWaitingWrap><StyledWaitingImage>상대방을 기다리는중입니다...</StyledWaitingImage></StyledWaitingWrap>}
     {waiting !== true && <Confetti
       width={1280}
       height={720}
