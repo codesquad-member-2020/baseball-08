@@ -41,6 +41,10 @@ public class GameController {
         return new ResponseEntity<>(gameService.getGameScore(gameId), HttpStatus.OK);
     }
 
+    @GetMapping("/pitch")
+    public ResponseEntity<HttpStatus> playGame() {
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     @GetMapping("/init/inning")
     public void initInning() {
