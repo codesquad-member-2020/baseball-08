@@ -64,7 +64,11 @@ public class TeamService {
         return new AvailabilityResponse(true);
     }
 
-    public TeamScoreResponse getTeamScore(Long id) {
+    public TeamScoreResponse getAwayTeamScore(Long id) {
+        return teamDaoHenry.findAwayTeamScoreById(id);
+    }
+
+    public TeamScoreResponse getHomeTeamScore(Long id) {
         return teamDaoHenry.findHomeTeamScoreById(id);
     }
 

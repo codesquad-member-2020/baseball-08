@@ -50,8 +50,8 @@ public class GameService {
     public List<TeamScoreResponse> getGameScore(Long gameId) {
         List<TeamScoreResponse> gameScoreResponse = new ArrayList<>();
         List<Long> teamIds = gameDaoAlex.getGameTeamId(gameId);
-        gameScoreResponse.add(teamService.getTeamScore(teamIds.get(0)));
-        gameScoreResponse.add(teamService.getTeamScore(teamIds.get(1)));
+        gameScoreResponse.add(teamService.getAwayTeamScore(teamIds.get(0)));
+        gameScoreResponse.add(teamService.getHomeTeamScore(teamIds.get(1)));
         return gameScoreResponse;
     }
 
