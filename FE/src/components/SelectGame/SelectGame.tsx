@@ -59,20 +59,21 @@ const SelectGame: React.FC<props> = ({history}) => {
     });
   }, [])
 
-  function requestGameAvailable(index: number, teamName: string, isAwayTeam: boolean) {
+  function requestGameAvailable(index: number, teamId: number, isAwayTeam: boolean) {
     const url = process.env.REACT_APP_GAME_AVAILABLE;
-    const cvtUrl = url?.replace(`{gameId}`, `${index}`).replace(`{teamName}`, teamName);
+    const cvtUrl = url?.replace(`{gameId}`, `${index}`).replace(`{teamId}`, `${teamId}`);
 
     fetchRequest(cvtUrl, "GET")
     .then((response) => response.json())
     .then((result) => {
       if (result.available) {
         GameData.getInstance().setIsAwayTeam(isAwayTeam);
-        history.push('/gameplay')
+        GameData.getInstance().setTeamId(teamId);
+        history.push('/gameplay');
       }
       else {
         setTimeout(() => {
-          requestGameAvailable(index, teamName, isAwayTeam);
+          requestGameAvailable(index, teamId, isAwayTeam);
         }, 1000);
       }
     })
@@ -81,16 +82,16 @@ const SelectGame: React.FC<props> = ({history}) => {
     });
   }
 
-  function onTeamClick(index: number, teamName: string, isAwayTeam: boolean) {
+  function onTeamClick(index: number, teamId: number, isAwayTeam: boolean) {
     const url = process.env.REACT_APP_GAME_SELECT;
-    const cvtUrl = url?.replace(`{gameId}`, `${index}`).replace(`{teamName}`, teamName);
+    const cvtUrl = url?.replace(`{gameId}`, `${index}`).replace(`{teamId}`, `${teamId}`);
 
     fetchRequest(cvtUrl, "GET")
     .then((response) => response.json())
     .then((result) => {
       if (result.available) {
         setWaiting(true);
-        requestGameAvailable(index, teamName, isAwayTeam);
+        requestGameAvailable(index, teamId, isAwayTeam);
       }
       else {
         alert("다른사람에 의해 선택된 팀입니다.");
@@ -103,7 +104,7 @@ const SelectGame: React.FC<props> = ({history}) => {
 
   return (
     <>
-    {waiting && <StyledWaitingWrap><StyledWaitingImage>Now Loading...</StyledWaitingImage></StyledWaitingWrap>}
+    {waiting && <StyledWaitingWrap><StyledWaitingImage>상대방을 기다리는중입니다...</StyledWaitingImage></StyledWaitingWrap>}
     {waiting !== true && <Confetti
       width={1280}
       height={720}
@@ -115,7 +116,8 @@ const SelectGame: React.FC<props> = ({history}) => {
       <SelectGamePhrase title="참가할 게임을 선택하세요"></SelectGamePhrase>
       {games !== undefined && games.map((game:any, index:number) => 
         <Versus key={index} index={game.game} awayTeamName={game.away} homeTeamName={game.home} 
-                awayTeamAvailable={game.away_user === null} homeTeamAvailable={game.home_user === null}
+                awayTeamAvailable={game.awayUser === "none"} homeTeamAvailable={game.homeUser === "none"}
+                awayTeamId={game.awayId} homeTeamId={game.homeId}
                 onTeamClick={onTeamClick}>
         </Versus>
         ) 

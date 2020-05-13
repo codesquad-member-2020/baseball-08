@@ -4,7 +4,7 @@ import styled from 'styled-components'
 const StyledDiv = styled.div`
   width: 200px;
   height: 150px;
-  top: 135px;
+  top: 155px;
   left: 15px;
   position: absolute;
   border: 1px solid white;

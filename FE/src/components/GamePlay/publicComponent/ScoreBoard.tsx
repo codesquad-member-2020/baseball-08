@@ -3,11 +3,15 @@ import styled from 'styled-components'
 
 const StyledVersus = styled.div`
   width: 1000px;
-  height: 120px;
+  height: 140px;
   position: absolute;
   border-bottom: 2px solid white;
   border-right: 2px solid white;
   color: white;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const StyledScoreBoardTitle = styled.p`
@@ -25,7 +29,7 @@ const StyledTeamName = styled.p`
   width: 350px;
   float: left;
   position: relative;
-  font-size: 40px;
+  font-size: 33px;
   margin: 0 auto;
   font-weight: bold;
   text-align: center;
@@ -36,7 +40,7 @@ const StyledTeamScore = styled.p`
   width: 100px;
   float: left;
   position: relative;
-  font-size: 40px;
+  font-size: 33px;
   margin: 0 auto;
   font-weight: bold;
   text-align: center;
@@ -51,27 +55,46 @@ const StyledVersusText = styled.p`
   margin: 0 auto;
   color: gray;
   font-weight: bold;
-  margin-top: 13px;
+  margin-top: 7px;
+`;
+
+interface PlayerTextType {
+  isAwayTeam?: boolean;
+}
+
+const StyledPlayerText = styled.p<PlayerTextType>`
+  width: 350px;
+  float: left;
+  position: relative;
+  font-size: 26px;
+  font-weight: bold;
+  color: #cc0000;
+  text-align: center;
+  /* margin-left: 20px; */
+  margin-left: ${props => props.isAwayTeam ? "20px" : "630px"};
 `;
 
 interface Props {
   awayTeamName: string,
   awayTeamScore: number,
   homeTeamName: string,
-  homeTeamScore: number
+  homeTeamScore: number,
+  isAwayTeam: boolean,
+  onScoreBoardClick(): void
 }
 
-const InningBoard: React.FunctionComponent<Props> = function({awayTeamName, awayTeamScore, homeTeamName, homeTeamScore}) {
+const ScoreBoard: React.FunctionComponent<Props> = function({awayTeamName, awayTeamScore, homeTeamName, homeTeamScore, isAwayTeam, onScoreBoardClick}) {
   return (
-    <StyledVersus>
+    <StyledVersus onClick={onScoreBoardClick}>
       <StyledScoreBoardTitle>BaseballGame Online</StyledScoreBoardTitle>
       <StyledTeamName>{awayTeamName}</StyledTeamName>
       <StyledTeamScore>{awayTeamScore}</StyledTeamScore>
       <StyledVersusText>VS</StyledVersusText>
       <StyledTeamScore>{homeTeamScore}</StyledTeamScore>
       <StyledTeamName>{homeTeamName}</StyledTeamName>
+      <StyledPlayerText isAwayTeam={isAwayTeam}>Player</StyledPlayerText>
     </StyledVersus>
   );
 }
 
-export default InningBoard;
+export default ScoreBoard;
