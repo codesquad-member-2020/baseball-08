@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components'
 import StadiumBackground from './publicComponent/StadiumBackground'
-import InningBoard from './publicComponent/InningBoard'
+import ScoreBoard from './publicComponent/ScoreBoard'
 import SBOBoard from './publicComponent/SBOBoard';
 import PAandNP from './publicComponent/PAandNP';
 import Record from './publicComponent/Record';
 import fetchRequest from '../../util/fetchRequest'
+import { withRouter, RouteComponentProps } from 'react-router-dom';
+import GameData from '../../data/GameData'
 
 const StyledDiv = styled.div`
   position: absolute;
@@ -46,18 +48,9 @@ interface Score {
   base: number
 }
 
-interface GameData {
-  away: string,
-  home: string,
-  awayTotalScore: string,
-  homeTotalScore: number,
-  user: string,
-  inning: number,
-  turn: boolean,
-  score: Score,
-}
+type props = RouteComponentProps;
 
-function GamePlay() {
+const GamePlay: React.FunctionComponent<props> = function({history}) {
   const [gameDetailObj, setGameDetailObj] = useState<any>(undefined);
   const [waiting, setWaiting] = useState(true);
 
@@ -73,18 +66,27 @@ function GamePlay() {
     });
   }, [])
 
+  function onScoreBoardClick() {
+    history.push('/gameplay/scoreboard');
+  }
+
+  function onRecordClick() {
+    history.push('/gameplay/playerlist');
+  }
+
   return (
     <StyledDiv>
       {waiting && <StyledWaitingWrap><StyledWaitingImage>게임을 불러오는중입니다...</StyledWaitingImage></StyledWaitingWrap>}
       <StadiumBackground></StadiumBackground>
       {gameDetailObj && 
       <>
-      <InningBoard
+      <ScoreBoard onScoreBoardClick={onScoreBoardClick}
         awayTeamName={gameDetailObj.away}
         awayTeamScore={gameDetailObj.awayTotalScore}
         homeTeamName={gameDetailObj.home}
         homeTeamScore={gameDetailObj.homeTotalScore}
-      ></InningBoard>
+        isAwayTeam={GameData.getInstance().getIsAwayTeam()}
+      ></ScoreBoard>
       <SBOBoard
         strikeCount={gameDetailObj.score.strike}
         ballCount={gameDetailObj.score.ball}
@@ -97,7 +99,7 @@ function GamePlay() {
         atBat={gameDetailObj.hitter.atBat}
         hit={gameDetailObj.hitter.hit}
       />
-      <Record 
+      <Record onRecordClick={onRecordClick}
         logs={gameDetailObj.history}
       />
       </>
@@ -106,4 +108,4 @@ function GamePlay() {
   );
 }
 
-export default GamePlay;
+export default withRouter(GamePlay);
