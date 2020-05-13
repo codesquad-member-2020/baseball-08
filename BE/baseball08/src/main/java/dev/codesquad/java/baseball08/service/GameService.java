@@ -92,4 +92,7 @@ public class GameService {
         return gameDaoHenry.findAllGame();
     }
 
+    public void updateGameStatus(Long gameId, boolean status) {
+        gameDaoHenry.updateOnGame(gameId, status);
+    }
 }

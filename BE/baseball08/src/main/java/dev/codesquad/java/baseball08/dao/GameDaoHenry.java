@@ -210,4 +210,9 @@ public class GameDaoHenry {
                         .build()
                 );
     }
+
+    public void updateOnGame(Long gameId, boolean status) {
+        String sql = "UPDATE game g SET on_game = ? WHERE g.id = ?";
+        this.jdbcTemplate.update(sql, new Object[] {status, gameId});
+    }
 }

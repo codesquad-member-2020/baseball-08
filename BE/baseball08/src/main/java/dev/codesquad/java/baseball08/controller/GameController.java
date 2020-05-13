@@ -37,6 +37,16 @@ public class GameController {
         return new ResponseEntity<>(gameService.isGamePossible(gameId), HttpStatus.OK);
     }
 
+    @GetMapping("/game/{gameId}/select")
+    public ResponseEntity<HttpStatus> selectGame(@PathVariable("gameId") Long gameId) {
+        if (gameService.isGamePossible(gameId).isAvailable()) {
+            gameService.updateGameStatus(gameId, true);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        gameService.updateGameStatus(gameId, false);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
     // Game의 team별 스코어 가져오는 API
     @GetMapping("/detail/{gameId}/score")
     public ResponseEntity<List<TeamScoreResponse>> getGameScore(@PathVariable("gameId") Long gameId) {
