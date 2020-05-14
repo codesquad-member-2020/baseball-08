@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -56,28 +57,82 @@ public class Alex {
         if (requestTeamName.equals(playballDto.getAwayName())) {
             return false;
         }
-        // PlayballDto에는 경기의 진행에 필요한 데이터들이 들어있다. 선수들의 데이터는 아직 들어있지 않은 상태이다.
-        // 상대팀의 teamId를 통해서 타자의 정보를 가져온다.
-        Long otherTeamId = teamDaoAlex.findOppositeTeamByTeamId(teamId);
-        // 상대팀의 타자 정보가 이번 이닝의 공격 타자 리스트이다.
-        List<PlayersDto> hitters = teamDaoAlex.findPlayersByTeamId(otherTeamId);
-        // 내 team에 투수와, 투구수를 가져와서 PitcherDto에 저장한다.
+        Long otherTeamId = teamDaoAlex.findOppositeTeamIdByMyTeamId(teamId);
         PitcherDto currentPitcher = pitchDaoAlex.findPitcherByTeamId(teamId);
-        // 현재 타자의 데이터를 가져온다.
-        PlayersDto currentHitter = new PlayersDto();
+        String currentHitter = teamDaoAlex.findHitterByTeamId(otherTeamId)[0];
+        String lastHitter = teamDaoAlex.findHitterByTeamId(otherTeamId)[1];
+        PlayersDto currentHitterInfo = teamDaoAlex.findPlayerByPlayerName(currentHitter);
 
-        for (int i = 0; i < hitters.size(); i++) {
-            if (hitters.get(i).getName().equals(pitchDaoAlex.findHitterByTeamId(otherTeamId))) currentHitter = hitters.get(i);
+        if (!currentHitter.equals(lastHitter)) {
+            int atBat = currentHitterInfo.getAtBat();
+            currentHitterInfo.setAtBat(atBat + 1);
+        }
+        logger.info("currentHitterInfo : {}", currentHitterInfo.toString());
+
+        // 투수의 투구수를 하나 증가시킨다.
+        int pitches = currentPitcher.getPitches();
+        currentPitcher.setPitches(pitches + 1);
+
+        // 타자가 공을 한번 치는 동작을 playball이라는 함수안에 넣어서 진행하였다.
+        // 결과는 "S" , "B" , "H" 3가지로 나온다 -> 스트라이크 , 볼 , 안타
+        String pitcheResult = playball(currentHitterInfo);
+        logger.info("pitchResult : {}", pitcheResult);
+
+        // 공의 결과를 이닝데이터에 반영시켜야 한다.
+        int strikeCount = playballDto.getStrikeCount();
+        int ballCount = playballDto.getBallCount();
+        int outCount = playballDto.getOutCount();
+        int baseCount = playballDto.getBaseCount();
+        int away_score = playballDto.getAwayScore();
+        int away_total_score = playballDto.getAwayTotalScore();
+
+        switch (pitcheResult) {
+            case "S":
+                strikeCount++;
+                break;
+            case "B":
+                ballCount++;
+                break;
+            case "H":
+                baseCount++;
+                break;
         }
 
-        int hitterAtBat = currentHitter.getAtBat();
-        currentHitter.setAtBat(hitterAtBat+1);
+        if (strikeCount == 3) {
+            outCount++;
+            strikeCount = 0;
+        }
+        if (ballCount == 4) {
+            baseCount++;
+            ballCount = 0;
+        }
+        if (baseCount == 4) {
+            away_score++;
+            away_total_score++;
+            baseCount--;
+        }
+        if (outCount == 3) {
+            strikeCount = 0;
+            ballCount = 0;
+            baseCount = 0;
+        }
 
-        int pitches = currentPitcher.getPitches();
-        currentPitcher.setPitches(pitches+1);
+        logger.info("strike count : {}", strikeCount);
+        logger.info("ball count : {}", ballCount);
+        logger.info("out count : {}", outCount);
+        logger.info("base count : {}", baseCount);
+        logger.info("-------------------------------------");
+        logger.info("away_score : {}", away_score);
+        logger.info("away_total_score : {}", away_total_score);
 
-        String pitchResult = playball(currentHitter);
-        logger.info("{}",pitchResult);
+        playballDto.setStrikeCount(strikeCount);
+        playballDto.setBallCount(ballCount);
+        playballDto.setOutCount(outCount);
+        playballDto.setBaseCount(baseCount);
+        playballDto.setAwayScore(away_score);
+        playballDto.setAwayTotalScore(away_total_score);
+
+        pitchDaoAlex.savePitchResult(playballDto);
         // 지금부터 구현해야 할 부분
         // 이 메소드는 공을 한번 던졌을때의 메소드 이다.
         // 1. current_hitter에 해당하는 player DB에 atBat += 1 , pitches += 1
@@ -98,22 +153,21 @@ public class Alex {
         if (requestTeamName.equals(playballDto.getHomeName())) {
             return false;
         }
-        List<String> players = teamDaoAlex.findPlayersNameByTeamId(teamId);
         return true;
     }
 
-    private String playball(PlayersDto cuttrentHitter) {
+    private String playball(PlayersDto currentHitterInfo) {
         String strike = "S";
         String ball = "B";
         String hit = "H";
 
-        double average = cuttrentHitter.getAverage();
+        double average = currentHitterInfo.getAverage();
         double strike_percent = 0.7;
-        if (strike_percent < ThreadLocalRandom.current().nextDouble(0,1)) {
+        if (strike_percent < ThreadLocalRandom.current().nextDouble(0, 1)) {
             return ball;
         }
 
-        if (average < ThreadLocalRandom.current().nextDouble(0,1)) {
+        if (average < ThreadLocalRandom.current().nextDouble(0, 1)) {
             return strike;
         }
 

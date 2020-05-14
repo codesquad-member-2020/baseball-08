@@ -79,6 +79,19 @@ public class TeamDaoAlex {
                         .build());
     }
 
+    public PlayersDto findPlayerByPlayerName(String playerName) {
+        String sql = "SELECT p.name,p.at_bat,p.hit,p.out_count,p.average,p.line_up FROM player p WHERE p.name = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{playerName}, (rs, rowNum) ->
+                PlayersDto.builder()
+                        .name(rs.getString("name"))
+                        .atBat(rs.getInt("at_bat"))
+                        .hit(rs.getInt("hit"))
+                        .out(rs.getInt("out_count"))
+                        .average(rs.getDouble("average"))
+                        .lineUp(rs.getInt("line_up"))
+                        .build());
+    }
+
     // 기존의 팀별 전체 기록을 불러오는 메소드
     // 팀 id를 입력받아서 해당 팀의 총 타석, 안타, 아웃 카운트를 조회하도록 구현
     public TotalDto findTotalRecordByTeamId(Long id) {
@@ -93,7 +106,7 @@ public class TeamDaoAlex {
     }
 
     // 팀 id를 입력받아 상대편 팀의 id를 가져오는 메소드
-    public Long findOppositeTeamByTeamId(Long id) {
+    public Long findOppositeTeamIdByMyTeamId(Long id) {
         String sql = "SELECT t.id FROM team t WHERE t.game = (SELECT t.game FROM team t WHERE t.id = ?) AND t.id != ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{id, id}, (rs, rowNum) -> rs.getLong("id"));
     }
@@ -104,19 +117,16 @@ public class TeamDaoAlex {
                 (rs, rowNum) -> rs.getString("name"));
     }
 
-    // 팀 id를 입력받아 해당 팀을 선택한 userId를 가져오는 메소드, 없으면 null이 온다.
-    public String findUserIdByTeamId(Long id) {
-        return jdbcTemplate.queryForObject("SELECT t.user_id FROM team t WHERE t.id = ?", new Object[]{id},
-                (rs, rowNum) -> rs.getString("user_id"));
-    }
-
+    // 팀 id, 게임 id를 입력받아 해당 팀의 userID를 가져오는 메소드
     public String findUserIdByGameIdTeamId(Long game, Long id) {
         return jdbcTemplate.queryForObject("SELECT t.user_id FROM team t WHERE t.game = ? AND t.id = ?", new Object[]{game, id},
                 (rs, rowNum) -> rs.getString("user_id"));
     }
 
-    public List<String> findPlayersNameByTeamId(Long id) {
-        String sql = "SELECT p.name FROM player p WHERE p.team = ?";
-        return jdbcTemplate.query(sql, new Object[]{id}, (rs, rowNum) -> rs.getString("name"));
+    public String[] findHitterByTeamId(Long teamId) {
+        String sql = "SELECT t.current_hitter , t.last_hitter FROM team t WHERE t.id = ?";
+        return jdbcTemplate.queryForObject(sql,new Object[]{teamId},
+                (rs, rowNum) -> new String[] {rs.getString("current_hitter"),rs.getString("last_hitter")});
     }
+
 }

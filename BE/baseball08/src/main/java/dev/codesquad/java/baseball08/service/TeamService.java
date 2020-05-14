@@ -33,7 +33,7 @@ public class TeamService {
     private GameDaoAlex gameDaoAlex;
 
     public List<PlayersResponse> teamPlayerInfo(Long gameid) {
-        List<Long> teamIds = gameDaoAlex.getGameTeamId(gameid);
+        List<Long> teamIds = gameDaoAlex.getTeamIdsByGameId(gameid);
         List<PlayersResponse> playersResponses = new ArrayList<>();
         playersResponses.add(teamDaoAlex.findTeamPlayerInfo(teamIds.get(0)));
         playersResponses.add(teamDaoAlex.findTeamPlayerInfo(teamIds.get(1)));
@@ -63,6 +63,7 @@ public class TeamService {
         if (userId != null) {
             return new AvailabilityResponse(false);
         }
+        // user ID 를 추가하는 로직을 추가하는것
         return new AvailabilityResponse(true);
     }
 

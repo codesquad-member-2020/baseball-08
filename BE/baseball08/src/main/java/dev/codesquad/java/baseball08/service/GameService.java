@@ -31,7 +31,7 @@ public class GameService {
     private TeamService teamService;
 
     public AvailableDto isGamePossible(Long game) {
-        return new AvailableDto(!gameDaoAlex.getGameUserId(game).contains(null));
+        return new AvailableDto(!gameDaoAlex.getUserIdsByGameId(game).contains(null));
     }
 
     public void saveNewInning() {
@@ -49,7 +49,7 @@ public class GameService {
 
     public List<TeamScoreResponse> getGameScore(Long gameId) {
         List<TeamScoreResponse> gameScoreResponse = new ArrayList<>();
-        List<Long> teamIds = gameDaoAlex.getGameTeamId(gameId);
+        List<Long> teamIds = gameDaoAlex.getTeamIdsByGameId(gameId);
         gameScoreResponse.add(teamService.getTeamScore(teamIds.get(0)));
         gameScoreResponse.add(teamService.getTeamScore(teamIds.get(1)));
         return gameScoreResponse;

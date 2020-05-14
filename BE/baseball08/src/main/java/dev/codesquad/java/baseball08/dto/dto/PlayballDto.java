@@ -14,9 +14,11 @@ public class PlayballDto {
 
     // 게임 화면의 왼쪽에 해당하는 데이터 (이닝의 진행에 필요한 데이터)
     //Game Entity
+    private Long gameId;
     private Integer homeTotalScore;
     private Integer awayTotalScore;
     //Inning Entity
+    private Long inningId;
     private boolean topBottom;
     private String homeName;
     private String awayName;
@@ -29,9 +31,13 @@ public class PlayballDto {
     // -------------------------------------------------------------
 
     @Builder
-    public PlayballDto(Integer homeTotalScore, Integer awayTotalScore, boolean topBottom, String homeName, String awayName, Integer homeScore, Integer awayScore, Integer strikeCount, Integer ballCount, Integer outCount, Integer baseCount) {
+    public PlayballDto(Long gameId, Integer homeTotalScore, Integer awayTotalScore, Long inningId, boolean topBottom,
+                       String homeName, String awayName, Integer homeScore, Integer awayScore, Integer strikeCount,
+                       Integer ballCount, Integer outCount, Integer baseCount) {
+        this.gameId = gameId;
         this.homeTotalScore = homeTotalScore;
         this.awayTotalScore = awayTotalScore;
+        this.inningId = inningId;
         this.topBottom = topBottom;
         this.homeName = homeName;
         this.awayName = awayName;

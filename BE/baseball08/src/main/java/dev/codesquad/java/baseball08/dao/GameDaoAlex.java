@@ -26,16 +26,19 @@ public class GameDaoAlex {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public List<String> getGameUserId(Long gameId) {
+    // Game ID를 입력받아서 해당 게임에 존재하는 UserID를 가져온다.
+    public List<String> getUserIdsByGameId(Long gameId) {
         String sql = "SELECT t.user_id FROM team t WHERE t.game = ?";
         return jdbcTemplate.query(sql, new Object[]{gameId}, (rs, rowNum) -> rs.getString("user_id"));
     }
 
-    public List<Long> getGameTeamId(Long gameId) {
+    // Game ID를 입력받아서 해당 게임에 존재하는 TeamID를 가져온다
+    public List<Long> getTeamIdsByGameId(Long gameId) {
         String sql = "SELECT t.id FROM team t WHERE t.game = ?";
         return jdbcTemplate.query(sql, new Object[]{gameId}, (rs, rowNum) -> rs.getLong("id"));
     }
 
+    // BaseBall 게임에 존재하는 전체 Game의 정보를 가져온다
     public List<StageDto> getGameInfo() {
         String sql = "SELECT g.id, GROUP_CONCAT(t.name) AS teams, GROUP_CONCAT(COALESCE(t.user_id,'None')) AS users FROM game g left JOIN team t ON g.id = t.game GROUP BY g.id";
         return jdbcTemplate.query(sql, new Object[]{}, (rs, rowNum) ->
@@ -48,25 +51,11 @@ public class GameDaoAlex {
                         .build());
     }
 
+    // teamId를 입력받아서 gameId를 가져오는 메소드
     public Long getGameIdByTeamId(Long teamId) {
         String sql = "SELECT t.game FROM team t WHERE t.id = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{teamId}, (rs, rowNum) -> rs.getLong("game"));
     }
-
-//    public void saveHistory(History history) {
-//        String sql = "INSERT INTO history (name,line_up,hit_log,game,game_key) VALUES(?,?,?,?,?)";
-//        String[] param = new String[]{"id"};
-//        KeyHolder keyHolder = new GeneratedKeyHolder();
-//        jdbcTemplate.update(con -> {
-//            PreparedStatement statement = con.prepareStatement(sql, param);
-//            statement.setString(1, history.getName());
-//            statement.setInt(2, history.getLineUp());
-//            statement.setString(3, history.getHitLog());
-//            statement.setLong(4, history.getGame());
-//            statement.setInt(5, history.getGameKey());
-//            return statement;
-//        }, keyHolder);
-//    }
 
     public void saveInning(Inning inning) {
         String sql = "INSERT INTO inning(home_name,away_name,home_score,away_score,strike_count,ball_count,out_count,base_count,game,game_key) " +
@@ -88,11 +77,6 @@ public class GameDaoAlex {
             return statement;
         }, keyHolder);
     }
-
-//    public int getHistoryCount(Long game) {
-//        String sql = "SELECT COUNT(h.id) AS history_count FROM history h WHERE h.game = ?";
-//        return jdbcTemplate.queryForObject(sql, new Object[]{game}, (rs, rowNum) -> rs.getInt("history_count"));
-//    }
 
     public int getGameKeyForInning(Long game) {
         String sql = "SELECT COUNT(i.id) AS inning_count FROM inning i WHERE i.game = ?";
@@ -121,4 +105,24 @@ public class GameDaoAlex {
                         .game_key(rs.getInt("game_key"))
                         .build());
     }
+
+//    public int getHistoryCount(Long game) {
+//        String sql = "SELECT COUNT(h.id) AS history_count FROM history h WHERE h.game = ?";
+//        return jdbcTemplate.queryForObject(sql, new Object[]{game}, (rs, rowNum) -> rs.getInt("history_count"));
+//    }
+
+//        public void saveHistory(History history) {
+//        String sql = "INSERT INTO history (name,line_up,hit_log,game,game_key) VALUES(?,?,?,?,?)";
+//        String[] param = new String[]{"id"};
+//        KeyHolder keyHolder = new GeneratedKeyHolder();
+//        jdbcTemplate.update(con -> {
+//            PreparedStatement statement = con.prepareStatement(sql, param);
+//            statement.setString(1, history.getName());
+//            statement.setInt(2, history.getLineUp());
+//            statement.setString(3, history.getHitLog());
+//            statement.setLong(4, history.getGame());
+//            statement.setInt(5, history.getGameKey());
+//            return statement;
+//        }, keyHolder);
+//    }
 }

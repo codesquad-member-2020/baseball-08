@@ -5,8 +5,8 @@ INSERT INTO game (id) VALUES (3);
 
 ------- TEAM -------
 
-INSERT INTO team (name,game,game_key,user_id,pitcher,hitter) VALUES ('기아 타이거즈',1,0,'haveagood','터너','맥닐');
-INSERT INTO team (name,game,game_key,user_id,pitcher,hitter) VALUES ('삼성 라이온즈',1,1,'henry','카스테야노','몬카다');
+INSERT INTO team (name,game,game_key,user_id,pitcher,current_hitter) VALUES ('기아 타이거즈',1,0,'haveagood','터너','맥닐');
+INSERT INTO team (name,game,game_key,user_id,pitcher,current_hitter) VALUES ('삼성 라이온즈',1,1,'henry','카스테야노','몬카다');
 INSERT INTO team (name,game,game_key) VALUES ('한화 이글스',2,0);
 INSERT INTO team (name,game,game_key,user_id) VALUES ('NC 다이노스',2,1,'test1');
 INSERT INTO team (name,game,game_key) VALUES ('롯데 자이언츠',3,0);
