@@ -7,6 +7,7 @@ import fetchRequest from '../../util/fetchRequest'
 import Confetti from 'react-confetti'
 import GameData from '../../data/GameData'
 import { RouteComponentProps, withRouter } from 'react-router-dom';
+import getCookieData from '../../util/getCookieData'
 
 const StyledDiv = styled.div`
   position: relative;
@@ -65,7 +66,7 @@ const SelectGame: React.FC<props> = ({history}) => {
 
     console.log(cvtUrl);
 
-    fetchRequest(cvtUrl, "GET")
+    fetchRequest(cvtUrl, "GET", getCookieData('userId'))
     .then((response) => response.json())
     .then((result) => {
       if (result.available) {
@@ -91,7 +92,7 @@ const SelectGame: React.FC<props> = ({history}) => {
 
     console.log(cvtUrl);
 
-    fetchRequest(cvtUrl, "GET")
+    fetchRequest(cvtUrl, "GET", getCookieData('userId'))
     .then((response) => response.json())
     .then((result) => {
       if (result.available) {
