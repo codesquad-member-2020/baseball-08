@@ -8,12 +8,22 @@
 
 import Foundation
 
-struct Game: Decodable {
+protocol Gameable {
+    var game: Int { get }
+    var away: String { get }
+    var home: String { get }
+}
+
+struct Game: Decodable, Gameable {
     let game: Int
     let away: String
     let home: String
     let awayUser: String?
     let homeUser: String?
+    
+    init(_ game: Game) {
+        self = game
+    }
 }
 
 struct Selectable: Decodable {
