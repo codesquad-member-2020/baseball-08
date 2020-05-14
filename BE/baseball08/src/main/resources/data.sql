@@ -13,9 +13,9 @@ INSERT INTO team (name,game,game_key) VALUES ('롯데 자이언츠',3,0);
 INSERT INTO team (name,game,game_key) VALUES ('코쿼 호눅스',3,1);
 
 ------- INNING -------
-INSERT INTO inning (home_name,away_name,game,game_key) VALUES ('기아 타이거즈','삼성 라이온즈',1,0);
-INSERT INTO inning (home_name,away_name,game,game_key) VALUES ('한화 이글스','NC 다이노스',2,0);
-INSERT INTO inning (home_name,away_name,game,game_key) VALUES ('롯데 자이언츠','코쿼 호눅스',3,0);
+INSERT INTO inning (away_name,home_name,game,game_key) VALUES ('기아 타이거즈','삼성 라이온즈',1,0);
+INSERT INTO inning (away_name,home_name,game,game_key) VALUES ('한화 이글스','NC 다이노스',2,0);
+INSERT INTO inning (away_name,home_name,game,game_key) VALUES ('롯데 자이언츠','코쿼 호눅스',3,0);
 -- INSERT INTO inning (game,game_key) VALUES (1,5);
 -- INSERT INTO inning (game,game_key) VALUES (1,6);
 -- INSERT INTO inning (game,game_key) VALUES (1,7);
