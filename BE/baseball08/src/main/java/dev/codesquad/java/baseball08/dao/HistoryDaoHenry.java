@@ -22,9 +22,4 @@ public class HistoryDaoHenry {
         String historySql = "INSERT INTO history (name, line_up, log, team) VALUES (?, ?, ?, ?)";
         jdbcTemplate.update(historySql, new Object[]{currentHitter, lineUp, log, teamId});
     }
-
-    public void saveLog(String hitLog, Long historyId) {
-        String logSql = "INSERT INTO log (hit_log, history) VALUES  (?, ?)";
-        jdbcTemplate.update(logSql, new Object[]{hitLog, historyId});
-    }
 }

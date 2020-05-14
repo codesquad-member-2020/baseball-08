@@ -3,7 +3,6 @@ DROP TABLE IF EXISTS inning;
 DROP TABLE IF EXISTS team;
 DROP TABLE IF EXISTS game;
 DROP TABLE IF EXISTS history;
-DROP TABLE IF EXISTS log;
 
 CREATE TABLE IF NOT EXISTS game
 (
@@ -80,15 +79,5 @@ CREATE TABLE IF NOT EXISTS history
     team_key INT,
     game     INT REFERENCES game (id),
     game_key INT,
-    PRIMARY KEY (id)
-);
-
-CREATE TABLE IF NOT EXISTS log
-(
-    id          INT NOT NULL AUTO_INCREMENT,
-    hit_log     VARCHAR(32),
-
-    history     INT REFERENCES history (id),
-    history_key INT,
     PRIMARY KEY (id)
 );
