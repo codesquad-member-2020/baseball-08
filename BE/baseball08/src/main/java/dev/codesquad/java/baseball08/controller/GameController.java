@@ -44,7 +44,7 @@ public class GameController {
 
     @GetMapping("/pitch/{teamId}")
     public ResponseEntity<HttpStatus> playGame(@PathVariable("teamId") Long teamId) {
-        alex.pitch(teamId);
+        alex.pitch(teamId); // service
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -129,4 +129,12 @@ public class TeamDaoAlex {
                 (rs, rowNum) -> new String[] {rs.getString("current_hitter"),rs.getString("last_hitter")});
     }
 
+    public String findNextHitterNameByLineup(Long teamId, int lineUp) {
+        String sql = "SELECT p.name FROM player p WHERE p.team = ? AND p.line_up = ?";
+        if (lineUp == 9){
+            lineUp = 1;
+        }
+        lineUp++;
+        return jdbcTemplate.queryForObject(sql, new Object[]{teamId,lineUp},(rs, rowNum) -> rs.getString("name"));
+    }
 }

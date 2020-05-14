@@ -58,22 +58,16 @@ public class GameDaoAlex {
     }
 
     public void saveInning(Inning inning) {
-        String sql = "INSERT INTO inning(home_name,away_name,home_score,away_score,strike_count,ball_count,out_count,base_count,game,game_key) " +
-                "VALUES (?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO inning(home_name,away_name,game,game_key) " +
+                "VALUES (?,?,?,?)";
         String[] param = new String[]{"id"};
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(con -> {
             PreparedStatement statement = con.prepareStatement(sql, param);
             statement.setString(1, inning.getHomeName());
             statement.setString(2, inning.getAwayName());
-            statement.setInt(3, inning.getHomeScore());
-            statement.setInt(4, inning.getAwayScore());
-            statement.setInt(5, inning.getStrikeCount());
-            statement.setInt(6, inning.getBallCount());
-            statement.setInt(7, inning.getOutCount());
-            statement.setInt(8, inning.getBaseCount());
-            statement.setLong(9, inning.getGame());
-            statement.setInt(10, inning.getGame_key());
+            statement.setLong(3, inning.getGame());
+            statement.setInt(4, inning.getGame_key());
             return statement;
         }, keyHolder);
     }

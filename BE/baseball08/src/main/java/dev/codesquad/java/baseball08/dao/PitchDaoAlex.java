@@ -2,6 +2,7 @@ package dev.codesquad.java.baseball08.dao;
 
 import dev.codesquad.java.baseball08.dto.dto.PitcherDto;
 import dev.codesquad.java.baseball08.dto.dto.PlayballDto;
+import dev.codesquad.java.baseball08.dto.dto.PlayersDto;
 import dev.codesquad.java.baseball08.entity.Inning;
 import dev.codesquad.java.baseball08.entity.Log;
 import org.slf4j.Logger;
@@ -50,6 +51,16 @@ public class PitchDaoAlex {
         jdbcTemplate.update(gameSql, new Object[]{playballDto.getHomeTotalScore(), playballDto.getAwayTotalScore(), playballDto.getGameId()});
         jdbcTemplate.update(inningSql, new Object[]{playballDto.getHomeScore(), playballDto.getAwayScore(), playballDto.getStrikeCount(),
                 playballDto.getBallCount(), playballDto.getOutCount(), playballDto.getBaseCount(), playballDto.isTopBottom(), playballDto.getInningId()});
+    }
+
+    public void savePlayerResult(PlayersDto playersDto, Long otherTeamId) {
+        String sql = "UPDATE player SET at_bat = ?, hit = ?, out_count = ? WHERE name = ? AND team = ?";
+        jdbcTemplate.update(sql, new Object[]{playersDto.getAtBat(), playersDto.getHit(), playersDto.getOut(), playersDto.getName(), otherTeamId});
+    }
+
+    public void saveTeamInfo(String currentHitter, String lastHitter, int pitches, Long otherTeamId) {
+        String sql = "UPDATE team SET current_hitter = ?,last_hitter = ?,pitches = ? WHERE id = ?";
+        jdbcTemplate.update(sql, new Object[]{currentHitter, lastHitter, pitches, otherTeamId});
     }
 
 }
