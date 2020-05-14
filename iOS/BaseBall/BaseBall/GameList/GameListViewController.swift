@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import Combine
 
-class GameListViewController: UIViewController {
+final class GameListViewController: UIViewController {
     
     // MARK: - IBOutlets
     @IBOutlet weak var gameListTableView: UITableView! {
@@ -18,14 +19,27 @@ class GameListViewController: UIViewController {
     }
     
     // MARK: - Properties
-    let datasource = GameListTableViewDataSource()
+    private let datasource = GameListTableViewDataSource()
+    private var bindings: Set<AnyCancellable> = Set<AnyCancellable>()
     
     // MARK: - Lifecycles
     override func viewDidLoad() {
         super.viewDidLoad()
+        bindViewModelToView()
     }
     
     // MARK: - Methods
+    private func bindViewModelToView() {
+        let viewModelsValueHandler: ([Gameable]) -> Void = { [weak self] _ in
+            guard let self = self else { return }
+            self.gameListTableView.reloadData()
+        }
+        
+        datasource.$games
+            .receive(on: RunLoop.main)
+            .sink(receiveValue: viewModelsValueHandler)
+            .store(in: &bindings)
+    }
 }
 
 // MARK: - UITableView

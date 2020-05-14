@@ -31,7 +31,7 @@ protocol Providing {
     var apiSession: APISessionProviding { get }
     
     func get<T>(_ type: T.Type,
-                path: String) -> AnyPublisher<[T], Error>
+                path: Endpoint.Path) -> AnyPublisher<[T], Error>
         where T: Decodable
 }
 
@@ -40,9 +40,13 @@ struct Provider: Providing {
     // MARK: - Properties
     var apiSession: APISessionProviding
     
+    init(apiSession: APISessionProviding = APISession()) {
+        self.apiSession = apiSession
+    }
+    
     // MARK: - Methods
     func get<T>(_ type: T.Type,
-                path: String) -> AnyPublisher<[T], Error>
+                path: Endpoint.Path) -> AnyPublisher<[T], Error>
         where T : Decodable {
             apiSession
                 .execute(Endpoint(path: path))
