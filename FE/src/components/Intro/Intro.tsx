@@ -52,8 +52,7 @@ const Intro: React.FC<props> = ({history}) => {
   return (
     <StyledDiv>
       <StyledIntroMovie>
-        <audio autoPlay={true} src="http://dev-angelo.dlinkddns.com/movie480.mp3"></audio>
-        <video id="test" muted autoPlay width={600}>
+        <video id="test" muted autoPlay loop width={600}>
           <source src="http://dev-angelo.dlinkddns.com/baseball_08.mp4" type="video/mp4" />
         </video>
       </StyledIntroMovie>
