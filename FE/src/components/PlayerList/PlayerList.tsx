@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components'
 import TeamPlayerList from './publicComponent/TeamPlayerList'
 import fetchRequest from '../../util/fetchRequest'
+import GameData from '../../data/GameData'
+import getCookieData from '../../util/getCookieData'
 
 const slidein = keyframes `
   0% { opacity: 0 }
@@ -13,7 +15,7 @@ const StyledDiv = styled.div`
   width: 1280px;
   height: 720px;
   z-index: 1;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.9);
   animation-duration: 0.7s;
   animation-name: ${slidein};
 `;
@@ -22,7 +24,10 @@ function PlayerList() {
   const [playerList, setPlayerList] = useState<any>(undefined);
 
   useEffect(() => {
-    fetchRequest(process.env.REACT_APP_GAME_PLAYER, "GET")
+    const url = process.env.REACT_APP_GAME_PLAYER;
+    const cvtUrl = url?.replace(`{gameId}`, (GameData.getInstance().getGameId()).toString());
+
+    fetchRequest(cvtUrl, "GET", getCookieData('userId'))
     .then((response) => response.json())
     .then((playerList) => {
       setPlayerList(playerList);

@@ -26,6 +26,8 @@ const RecordArea = styled.div`
   padding-top: 10px;
   padding-bottom: 10px;
   font-size: 24px;
+  border-top: 1px solid gray;
+  border-bottom: 1px solid gray;
 `;
 
 const BatterTitle = styled.p`
@@ -57,6 +59,7 @@ const PlayerArea = styled.div`
   padding-top: 10px;
   padding-bottom: 10px;
   font-size: 24px;
+  border-bottom: 1px solid white;
 `;
 
 const Batter = styled.p`
@@ -129,6 +132,14 @@ const TeamPlayerList: React.FunctionComponent<Props> = function({teamName, playe
           </li>
           ) 
         }
+        <li>
+        <PlayerArea>
+            <Batter>Totals</Batter>
+            <Section>{totalBat}</Section>
+            <Section>{totalHit}</Section>
+            <Section>{totalOut}</Section>
+          </PlayerArea>
+        </li>
       </StyledUL>
     </TeamPlayerListWrap>
   );

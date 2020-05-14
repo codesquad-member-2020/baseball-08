@@ -7,6 +7,7 @@ import fetchRequest from '../../util/fetchRequest'
 import Confetti from 'react-confetti'
 import GameData from '../../data/GameData'
 import { RouteComponentProps, withRouter } from 'react-router-dom';
+import getCookieData from '../../util/getCookieData'
 
 const StyledDiv = styled.div`
   position: relative;
@@ -14,7 +15,7 @@ const StyledDiv = styled.div`
   height: 720px;
   margin: 0 auto;
   background-color: black;
-  background-image: url("http://dev-angelo.dlinkddns.com/select_game.jpg");
+  background-image: url("http://dev-angelo.dlinkddns.com/login.jpg");
   background-size: 100% 100%;
 `;
 
@@ -59,21 +60,25 @@ const SelectGame: React.FC<props> = ({history}) => {
     });
   }, [])
 
-  function requestGameAvailable(index: number, teamId: number, isAwayTeam: boolean) {
+  function requestGameAvailable(gameId: number, teamId: number, isAwayTeam: boolean, teamName: string) {
     const url = process.env.REACT_APP_GAME_AVAILABLE;
-    const cvtUrl = url?.replace(`{gameId}`, `${index}`).replace(`{teamId}`, `${teamId}`);
+    const cvtUrl = url?.replace(`{gameId}`, `${gameId}`).replace(`{teamId}`, `${teamId}`);
 
-    fetchRequest(cvtUrl, "GET")
+    console.log(cvtUrl);
+
+    fetchRequest(cvtUrl, "GET", getCookieData('userId'))
     .then((response) => response.json())
     .then((result) => {
       if (result.available) {
         GameData.getInstance().setIsAwayTeam(isAwayTeam);
         GameData.getInstance().setTeamId(teamId);
+        GameData.getInstance().setGameId(gameId);
+        GameData.getInstance().setTeamName(teamName);
         history.push('/gameplay');
       }
       else {
         setTimeout(() => {
-          requestGameAvailable(index, teamId, isAwayTeam);
+          requestGameAvailable(gameId, teamId, isAwayTeam, teamName);
         }, 1000);
       }
     })
@@ -82,16 +87,18 @@ const SelectGame: React.FC<props> = ({history}) => {
     });
   }
 
-  function onTeamClick(index: number, teamId: number, isAwayTeam: boolean) {
+  function onTeamClick(gameId: number, teamId: number, isAwayTeam: boolean, teamName: string) {
     const url = process.env.REACT_APP_GAME_SELECT;
-    const cvtUrl = url?.replace(`{gameId}`, `${index}`).replace(`{teamId}`, `${teamId}`);
+    const cvtUrl = url?.replace(`{gameId}`, `${gameId}`).replace(`{teamId}`, `${teamId}`);
 
-    fetchRequest(cvtUrl, "GET")
+    console.log(cvtUrl);
+
+    fetchRequest(cvtUrl, "GET", getCookieData('userId'))
     .then((response) => response.json())
     .then((result) => {
       if (result.available) {
         setWaiting(true);
-        requestGameAvailable(index, teamId, isAwayTeam);
+        requestGameAvailable(gameId, teamId, isAwayTeam, teamName);
       }
       else {
         alert("다른사람에 의해 선택된 팀입니다.");
@@ -115,7 +122,7 @@ const SelectGame: React.FC<props> = ({history}) => {
       <GameTitle title="Baseball Game Service"></GameTitle>
       <SelectGamePhrase title="참가할 게임을 선택하세요"></SelectGamePhrase>
       {games !== undefined && games.map((game:any, index:number) => 
-        <Versus key={index} index={game.game} awayTeamName={game.away} homeTeamName={game.home} 
+        <Versus key={index} gameId={game.game} awayTeamName={game.away} homeTeamName={game.home} 
                 awayTeamAvailable={game.awayUser === "none"} homeTeamAvailable={game.homeUser === "none"}
                 awayTeamId={game.awayId} homeTeamId={game.homeId}
                 onTeamClick={onTeamClick}>

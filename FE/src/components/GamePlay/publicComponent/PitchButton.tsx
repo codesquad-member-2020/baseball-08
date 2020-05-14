@@ -1,5 +1,10 @@
 import React from 'react';
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
+
+const PitchButtonAnimation = keyframes `
+  0% { background-color: lightgray; }
+  100% { background-color: gray; }
+`;
 
 const StyledPitchButton = styled.button`
   position: absolute;
@@ -15,13 +20,20 @@ const StyledPitchButton = styled.button`
   border-radius: 50px;
 
   &:hover {
+    color: #cc0000;
     cursor: pointer;
-    background-color: gray;
   }
 
   &:active {
-    background-color: gray;
     color: #cc0000;
+    background-color: gray;
+    animation-duration: 0.2s;
+    animation-name: ${PitchButtonAnimation};
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
   }
 `;
 

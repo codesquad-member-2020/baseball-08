@@ -3,6 +3,8 @@ import styled, { keyframes } from 'styled-components'
 import Inning from './publicComponent/Inning'
 import TeamScore from './publicComponent/TeamScore'
 import fetchRequest from '../../util/fetchRequest'
+import GameData from '../../data/GameData'
+import getCookieData from '../../util/getCookieData'
 
 const slidein = keyframes `
   0% { opacity: 0 }
@@ -35,7 +37,10 @@ function ScoreBoard() {
   const [scoreList, setScoreList] = useState<any>(undefined);
 
   useEffect(() => {
-    fetchRequest(process.env.REACT_APP_GAME_SCORE, "GET")
+    const url = process.env.REACT_APP_GAME_SCORE;
+    const cvtUrl = url?.replace(`{gameId}`, (GameData.getInstance().getGameId()).toString());
+
+    fetchRequest(cvtUrl, "GET", getCookieData('userId'))
     .then((response) => response.json())
     .then((scoreList) => {
       setScoreList(scoreList);
@@ -50,9 +55,16 @@ function ScoreBoard() {
     <StyledDiv className="ScoreBoard">
       <ScoreBoardWrap>
         <Inning />
-        {scoreList && scoreList.map((scoreInformation: any, index: any) => (
-          <TeamScore key={index} teamName={scoreInformation.team} scores={scoreInformation.score} totalScore={scoreInformation.totalScore}/>
-        ))}
+        {scoreList &&
+          scoreList.map((scoreInformation: any, index: any) => (
+            <TeamScore
+              key={index}
+              teamName={scoreInformation.team}
+              scores={scoreInformation.score}
+              totalScore={scoreInformation.totalScore}
+              isSelectedTeam={GameData.getInstance().getTeamName() === scoreInformation.team}
+            />
+          ))}
       </ScoreBoardWrap>
     </StyledDiv>
   );

@@ -6,7 +6,7 @@ const StyledDiv = styled.div`
   top: 140px;
   width: 1000px;
   height: 580px;
-  background-image: url("http://dev-angelo.dlinkddns.com/baseball_bg.webp");
+  background-image: url("http://dev-angelo.dlinkddns.com/baseball_bg.jpg");
   background-size: 100% 100%;
   border-right: 2px solid white;
   z-index: 0;

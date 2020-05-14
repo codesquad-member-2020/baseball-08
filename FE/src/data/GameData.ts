@@ -4,6 +4,8 @@ class GameData {
 
   private _isAwayTeam: boolean = false;
   private _teamId: number = -1;
+  private _gameId: number = -1;
+  private _teamName: string = '';
 
   constructor() {
       if(GameData._instance){
@@ -35,6 +37,26 @@ class GameData {
   public getTeamId(): number
   {
       return this._teamId;
+  }
+
+  public setGameId(gameId: number): void
+  {
+      this._gameId = gameId;
+  }
+
+  public getGameId(): number
+  {
+      return this._gameId;
+  }
+
+  public setTeamName(teamName: string): void
+  {
+    this._teamName = teamName;
+  }
+
+  public getTeamName(): string
+  {
+      return this._teamName;
   }
 }
 
