@@ -1,6 +1,7 @@
 package dev.codesquad.java.baseball08.service.alex;
 
 import dev.codesquad.java.baseball08.dao.GameDaoAlex;
+import dev.codesquad.java.baseball08.dao.HistoryDaoHenry;
 import dev.codesquad.java.baseball08.dao.PitchDaoAlex;
 import dev.codesquad.java.baseball08.dao.TeamDaoAlex;
 import dev.codesquad.java.baseball08.dto.dto.PitcherDto;
@@ -11,9 +12,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
+@Transactional
 public class Alex {
     private Logger logger = LoggerFactory.getLogger(Alex.class);
 
@@ -26,6 +30,9 @@ public class Alex {
     @Autowired
     private PitchDaoAlex pitchDaoAlex;
 
+    @Autowired
+    private HistoryDaoHenry historyDaoHenry;
+
     public boolean pitch(Long teamId) {
         Long gameId = gameDaoAlex.getGameIdByTeamId(teamId);
         PlayballDto playballDto = pitchDaoAlex.findDataToPlayGame(gameId);
@@ -34,7 +41,6 @@ public class Alex {
         if (!playballDto.isTopBottom()) {
             return topInning(playballDto, requestTeamName, teamId);
         }
-
         return bottomInning(playballDto, requestTeamName, teamId);
     }
 
@@ -78,6 +84,9 @@ public class Alex {
         int away_score = playballDto.getAwayScore();
         int away_total_score = playballDto.getAwayTotalScore();
         boolean topBottom = playballDto.isTopBottom();
+
+        // 로그 기록
+        saveHistory(otherTeamId,currentHitter,currentHitterInfo.getLineUp(),pitcheResult);
 
         switch (pitcheResult) {
             case "S":
@@ -128,6 +137,7 @@ public class Alex {
             baseCount = 0;
             topBottom = true;
             playerChange = true;
+            pitchDaoAlex.updateInningInfo(topBottom,playballDto.getGameId());
             logger.info("경기 종료!!!!!!!!!!!!!!!!!!!!!");
             logger.info("경기 종료!!!!!!!!!!!!!!!!!!!!!");
         }
@@ -201,6 +211,9 @@ public class Alex {
         int home_total_score = playballDto.getHomeTotalScore();
         boolean topBottom = playballDto.isTopBottom();
 
+        // 로그 기록
+        saveHistory(otherTeamId,currentHitter,currentHitterInfo.getLineUp(),pitcheResult);
+
         switch (pitcheResult) {
             case "S":
                 logger.info("스트라이크");
@@ -250,9 +263,13 @@ public class Alex {
             baseCount = 0;
             playerChange = true;
             topBottom = false;
+            pitchDaoAlex.updateInningInfo(topBottom,playballDto.getGameId());
             createInning(playballDto);
             logger.info("경기 종료!!!!!!!!!!!!!!!!!!!!!");
             logger.info("경기 종료!!!!!!!!!!!!!!!!!!!!!");
+
+            // 이닝 변경 시 로그 초기화
+            historyDaoHenry.initHistory();
         }
 
         logger.info("strike count : {}", strikeCount);
@@ -306,9 +323,14 @@ public class Alex {
     private void createInning(PlayballDto playballDto) {
         Long gameId = playballDto.getGameId();
         Integer newGameKey = gameDaoAlex.getGameKeyForInning(gameId);
+        gameDaoAlex.updateCurrentInning(gameId, newGameKey + 1);
         String homeName = playballDto.getHomeName();
         String awayName = playballDto.getAwayName();
         Inning inning = Inning.builder().game(gameId).game_key(newGameKey).homeName(homeName).awayName(awayName).build();
         gameDaoAlex.saveInning(inning);
+    }
+
+    private void saveHistory(Long teamId, String hitter, Integer lineUp, String log) {
+        historyDaoHenry.saveHistory(teamId, hitter, lineUp, log);
     }
 }

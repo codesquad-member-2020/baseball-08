@@ -28,7 +28,7 @@ public class PitchDaoAlex {
 
     public PlayballDto findDataToPlayGame(Long gameId) {
         String sql = "SELECT g.id AS game_id , g.home_total_score AS ht_score , g.away_total_score AS at_score , " +
-                "i.id AS inning_id , i.home_score as h_score , i.away_score as a_score , i.strike_count , i.ball_count , i.out_count , i.base_count , i.top_bottom , i.home_name , i.away_name , " +
+                "i.id AS inning_id , i.home_score as h_score , i.away_score as a_score , i.strike_count , i.ball_count , i.out_count , i.base_count , i.top_bottom , i.home_name , i.away_name " +
                 "from game g left join inning i on g.id = i.game where i.game_key = (SELECT MAX(game_key) FROM inning) AND g.id = ?";
 
         return jdbcTemplate.queryForObject(sql, new Object[]{gameId},
@@ -65,4 +65,14 @@ public class PitchDaoAlex {
         jdbcTemplate.update(pitchesSql, new Object[]{pitches,teamId});
     }
 
+    public void updateInningInfo(boolean topBottom, Long gameId) {
+        String turn;
+        if (topBottom) {
+            turn = "말";
+        } else {
+            turn = "초";
+        }
+        String sql = "UPDATE game SET turn = ? WHERE id = ?";
+        jdbcTemplate.update(sql,new Object[]{turn,gameId});
+    }
 }

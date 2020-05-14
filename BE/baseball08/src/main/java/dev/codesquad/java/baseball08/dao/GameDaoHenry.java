@@ -30,8 +30,9 @@ public class GameDaoHenry {
 
     // 시작 화면. 전체 게임 리스트 및 팀 가져오기
     public List<GameListResponse> findAllGame() {
-        String sql = "SELECT g.id AS game_id, GROUP_CONCAT(t.id) AS team_id," +
-                " GROUP_CONCAT(t.name) AS team_name, GROUP_CONCAT(COALESCE(t.user_id, 'none')) AS team_user" +
+        String sql = "SELECT g.id AS game_id, GROUP_CONCAT(t.id ORDER BY t.game_key) AS team_id," +
+                " GROUP_CONCAT(t.name ORDER BY t.game_key) AS team_name," +
+                " GROUP_CONCAT(COALESCE(t.user_id, 'none') ORDER BY t.game_key) AS team_user" +
                 " FROM game g" +
                 " LEFT JOIN team t ON g.id = t.game" +
                 " GROUP BY g.id";
@@ -163,10 +164,10 @@ public class GameDaoHenry {
                 " GROUP_CONCAT(DISTINCT t.user_id) AS users," +
                 " GROUP_CONCAT(DISTINCT g.current_inning) AS current_inning," +
                 " GROUP_CONCAT(DISTINCT g.turn) AS turn," +
-                " GROUP_CONCAT(DISTINCT i.strike_count) AS strike_count," +
-                " GROUP_CONCAT(DISTINCT i.ball_count) AS ball_count," +
-                " GROUP_CONCAT(DISTINCT i.out_count) AS out_count," +
-                " GROUP_CONCAT(DISTINCT i.base_count) AS base_count" +
+                " MAX (i.strike_count) AS strike_count," +
+                " MAX (i.ball_count) AS ball_count," +
+                " MAX (i.out_count) AS out_count," +
+                " MAX (i.base_count) AS base_count" +
                 " FROM game g" +
                 " INNER JOIN inning i ON g.id = i.game" +
                 " INNER JOIN team t ON g.id = t.game" +
