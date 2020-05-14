@@ -110,7 +110,6 @@ public class GameDaoHenry {
 
         return jdbcTemplate.queryForObject(sql, new Object[] {id, teamId}, (rs, rowNum) ->
                 GamePlayResponse.builder()
-                        .user(rs.getString("user_id"))
                         .pitcher(PitcherDto.builder()
                                 .name(rs.getString("pitcher"))
                                 .pitches(rs.getInt("pitches"))
