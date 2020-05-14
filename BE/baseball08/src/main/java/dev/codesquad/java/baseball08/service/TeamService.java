@@ -14,12 +14,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class TeamService {
     private static final Logger logger = LoggerFactory.getLogger(TeamService.class);
 
@@ -77,6 +79,7 @@ public class TeamService {
         return teamDaoHenry.findHistoriesById(id);
     }
 
+    @Transactional
     public void updateUserId(Long teamId, String userId) {
         teamDaoHenry.updateUserId(teamId, userId);
     }
