@@ -126,9 +126,9 @@ public class GameDaoHenry {
 
     // teamId로 현재 타자 정보 가져오기
     public HitterDto findHitterById(Long teamId) {
-        String sql = "SELECT DISTINCT t.hitter AS hitter, p.at_bat AS at_bat, p.hit AS hit" +
+        String sql = "SELECT DISTINCT t.current_hitter AS hitter, p.at_bat AS at_bat, p.hit AS hit" +
                 " FROM team t" +
-                " INNER JOIN player p ON t.id = p.team" +
+                " INNER JOIN player p ON t.id = p.team AND t.current_hitter = p.name" +
                 " WHERE t.id = ?";
 
         return jdbcTemplate.queryForObject(sql, new Object[] {teamId}, (rs, rowNum) ->
@@ -142,7 +142,7 @@ public class GameDaoHenry {
 
     // teamId로 현재 투수 정보 가져오기
     public PitcherDto findPitcherById(Long teamId) {
-        String sql = "SELECT DISTINCT t.pitcher AS pitcher, p.pitches AS pitches" +
+        String sql = "SELECT DISTINCT t.pitcher AS pitcher, t.pitches AS pitches" +
                 " FROM team t" +
                 " INNER JOIN player p ON t.id = p.team" +
                 " WHERE t.id = ?";

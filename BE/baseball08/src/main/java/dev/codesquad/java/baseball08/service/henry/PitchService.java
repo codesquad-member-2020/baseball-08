@@ -2,9 +2,6 @@ package dev.codesquad.java.baseball08.service.henry;
 
 import dev.codesquad.java.baseball08.dao.GameDaoHenry;
 import dev.codesquad.java.baseball08.dao.TeamDaoHenry;
-import dev.codesquad.java.baseball08.dao.crud.InningRepository;
-import dev.codesquad.java.baseball08.entity.Inning;
-import dev.codesquad.java.baseball08.service.GameService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +21,6 @@ public class PitchService {
     @Autowired
     private TeamDaoHenry teamDaoHenry;
 
-    @Autowired
-    private InningRepository inningRepository;
-
     private int strike = 0;
     private int ball = 0;
     private int out = 0;
@@ -35,9 +29,6 @@ public class PitchService {
     private int lineUp = 1;
 
     public void pitch(Long teamId) {
-//        Inning inning = inningRepository.findById(teamId).orElseThrow(null);
-
-        // 무작위로 pitch 결과를 가져오고, 결과에 따라 로직 실행
         String pitchResult = getPitchResult();
         addCount(pitchResult);
         logger.info(">>> strike: {}, ball: {}, out: {}, base: {}, hit: {}, lineUp: {}", strike, ball, out, base, hit, lineUp);
