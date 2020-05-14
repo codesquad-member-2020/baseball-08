@@ -8,9 +8,10 @@
 
 import UIKit
 
-class GameListTableViewCell: UITableViewCell {
+final class GameListTableViewCell: UITableViewCell {
     
     // MARK: - IBOutlets
+    @IBOutlet weak var gameNumberLabel: UILabel!
     @IBOutlet weak var homeTeamLabel: UILabel!
     @IBOutlet weak var awayTeamLabel: UILabel!
     
@@ -19,4 +20,9 @@ class GameListTableViewCell: UITableViewCell {
     static let height: CGFloat = 110
     
     // MARK: - Methods
+    func configure(_ game: Gameable) {
+        gameNumberLabel.text = "Game \(game.game)"
+        homeTeamLabel.text = game.home
+        awayTeamLabel.text = game.away
+    }
 }
