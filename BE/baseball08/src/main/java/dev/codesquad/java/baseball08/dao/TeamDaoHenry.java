@@ -138,6 +138,11 @@ public class TeamDaoHenry {
                         .build()
         );
     }
+
+    public void updateUserId(Long id, String userId) {
+        String sql = "UPDATE team t SET user_id = ? WHERE t.id = ?";
+        this.jdbcTemplate.update(sql, new Object[] {userId, id});
+    }
 }
 
 

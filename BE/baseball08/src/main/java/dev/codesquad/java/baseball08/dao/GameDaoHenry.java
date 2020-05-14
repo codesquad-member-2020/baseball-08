@@ -110,7 +110,6 @@ public class GameDaoHenry {
 
         return jdbcTemplate.queryForObject(sql, new Object[] {id, teamId}, (rs, rowNum) ->
                 GamePlayResponse.builder()
-                        .user(rs.getString("user_id"))
                         .pitcher(PitcherDto.builder()
                                 .name(rs.getString("pitcher"))
                                 .pitches(rs.getInt("pitches"))
@@ -127,9 +126,9 @@ public class GameDaoHenry {
 
     // teamId로 현재 타자 정보 가져오기
     public HitterDto findHitterById(Long teamId) {
-        String sql = "SELECT DISTINCT t.hitter AS hitter, p.at_bat AS at_bat, p.hit AS hit" +
+        String sql = "SELECT DISTINCT t.current_hitter AS hitter, p.at_bat AS at_bat, p.hit AS hit" +
                 " FROM team t" +
-                " INNER JOIN player p ON t.id = p.team" +
+                " INNER JOIN player p ON t.id = p.team AND t.current_hitter = p.name" +
                 " WHERE t.id = ?";
 
         return jdbcTemplate.queryForObject(sql, new Object[] {teamId}, (rs, rowNum) ->
@@ -143,7 +142,7 @@ public class GameDaoHenry {
 
     // teamId로 현재 투수 정보 가져오기
     public PitcherDto findPitcherById(Long teamId) {
-        String sql = "SELECT DISTINCT t.pitcher AS pitcher, p.pitches AS pitches" +
+        String sql = "SELECT DISTINCT t.pitcher AS pitcher, t.pitches AS pitches" +
                 " FROM team t" +
                 " INNER JOIN player p ON t.id = p.team" +
                 " WHERE t.id = ?";
@@ -209,5 +208,10 @@ public class GameDaoHenry {
                         .turn(rs.getString("turn"))
                         .build()
                 );
+    }
+
+    public void updateOnGame(Long gameId, boolean status) {
+        String sql = "UPDATE game g SET on_game = ? WHERE g.id = ?";
+        this.jdbcTemplate.update(sql, new Object[] {status, gameId});
     }
 }

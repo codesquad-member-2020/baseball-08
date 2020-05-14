@@ -17,7 +17,7 @@ public class Player {
     //    record
     private Integer atBat;
     private Integer hit;
-    private Integer out;
+    private Integer outCount;
     private Integer pitches;
     private Double average;
 }

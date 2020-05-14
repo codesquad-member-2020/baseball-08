@@ -14,11 +14,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class GameService {
     private Logger logger = LoggerFactory.getLogger(GameService.class);
 
@@ -32,7 +34,7 @@ public class GameService {
     private TeamService teamService;
 
     public AvailableDto isGamePossible(Long game) {
-        return new AvailableDto(!gameDaoAlex.getGameUserId(game).contains(null));
+        return new AvailableDto(!gameDaoAlex.getUserIdsByGameId(game).contains(null));
     }
 
     public void saveNewInning() {
@@ -50,7 +52,7 @@ public class GameService {
 
     public List<TeamScoreResponse> getGameScore(Long gameId) {
         List<TeamScoreResponse> gameScoreResponse = new ArrayList<>();
-        List<Long> teamIds = gameDaoAlex.getGameTeamId(gameId);
+        List<Long> teamIds = gameDaoAlex.getTeamIdsByGameId(gameId);
         gameScoreResponse.add(teamService.getAwayTeamScore(teamIds.get(0)));
         gameScoreResponse.add(teamService.getHomeTeamScore(teamIds.get(1)));
         return gameScoreResponse;
@@ -92,4 +94,7 @@ public class GameService {
         return gameDaoHenry.findAllGame();
     }
 
+    public void updateGameStatus(Long gameId, boolean status) {
+        gameDaoHenry.updateOnGame(gameId, status);
+    }
 }

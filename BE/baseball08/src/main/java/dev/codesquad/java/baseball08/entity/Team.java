@@ -14,9 +14,12 @@ public class Team {
     @Id
     private Long id;
 
+    private String userId;
     private String name;
     private String pitcher;
-    private String hitter;
+    private Integer pitches;
+    private String currentHitter;
+    private String lastHitter;
 
     private List<Player> players;
     private List<History> histories;

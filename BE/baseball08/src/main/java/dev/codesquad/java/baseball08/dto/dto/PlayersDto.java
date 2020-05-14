@@ -3,8 +3,12 @@ package dev.codesquad.java.baseball08.dto.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
+@Setter
+@ToString
 public class PlayersDto {
     private String name;
     private Integer atBat;

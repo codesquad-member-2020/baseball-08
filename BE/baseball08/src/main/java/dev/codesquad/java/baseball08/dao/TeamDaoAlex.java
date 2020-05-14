@@ -68,14 +68,27 @@ public class TeamDaoAlex {
     // 기존의 팀별 선수 데이터를 불러오는 메소드
     // 팀 id 를 입력받아서 해당 팀의 선수들을 순서대로 조회하도록 구현
     public List<PlayersDto> findPlayersByTeamId(Long id) {
-        String sql = "SELECT p.name,p.at_bat,p.hit,p.out,p.average FROM team t INNER JOIN player p ON t.id = p.team WHERE t.id = ?";
+        String sql = "SELECT p.name,p.at_bat,p.hit,p.out_count,p.average FROM team t INNER JOIN player p ON t.id = p.team WHERE t.id = ?";
         return jdbcTemplate.query(sql, new Object[]{id}, (rs, rowNum) ->
                 PlayersDto.builder()
                         .name(rs.getString("name"))
                         .atBat(rs.getInt("at_bat"))
                         .hit(rs.getInt("hit"))
-                        .out(rs.getInt("out"))
+                        .out(rs.getInt("out_count"))
                         .average(rs.getDouble("average"))
+                        .build());
+    }
+
+    public PlayersDto findPlayerByPlayerName(String playerName) {
+        String sql = "SELECT p.name,p.at_bat,p.hit,p.out_count,p.average,p.line_up FROM player p WHERE p.name = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{playerName}, (rs, rowNum) ->
+                PlayersDto.builder()
+                        .name(rs.getString("name"))
+                        .atBat(rs.getInt("at_bat"))
+                        .hit(rs.getInt("hit"))
+                        .out(rs.getInt("out_count"))
+                        .average(rs.getDouble("average"))
+                        .lineUp(rs.getInt("line_up"))
                         .build());
     }
 
@@ -93,7 +106,7 @@ public class TeamDaoAlex {
     }
 
     // 팀 id를 입력받아 상대편 팀의 id를 가져오는 메소드
-    public Long findOppositeTeamByTeamId(Long id) {
+    public Long findOppositeTeamIdByMyTeamId(Long id) {
         String sql = "SELECT t.id FROM team t WHERE t.game = (SELECT t.game FROM team t WHERE t.id = ?) AND t.id != ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{id, id}, (rs, rowNum) -> rs.getLong("id"));
     }
@@ -104,14 +117,24 @@ public class TeamDaoAlex {
                 (rs, rowNum) -> rs.getString("name"));
     }
 
-    // 팀 id를 입력받아 해당 팀을 선택한 userId를 가져오는 메소드, 없으면 null이 온다.
-    public String findUserIdByTeamId(Long id) {
-        return jdbcTemplate.queryForObject("SELECT t.user_id FROM team t WHERE t.id = ?", new Object[]{id},
-                (rs, rowNum) -> rs.getString("user_id"));
-    }
-
+    // 팀 id, 게임 id를 입력받아 해당 팀의 userID를 가져오는 메소드
     public String findUserIdByGameIdTeamId(Long game, Long id) {
         return jdbcTemplate.queryForObject("SELECT t.user_id FROM team t WHERE t.game = ? AND t.id = ?", new Object[]{game, id},
                 (rs, rowNum) -> rs.getString("user_id"));
+    }
+
+    public String[] findHitterByTeamId(Long teamId) {
+        String sql = "SELECT t.current_hitter , t.last_hitter FROM team t WHERE t.id = ?";
+        return jdbcTemplate.queryForObject(sql,new Object[]{teamId},
+                (rs, rowNum) -> new String[] {rs.getString("current_hitter"),rs.getString("last_hitter")});
+    }
+
+    public String findNextHitterNameByLineup(Long teamId, int lineUp) {
+        String sql = "SELECT p.name FROM player p WHERE p.team = ? AND p.line_up = ?";
+        if (lineUp == 9){
+            lineUp = 0;
+        }
+        lineUp++;
+        return jdbcTemplate.queryForObject(sql, new Object[]{teamId,lineUp},(rs, rowNum) -> rs.getString("name"));
     }
 }

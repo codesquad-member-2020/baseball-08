@@ -14,12 +14,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class TeamService {
     private static final Logger logger = LoggerFactory.getLogger(TeamService.class);
 
@@ -33,7 +35,7 @@ public class TeamService {
     private GameDaoAlex gameDaoAlex;
 
     public List<PlayersResponse> teamPlayerInfo(Long gameid) {
-        List<Long> teamIds = gameDaoAlex.getGameTeamId(gameid);
+        List<Long> teamIds = gameDaoAlex.getTeamIdsByGameId(gameid);
         List<PlayersResponse> playersResponses = new ArrayList<>();
         playersResponses.add(teamDaoAlex.findTeamPlayerInfo(teamIds.get(0)));
         playersResponses.add(teamDaoAlex.findTeamPlayerInfo(teamIds.get(1)));
@@ -56,11 +58,12 @@ public class TeamService {
         return new PlayersResponse(playerInfoDto);
     }
 
-    public AvailabilityResponse isTeamAvailable(Long teamId) {
-        String userId = teamDaoHenry.findUserById(teamId);
-        if (userId != null) {
+    public AvailabilityResponse isTeamAvailable(Long teamId, String userId) {
+        String userIdAtTeam = teamDaoHenry.findUserById(teamId);
+        if (userIdAtTeam != null) {
             return new AvailabilityResponse(false);
         }
+        updateUserId(teamId, userId);
         return new AvailabilityResponse(true);
     }
 
@@ -74,5 +77,10 @@ public class TeamService {
 
     public List<PlayerLogDto> getPlayerLog(Long id) {
         return teamDaoHenry.findHistoriesById(id);
+    }
+
+    @Transactional
+    public void updateUserId(Long teamId, String userId) {
+        teamDaoHenry.updateUserId(teamId, userId);
     }
 }
