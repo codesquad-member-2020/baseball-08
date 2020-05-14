@@ -58,9 +58,11 @@ public class PitchDaoAlex {
         jdbcTemplate.update(sql, new Object[]{playersDto.getAtBat(), playersDto.getHit(), playersDto.getOut(), playersDto.getName(), otherTeamId});
     }
 
-    public void saveTeamInfo(String currentHitter, String lastHitter, int pitches, Long otherTeamId) {
-        String sql = "UPDATE team SET current_hitter = ?,last_hitter = ?,pitches = ? WHERE id = ?";
-        jdbcTemplate.update(sql, new Object[]{currentHitter, lastHitter, pitches, otherTeamId});
+    public void saveTeamInfo(String currentHitter, String lastHitter, int pitches, Long otherTeamId, Long teamId) {
+        String sql = "UPDATE team SET current_hitter = ?,last_hitter = ? WHERE id = ?";
+        String pitchesSql = "UPDATE team SET pitches = ? WHERE id = ?";
+        jdbcTemplate.update(sql, new Object[]{currentHitter, lastHitter, otherTeamId});
+        jdbcTemplate.update(pitchesSql, new Object[]{pitches,teamId});
     }
 
 }

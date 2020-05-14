@@ -46,6 +46,8 @@ public class Alex {
         logger.info(" 공 한번 던지기 시작!!!!!!!");
         Long otherTeamId = teamDaoAlex.findOppositeTeamIdByMyTeamId(teamId);
         PitcherDto currentPitcher = pitchDaoAlex.findPitcherByTeamId(teamId);
+        logger.info("현재 투수 : {}",currentPitcher.getName());
+        logger.info("현재 투수 투구수 : {}",currentPitcher.getPitches());
         String currentHitter = teamDaoAlex.findHitterByTeamId(otherTeamId)[0];
         String lastHitter = teamDaoAlex.findHitterByTeamId(otherTeamId)[1];
         PlayersDto currentHitterInfo = teamDaoAlex.findPlayerByPlayerName(currentHitter);
@@ -53,11 +55,6 @@ public class Alex {
 
         logger.info("현재 타자 = {}",currentHitter);
         logger.info("지난 타자 = {}",lastHitter);
-        if (lastHitter == null) {
-            lastHitter = currentHitter;
-            int atBat = currentHitterInfo.getAtBat();
-            currentHitterInfo.setAtBat(atBat + 1);
-        }
 
         if (!currentHitter.equals(lastHitter)) {
             int atBat = currentHitterInfo.getAtBat();
@@ -81,6 +78,7 @@ public class Alex {
         int away_score = playballDto.getAwayScore();
         int away_total_score = playballDto.getAwayTotalScore();
         boolean topBottom = playballDto.isTopBottom();
+
         switch (pitcheResult) {
             case "S":
                 logger.info("스트라이크");
@@ -139,7 +137,7 @@ public class Alex {
         logger.info("out count : {}", outCount);
         logger.info("base count : {}", baseCount);
         logger.info("away_score : {}", away_score);
-        logger.info("pitches : {}",pitches);
+        logger.info("pitches : {}",currentPitcher.getPitches());
         logger.info("away_total_score : {}", away_total_score);
         logger.info("현재 타자 결과 값 : {}",currentHitterInfo);
 
@@ -151,14 +149,14 @@ public class Alex {
         playballDto.setAwayTotalScore(away_total_score);
         playballDto.setTopBottom(topBottom);
 
+        lastHitter = currentHitter;
         if (playerChange) {
-            lastHitter = currentHitter;
-            currentHitter = teamDaoAlex.findNextHitterNameByLineup(teamId,currentHitterInfo.getLineUp());
+            currentHitter = teamDaoAlex.findNextHitterNameByLineup(otherTeamId,currentHitterInfo.getLineUp());
         }
 
         pitchDaoAlex.savePitchResult(playballDto);
         pitchDaoAlex.savePlayerResult(currentHitterInfo,otherTeamId);
-        pitchDaoAlex.saveTeamInfo(currentHitter,lastHitter,pitches,otherTeamId);
+        pitchDaoAlex.saveTeamInfo(currentHitter,lastHitter,currentPitcher.getPitches(),otherTeamId,teamId);
         logger.info("--------------------------------------------------------");
         return true;
     }
@@ -179,12 +177,6 @@ public class Alex {
 
         logger.info("현재 타자 = {}",currentHitter);
         logger.info("지난 타자 = {}",lastHitter);
-
-        if (lastHitter == null) {
-            lastHitter = currentHitter;
-            int atBat = currentHitterInfo.getAtBat();
-            currentHitterInfo.setAtBat(atBat + 1);
-        }
 
         if (!currentHitter.equals(lastHitter)) {
             int atBat = currentHitterInfo.getAtBat();
@@ -268,7 +260,7 @@ public class Alex {
         logger.info("out count : {}", outCount);
         logger.info("base count : {}", baseCount);
         logger.info("home_score : {}", home_score);
-        logger.info("pitches : {}",pitches);
+        logger.info("pitches : {}",currentPitcher.getPitches());
         logger.info("home_total_score : {}", home_total_score);
         logger.info("현재 타자 결과 값 : {}",currentHitterInfo);
 
@@ -280,14 +272,14 @@ public class Alex {
         playballDto.setHomeTotalScore(home_total_score);
         playballDto.setTopBottom(topBottom);
 
+        lastHitter = currentHitter;
         if (playerChange) {
-            lastHitter = currentHitter;
-            currentHitter = teamDaoAlex.findNextHitterNameByLineup(teamId,currentHitterInfo.getLineUp());
+            currentHitter = teamDaoAlex.findNextHitterNameByLineup(otherTeamId,currentHitterInfo.getLineUp());
         }
 
         pitchDaoAlex.savePitchResult(playballDto);
         pitchDaoAlex.savePlayerResult(currentHitterInfo,otherTeamId);
-        pitchDaoAlex.saveTeamInfo(currentHitter,lastHitter,pitches,otherTeamId);
+        pitchDaoAlex.saveTeamInfo(currentHitter,lastHitter,currentPitcher.getPitches(),otherTeamId,teamId);
         logger.info("--------------------------------------------------------");
 
         return true;
