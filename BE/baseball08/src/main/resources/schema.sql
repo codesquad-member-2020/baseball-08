@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS log;
 CREATE TABLE IF NOT EXISTS game
 (
     id               INT NOT NULL AUTO_INCREMENT,
-    on_game          BOOLEAN     DEFAULT (false),
+    on_game          BOOLEAN     DEFAULT false,
     home_total_score INT         DEFAULT 0,
     away_total_score INT         DEFAULT 0,
     current_inning   INT         DEFAULT 0,
@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS inning
 
     home_score   INT     DEFAULT 0,
     away_score   INT     DEFAULT 0,
+
     strike_count INT     DEFAULT 0,
     ball_count   INT     DEFAULT 0,
     out_count    INT     DEFAULT 0,

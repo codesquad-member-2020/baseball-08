@@ -8,6 +8,8 @@ import lombok.ToString;
 @ToString
 public class GameListResponse {
     private Integer game;
+    private Long awayId;
+    private Long homeId;
     private String away;
     private String home;
     private String awayUser;
@@ -16,9 +18,11 @@ public class GameListResponse {
     public GameListResponse() {}
 
     @Builder
-    public GameListResponse(Integer game, String away, String home, String awayUser, String homeUser) {
+    public GameListResponse(Integer game, String away, Long awayId, String home, Long homeId, String awayUser, String homeUser) {
         this.game = game;
         this.away = away;
+        this.awayId = awayId;
+        this.homeId = homeId;
         this.home = home;
         this.awayUser = awayUser;
         this.homeUser = homeUser;

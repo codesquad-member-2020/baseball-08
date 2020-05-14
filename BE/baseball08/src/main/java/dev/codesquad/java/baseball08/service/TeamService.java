@@ -14,12 +14,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class TeamService {
     private static final Logger logger = LoggerFactory.getLogger(TeamService.class);
 
@@ -56,22 +58,29 @@ public class TeamService {
         return new PlayersResponse(playerInfoDto);
     }
 
-    public AvailabilityResponse isTeamAvailable(String teamName) {
-        // 수정 필요!!!
-        Long id = 1L;
-        String userId = teamDaoHenry.findUserById(id);
-        if (userId != null) {
+    public AvailabilityResponse isTeamAvailable(Long teamId, String userId) {
+        String userIdAtTeam = teamDaoHenry.findUserById(teamId);
+        if (userIdAtTeam != null) {
             return new AvailabilityResponse(false);
         }
-        // user ID 를 추가하는 로직을 추가하는것
+        updateUserId(teamId, userId);
         return new AvailabilityResponse(true);
     }
 
-    public TeamScoreResponse getTeamScore(Long id) {
+    public TeamScoreResponse getAwayTeamScore(Long id) {
+        return teamDaoHenry.findAwayTeamScoreById(id);
+    }
+
+    public TeamScoreResponse getHomeTeamScore(Long id) {
         return teamDaoHenry.findHomeTeamScoreById(id);
     }
 
     public List<PlayerLogDto> getPlayerLog(Long id) {
         return teamDaoHenry.findHistoriesById(id);
+    }
+
+    @Transactional
+    public void updateUserId(Long teamId, String userId) {
+        teamDaoHenry.updateUserId(teamId, userId);
     }
 }

@@ -14,6 +14,7 @@ public class Team {
     @Id
     private Long id;
 
+    private String userId;
     private String name;
     private String pitcher;
     private Integer pitches;

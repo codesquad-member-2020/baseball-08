@@ -12,6 +12,10 @@ const StyledRecord = styled.div`
   overflow: hidden;
   border: 1px solid white;
   font-size: 18px;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const StyledRecordWrap = styled.div`
@@ -53,9 +57,10 @@ interface History {
 
 interface Props {
   logs: Array<History>,
+  onRecordClick(): void
 }
 
-const Record: React.FunctionComponent<Props> = function({logs}) {
+const Record: React.FunctionComponent<Props> = function({logs, onRecordClick}) {
   const convertSBOtoString = (abc: string) => {
     switch (abc) {
       case 'S': {
@@ -74,7 +79,7 @@ const Record: React.FunctionComponent<Props> = function({logs}) {
   }
 
   return (
-    <StyledRecord>
+    <StyledRecord onClick={onRecordClick}>
       {logs.map((log: History, index: number) => (
         <StyledRecordWrap key={index}>
           <StyledPlayerInfo>{log.lineUp}타자 {log.name}</StyledPlayerInfo>  

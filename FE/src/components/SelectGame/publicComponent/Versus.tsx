@@ -75,20 +75,45 @@ interface Props {
   index: number,
   awayTeamName: string,
   homeTeamName: string,
+  awayTeamId: number,
+  homeTeamId: number,
   awayTeamAvailable: boolean,
   homeTeamAvailable: boolean,
-  onTeamClick(index: number, teamName: string, isAwayTeam: boolean): void,
+  onTeamClick(index: number, teamId: number, isAwayTeam: boolean): void,
 }
 
-const Versus: React.FunctionComponent<Props> = function({index, awayTeamName, homeTeamName, awayTeamAvailable, homeTeamAvailable, onTeamClick}) {
+const Versus: React.FunctionComponent<Props> = function ({
+  index,
+  awayTeamName,
+  homeTeamName,
+  awayTeamAvailable,
+  homeTeamAvailable,
+  awayTeamId,
+  homeTeamId,
+  onTeamClick,
+}) {
   return (
     <StyledVersus>
       <StyledGameTitle>Game {index}</StyledGameTitle>
-      <StyledAwayTeamName {...(awayTeamAvailable && { onClick:() => onTeamClick(index, awayTeamName, true)})} available={awayTeamAvailable}>{awayTeamName}</StyledAwayTeamName>
+      <StyledAwayTeamName
+        {...(awayTeamAvailable && {
+          onClick: () => onTeamClick(index, awayTeamId, true),
+        })}
+        available={awayTeamAvailable}
+      >
+        {awayTeamName}
+      </StyledAwayTeamName>
       <StyledVersusText>VS</StyledVersusText>
-      <StyledHomeTeamName {...(homeTeamAvailable && { onClick:() => onTeamClick(index, homeTeamName, false)})} available={homeTeamAvailable}>{homeTeamName}</StyledHomeTeamName>
+      <StyledHomeTeamName
+        {...(homeTeamAvailable && {
+          onClick: () => onTeamClick(index, homeTeamId, false),
+        })}
+        available={homeTeamAvailable}
+      >
+        {homeTeamName}
+      </StyledHomeTeamName>
     </StyledVersus>
   );
-}
+};
 
 export default Versus;

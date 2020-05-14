@@ -15,8 +15,7 @@ public class PlayersResponse {
     private List<PlayersDto> players;
     private TotalDto total;
 
-    public PlayersResponse() {
-    }
+    public PlayersResponse() {}
 
     @Builder
     public PlayersResponse(String team, String user, List<PlayersDto> players, TotalDto total) {
