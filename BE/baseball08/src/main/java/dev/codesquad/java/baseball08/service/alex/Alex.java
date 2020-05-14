@@ -267,6 +267,9 @@ public class Alex {
             createInning(playballDto);
             logger.info("경기 종료!!!!!!!!!!!!!!!!!!!!!");
             logger.info("경기 종료!!!!!!!!!!!!!!!!!!!!!");
+
+            // 이닝 변경 시 로그 초기화
+            historyDaoHenry.initHistory();
         }
 
         logger.info("strike count : {}", strikeCount);
