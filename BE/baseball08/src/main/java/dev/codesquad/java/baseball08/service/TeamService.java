@@ -56,11 +56,12 @@ public class TeamService {
         return new PlayersResponse(playerInfoDto);
     }
 
-    public AvailabilityResponse isTeamAvailable(Long teamId) {
-        String userId = teamDaoHenry.findUserById(teamId);
-        if (userId != null) {
+    public AvailabilityResponse isTeamAvailable(Long teamId, String userId) {
+        String userIdAtTeam = teamDaoHenry.findUserById(teamId);
+        if (userIdAtTeam != null) {
             return new AvailabilityResponse(false);
         }
+        updateUserId(teamId, userId);
         return new AvailabilityResponse(true);
     }
 

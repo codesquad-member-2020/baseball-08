@@ -33,13 +33,16 @@ public class TeamController {
     public ResponseEntity<List<PlayersResponse>> getPlayerInfoByGameId(@PathVariable("gameId") Long gameId) {
         return new ResponseEntity<>(teamService.teamPlayerInfo(gameId), HttpStatus.OK);
     }
-    // team 선택 가능 여부 판단하는 API
+    // team 선택 가능 여부 판단 및 팀을 선택하는 API
     @GetMapping("/team/{teamId}")
-    public ResponseEntity<AvailabilityResponse> isTeamAvailable(@PathVariable("teamId") Long teamId) {
-        return new ResponseEntity<>(teamService.isTeamAvailable(teamId), HttpStatus.OK);
+    public ResponseEntity<AvailabilityResponse> isTeamAvailable(@RequestHeader(value = "userId") String userId, @PathVariable("teamId") Long teamId) {
+        if (userId != null) {
+            return new ResponseEntity<>(teamService.isTeamAvailable(teamId, userId), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    // team 선택 하는 API
+    // 미사용 // team 선택 하는 API
     @GetMapping("/team/{teamId}/select")
     public ResponseEntity<HttpStatus> selectTeam(@RequestHeader(value = "userId") String userId, @PathVariable("teamId") Long teamId) {
         if (userId != null) {
