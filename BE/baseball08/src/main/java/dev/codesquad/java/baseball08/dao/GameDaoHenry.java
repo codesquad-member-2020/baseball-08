@@ -30,8 +30,9 @@ public class GameDaoHenry {
 
     // 시작 화면. 전체 게임 리스트 및 팀 가져오기
     public List<GameListResponse> findAllGame() {
-        String sql = "SELECT g.id AS game_id, GROUP_CONCAT(t.id) AS team_id," +
-                " GROUP_CONCAT(t.name) AS team_name, GROUP_CONCAT(COALESCE(t.user_id, 'none')) AS team_user" +
+        String sql = "SELECT g.id AS game_id, GROUP_CONCAT(t.id ORDER BY t.game_key) AS team_id," +
+                " GROUP_CONCAT(t.name ORDER BY t.game_key) AS team_name," +
+                " GROUP_CONCAT(COALESCE(t.user_id, 'none') ORDER BY t.game_key) AS team_user" +
                 " FROM game g" +
                 " LEFT JOIN team t ON g.id = t.game" +
                 " GROUP BY g.id";
