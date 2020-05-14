@@ -47,7 +47,7 @@
 
 ## 6. Project References
 
-- [배포 업데이트 로그]
+- [배포 업데이트 로그](https://github.com/codesquad-member-2020/baseball-08/wiki/배포-업데이트)
 - [API document](https://documenter.getpostman.com/view/10828534/Szmcayto?version=latest)
 
 ## Summary Links
