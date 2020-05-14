@@ -100,6 +100,11 @@ public class GameDaoAlex {
                         .build());
     }
 
+    public void updateCurrentInning(Long id, Integer currentInning) {
+        String sql = "UPDATE game g SET current_inning = ? WHERE g.id = ?";
+        this.jdbcTemplate.update(sql, new Object[] {currentInning, id});
+    }
+
 //    public int getHistoryCount(Long game) {
 //        String sql = "SELECT COUNT(h.id) AS history_count FROM history h WHERE h.game = ?";
 //        return jdbcTemplate.queryForObject(sql, new Object[]{game}, (rs, rowNum) -> rs.getInt("history_count"));

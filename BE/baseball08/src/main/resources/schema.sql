@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS game
     on_game          BOOLEAN     DEFAULT false,
     home_total_score INT         DEFAULT 0,
     away_total_score INT         DEFAULT 0,
-    current_inning   INT         DEFAULT 0,
+    current_inning   INT         DEFAULT 1,
     turn             VARCHAR(32) DEFAULT '초',
     PRIMARY KEY (id)
 );

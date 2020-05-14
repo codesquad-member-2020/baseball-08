@@ -306,6 +306,7 @@ public class Alex {
     private void createInning(PlayballDto playballDto) {
         Long gameId = playballDto.getGameId();
         Integer newGameKey = gameDaoAlex.getGameKeyForInning(gameId);
+        gameDaoAlex.updateCurrentInning(gameId, newGameKey + 1);
         String homeName = playballDto.getHomeName();
         String awayName = playballDto.getAwayName();
         Inning inning = Inning.builder().game(gameId).game_key(newGameKey).homeName(homeName).awayName(awayName).build();
