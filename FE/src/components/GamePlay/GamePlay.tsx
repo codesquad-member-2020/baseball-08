@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import styled from 'styled-components'
 import StadiumBackground from './publicComponent/StadiumBackground'
 import ScoreBoard from './publicComponent/ScoreBoard'
@@ -7,9 +7,12 @@ import PAandNP from './publicComponent/PAandNP';
 import Record from './publicComponent/Record';
 import Inning from './publicComponent/Inning';
 import PitchButton from './publicComponent/PitchButton';
+import Player from './publicComponent/Player';
 import fetchRequest from '../../util/fetchRequest'
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import GameData from '../../data/GameData'
+import getCookieData from '../../util/getCookieData'
+import sboStateReducer from '../../reducer/sboStateReducer'
 
 const StyledDiv = styled.div`
   position: absolute;
@@ -65,12 +68,15 @@ const GamePlay: React.FunctionComponent<props> = function({history}) {
   const [waiting, setWaiting] = useState(true);
   const [isDefence, setIsDefence] = useState(false);
 
+  const INITIAL_SBOCOUNT_STATE = {strike: 0, ball: 0, out: 0}
+  const [sboState, dispatchSBOState] = useReducer(sboStateReducer, INITIAL_SBOCOUNT_STATE);
+
   function requestPitch() {
     setIsDefence(false);
     const url = process.env.REACT_APP_GAME_PITCH;
     const cvtUrl = url?.replace(`{teamId}`, (GameData.getInstance().getTeamId()).toString());
 
-    fetchRequest(cvtUrl, "GET")
+    fetchRequest(cvtUrl, "GET", getCookieData('userId'))
     .then((response) => response.json())
     .then((games) => {
       requestCurrentStatus();
@@ -86,9 +92,12 @@ const GamePlay: React.FunctionComponent<props> = function({history}) {
 
     console.log(cvtUrl);
 
-    fetchRequest(cvtUrl, "GET")
+    fetchRequest(cvtUrl, "GET", getCookieData('userId'))
     .then((response) => response.json())
     .then((games) => {
+      dispatchSBOState({type: 'setStrike', strike: games.score.strike});
+      dispatchSBOState({type: 'setBall', ball: games.score.ball});
+      dispatchSBOState({type: 'setOut', out: games.score.out});
       setGameDetailObj(games);
 
       if ( (GameData.getInstance().getIsAwayTeam() && games.turn === "초") ||
@@ -140,9 +149,9 @@ const GamePlay: React.FunctionComponent<props> = function({history}) {
         isAwayTeam={GameData.getInstance().getIsAwayTeam()}
       ></ScoreBoard>
       <SBOBoard
-        strikeCount={gameDetailObj.score.strike}
-        ballCount={gameDetailObj.score.ball}
-        outCount={gameDetailObj.score.out}
+        strikeCount={sboState.strike}
+        ballCount={sboState.ball}
+        outCount={sboState.out}
       />
       <PAandNP 
         pitcherName={gameDetailObj.pitcher.name}
@@ -157,6 +166,7 @@ const GamePlay: React.FunctionComponent<props> = function({history}) {
       <Inning
         inningText={gameDetailObj.inning + `회 ` + gameDetailObj.turn}
       />
+      <Player baseIndex={gameDetailObj.base}/>
       {isDefence &&
       <PitchButton
         pitchText="PITCH!"
