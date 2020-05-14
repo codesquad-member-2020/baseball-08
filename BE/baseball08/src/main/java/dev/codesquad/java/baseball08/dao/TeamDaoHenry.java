@@ -130,7 +130,13 @@ public class TeamDaoHenry {
                 " INNER JOIN log l ON h.id = l.history" +
                 " WHERE t.id = ? GROUP BY h.id";
 
-        return jdbcTemplate.query(sql, new Object[] {id}, (rs, rowNum) ->
+        String sql2 = "SELECT MAX(h.id) AS index, GROUP_CONCAT(DISTINCT h.name) AS hitter_name," +
+                " GROUP_CONCAT(DISTINCT h.line_up) AS hitter_line_up, GROUP_CONCAT(COALESCE(h.log, 'x') ORDER BY h.id DESC) AS hit_logs" +
+                " FROM history h" +
+                " WHERE h.team = ?" +
+                " GROUP BY h.name ORDER BY index DESC";
+
+        return jdbcTemplate.query(sql2, new Object[] {id}, (rs, rowNum) ->
                 PlayerLogDto.builder()
                         .name(rs.getString("hitter_name"))
                         .lineUp(Integer.parseInt(rs.getString("hitter_line_up")))

@@ -1,6 +1,7 @@
 package dev.codesquad.java.baseball08.service.alex;
 
 import dev.codesquad.java.baseball08.dao.GameDaoAlex;
+import dev.codesquad.java.baseball08.dao.HistoryDaoHenry;
 import dev.codesquad.java.baseball08.dao.PitchDaoAlex;
 import dev.codesquad.java.baseball08.dao.TeamDaoAlex;
 import dev.codesquad.java.baseball08.dto.dto.PitcherDto;
@@ -28,6 +29,9 @@ public class Alex {
 
     @Autowired
     private PitchDaoAlex pitchDaoAlex;
+
+    @Autowired
+    private HistoryDaoHenry historyDaoHenry;
 
     public boolean pitch(Long teamId) {
         Long gameId = gameDaoAlex.getGameIdByTeamId(teamId);
@@ -80,6 +84,9 @@ public class Alex {
         int away_score = playballDto.getAwayScore();
         int away_total_score = playballDto.getAwayTotalScore();
         boolean topBottom = playballDto.isTopBottom();
+
+        // 로그 기록
+        saveHistory(otherTeamId,currentHitter,currentHitterInfo.getLineUp(),pitcheResult);
 
         switch (pitcheResult) {
             case "S":
@@ -204,6 +211,9 @@ public class Alex {
         int home_total_score = playballDto.getHomeTotalScore();
         boolean topBottom = playballDto.isTopBottom();
 
+        // 로그 기록
+        saveHistory(otherTeamId,currentHitter,currentHitterInfo.getLineUp(),pitcheResult);
+
         switch (pitcheResult) {
             case "S":
                 logger.info("스트라이크");
@@ -315,5 +325,9 @@ public class Alex {
         String awayName = playballDto.getAwayName();
         Inning inning = Inning.builder().game(gameId).game_key(newGameKey).homeName(homeName).awayName(awayName).build();
         gameDaoAlex.saveInning(inning);
+    }
+
+    private void saveHistory(Long teamId, String hitter, Integer lineUp, String log) {
+        historyDaoHenry.saveHistory(teamId, hitter, lineUp, log);
     }
 }

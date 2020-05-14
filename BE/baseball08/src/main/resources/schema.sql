@@ -74,6 +74,7 @@ CREATE TABLE IF NOT EXISTS history
     id       INT NOT NULL AUTO_INCREMENT,
     name     VARCHAR(32),
     line_up  INT,
+    log      VARCHAR(16),
 
     team     INT REFERENCES team (id),
     team_key INT,

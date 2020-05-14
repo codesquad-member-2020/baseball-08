@@ -18,9 +18,9 @@ public class HistoryDaoHenry {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public void saveHistory(Long teamId, String currentHitter, Integer lineUp) {
-        String historySql = "INSERT INTO history (name, line_up, team) VALUES (?, ?, ?)";
-        jdbcTemplate.update(historySql, new Object[]{currentHitter, lineUp, teamId});
+    public void saveHistory(Long teamId, String currentHitter, Integer lineUp, String log) {
+        String historySql = "INSERT INTO history (name, line_up, log, team) VALUES (?, ?, ?, ?)";
+        jdbcTemplate.update(historySql, new Object[]{currentHitter, lineUp, log, teamId});
     }
 
     public void saveLog(String hitLog, Long historyId) {
