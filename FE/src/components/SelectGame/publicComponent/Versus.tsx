@@ -79,7 +79,7 @@ interface Props {
   homeTeamId: number,
   awayTeamAvailable: boolean,
   homeTeamAvailable: boolean,
-  onTeamClick(gameId: number, teamId: number, isAwayTeam: boolean): void,
+  onTeamClick(gameId: number, teamId: number, isAwayTeam: boolean, teamName: string): void,
 }
 
 const Versus: React.FunctionComponent<Props> = function ({
@@ -97,7 +97,7 @@ const Versus: React.FunctionComponent<Props> = function ({
       <StyledGameTitle>Game {gameId}</StyledGameTitle>
       <StyledAwayTeamName
         {...(awayTeamAvailable && {
-          onClick: () => onTeamClick(gameId, awayTeamId, true),
+          onClick: () => onTeamClick(gameId, awayTeamId, true, awayTeamName),
         })}
         available={awayTeamAvailable}
       >
@@ -106,7 +106,7 @@ const Versus: React.FunctionComponent<Props> = function ({
       <StyledVersusText>VS</StyledVersusText>
       <StyledHomeTeamName
         {...(homeTeamAvailable && {
-          onClick: () => onTeamClick(gameId, homeTeamId, false),
+          onClick: () => onTeamClick(gameId, homeTeamId, false, homeTeamName),
         })}
         available={homeTeamAvailable}
       >

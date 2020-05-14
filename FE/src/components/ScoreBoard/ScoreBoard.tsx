@@ -55,9 +55,16 @@ function ScoreBoard() {
     <StyledDiv className="ScoreBoard">
       <ScoreBoardWrap>
         <Inning />
-        {scoreList && scoreList.map((scoreInformation: any, index: any) => (
-          <TeamScore key={index} teamName={scoreInformation.team} scores={scoreInformation.score} totalScore={scoreInformation.totalScore}/>
-        ))}
+        {scoreList &&
+          scoreList.map((scoreInformation: any, index: any) => (
+            <TeamScore
+              key={index}
+              teamName={scoreInformation.team}
+              scores={scoreInformation.score}
+              totalScore={scoreInformation.totalScore}
+              isSelectedTeam={GameData.getInstance().getTeamName() === scoreInformation.team}
+            />
+          ))}
       </ScoreBoardWrap>
     </StyledDiv>
   );

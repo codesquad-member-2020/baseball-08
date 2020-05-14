@@ -9,6 +9,8 @@ const StyledPAandNP = styled.div`
   border: 1px solid white;
   color: white;
   background-color: black;
+  box-shadow: 0 0 0 3px gray inset; 
+  border-radius: 15px;
 `;
 
 const StyledPitcherArea = styled.div`
@@ -18,13 +20,14 @@ const StyledPitcherArea = styled.div`
   color: white;
   font-size: 22px;
   line-height: 35px;
+  padding-left: 5px;
 `;
 
 const StyledPitcherTitle = styled.p`
   width: 280px;
   height: 35px;
   position: relative;
-  color: white;
+  color: #ff7733;
 `;
 
 const StyledPitcherName = styled.p`
@@ -39,6 +42,7 @@ const StyledPitches = styled.p`
   position: relative;
   float: left;
   color: steelblue;
+  padding-left: 10px;
 `;
 
 const StyledBatterArea = styled.div`
@@ -48,13 +52,14 @@ const StyledBatterArea = styled.div`
   color: white;
   font-size: 22px;
   line-height: 35px;
+  padding-left: 5px;
 `;
 
 const StyledBatterTitle = styled.p`
   width: 280px;
   height: 35px;
   position: relative;
-  color: white;
+  color: #009900;
 `;
 
 const StyledBatterName = styled.p`
@@ -69,6 +74,7 @@ const StyledAtBat = styled.p`
   position: relative;
   float: left;
   color: steelblue;
+  padding-left: 10px;
 `;
 
 const StyledHit = styled.p`

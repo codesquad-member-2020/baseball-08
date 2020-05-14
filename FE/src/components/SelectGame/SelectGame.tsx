@@ -60,7 +60,7 @@ const SelectGame: React.FC<props> = ({history}) => {
     });
   }, [])
 
-  function requestGameAvailable(gameId: number, teamId: number, isAwayTeam: boolean) {
+  function requestGameAvailable(gameId: number, teamId: number, isAwayTeam: boolean, teamName: string) {
     const url = process.env.REACT_APP_GAME_AVAILABLE;
     const cvtUrl = url?.replace(`{gameId}`, `${gameId}`).replace(`{teamId}`, `${teamId}`);
 
@@ -73,11 +73,12 @@ const SelectGame: React.FC<props> = ({history}) => {
         GameData.getInstance().setIsAwayTeam(isAwayTeam);
         GameData.getInstance().setTeamId(teamId);
         GameData.getInstance().setGameId(gameId);
+        GameData.getInstance().setTeamName(teamName);
         history.push('/gameplay');
       }
       else {
         setTimeout(() => {
-          requestGameAvailable(gameId, teamId, isAwayTeam);
+          requestGameAvailable(gameId, teamId, isAwayTeam, teamName);
         }, 1000);
       }
     })
@@ -86,7 +87,7 @@ const SelectGame: React.FC<props> = ({history}) => {
     });
   }
 
-  function onTeamClick(gameId: number, teamId: number, isAwayTeam: boolean) {
+  function onTeamClick(gameId: number, teamId: number, isAwayTeam: boolean, teamName: string) {
     const url = process.env.REACT_APP_GAME_SELECT;
     const cvtUrl = url?.replace(`{gameId}`, `${gameId}`).replace(`{teamId}`, `${teamId}`);
 
@@ -97,7 +98,7 @@ const SelectGame: React.FC<props> = ({history}) => {
     .then((result) => {
       if (result.available) {
         setWaiting(true);
-        requestGameAvailable(gameId, teamId, isAwayTeam);
+        requestGameAvailable(gameId, teamId, isAwayTeam, teamName);
       }
       else {
         alert("다른사람에 의해 선택된 팀입니다.");

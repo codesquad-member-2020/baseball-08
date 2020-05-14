@@ -15,7 +15,7 @@ const StyledDiv = styled.div`
   width: 1280px;
   height: 720px;
   z-index: 1;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.9);
   animation-duration: 0.7s;
   animation-name: ${slidein};
 `;

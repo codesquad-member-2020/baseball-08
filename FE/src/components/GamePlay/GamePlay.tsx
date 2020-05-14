@@ -8,6 +8,7 @@ import Record from './publicComponent/Record';
 import Inning from './publicComponent/Inning';
 import PitchButton from './publicComponent/PitchButton';
 import Player from './publicComponent/Player';
+import BlinkText from './publicComponent/BlinkText';
 import fetchRequest from '../../util/fetchRequest'
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import GameData from '../../data/GameData'
@@ -67,14 +68,15 @@ const GamePlay: React.FunctionComponent<props> = function({history}) {
   const [gameDetailObj, setGameDetailObj] = useState<any>(undefined);
   const [waiting, setWaiting] = useState(true);
   const [isDefence, setIsDefence] = useState(false);
+  const [isPitchAvailable, setIsPitchAvailable] = useState(true);
 
   const INITIAL_SBOCOUNT_STATE = {strike: 0, ball: 0, out: 0}
   const [sboState, dispatchSBOState] = useReducer(sboStateReducer, INITIAL_SBOCOUNT_STATE);
 
   function requestPitch() {
-    setIsDefence(false);
     const url = process.env.REACT_APP_GAME_PITCH;
     const cvtUrl = url?.replace(`{teamId}`, (GameData.getInstance().getTeamId()).toString());
+    setIsPitchAvailable(false);
 
     fetchRequest(cvtUrl, "GET", getCookieData('userId'))
     .then((response) => response.json())
@@ -90,8 +92,6 @@ const GamePlay: React.FunctionComponent<props> = function({history}) {
     const url = process.env.REACT_APP_GAME_STATUS;
     const cvtUrl = url?.replace(`{gameId}`, (GameData.getInstance().getGameId()).toString());
 
-    console.log(cvtUrl);
-
     fetchRequest(cvtUrl, "GET", getCookieData('userId'))
     .then((response) => response.json())
     .then((games) => {
@@ -100,16 +100,19 @@ const GamePlay: React.FunctionComponent<props> = function({history}) {
       dispatchSBOState({type: 'setOut', out: games.score.out});
       setGameDetailObj(games);
 
+      console.log(games.turn);
+
       if ( (GameData.getInstance().getIsAwayTeam() && games.turn === "초") ||
            (!GameData.getInstance().getIsAwayTeam() && games.turn === "말") ) {
         setTimeout(() => {
           setIsDefence(false);
+          setIsPitchAvailable(false);
           requestCurrentStatus();
         }, 1000);
       }
       else {
+        setIsPitchAvailable(true);
         setIsDefence(true);
-        console.log("체인지");
       }
     })
     .catch((error) => {
@@ -166,12 +169,19 @@ const GamePlay: React.FunctionComponent<props> = function({history}) {
       <Inning
         inningText={gameDetailObj.inning + `회 ` + gameDetailObj.turn}
       />
-      <Player baseIndex={gameDetailObj.base}/>
-      {isDefence &&
+      <Player baseIndex={gameDetailObj.score.base}/>
+      {
+      (isDefence && isPitchAvailable) &&
       <PitchButton
         pitchText="PITCH!"
         onRequestButtonClick={requestPitch}
       />
+      }
+      {
+        !isDefence &&
+        <BlinkText blinkText={"상대팀이 투구중입니다"}>
+        </BlinkText>
+
       }
       </>
       }
