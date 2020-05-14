@@ -128,6 +128,7 @@ public class Alex {
             baseCount = 0;
             topBottom = true;
             playerChange = true;
+            pitchDaoAlex.updateInningInfo(topBottom,playballDto.getGameId());
             logger.info("경기 종료!!!!!!!!!!!!!!!!!!!!!");
             logger.info("경기 종료!!!!!!!!!!!!!!!!!!!!!");
         }
@@ -250,6 +251,7 @@ public class Alex {
             baseCount = 0;
             playerChange = true;
             topBottom = false;
+            pitchDaoAlex.updateInningInfo(topBottom,playballDto.getGameId());
             createInning(playballDto);
             logger.info("경기 종료!!!!!!!!!!!!!!!!!!!!!");
             logger.info("경기 종료!!!!!!!!!!!!!!!!!!!!!");

@@ -164,10 +164,10 @@ public class GameDaoHenry {
                 " GROUP_CONCAT(DISTINCT t.user_id) AS users," +
                 " GROUP_CONCAT(DISTINCT g.current_inning) AS current_inning," +
                 " GROUP_CONCAT(DISTINCT g.turn) AS turn," +
-                " GROUP_CONCAT(DISTINCT i.strike_count) AS strike_count," +
-                " GROUP_CONCAT(DISTINCT i.ball_count) AS ball_count," +
-                " GROUP_CONCAT(DISTINCT i.out_count) AS out_count," +
-                " GROUP_CONCAT(DISTINCT i.base_count) AS base_count" +
+                " MAX (i.strike_count) AS strike_count," +
+                " MAX (i.ball_count) AS ball_count," +
+                " MAX (i.out_count) AS out_count," +
+                " MAX (i.base_count) AS base_count" +
                 " FROM game g" +
                 " INNER JOIN inning i ON g.id = i.game" +
                 " INNER JOIN team t ON g.id = t.game" +

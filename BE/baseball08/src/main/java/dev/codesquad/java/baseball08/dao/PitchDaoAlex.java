@@ -65,4 +65,14 @@ public class PitchDaoAlex {
         jdbcTemplate.update(pitchesSql, new Object[]{pitches,teamId});
     }
 
+    public void updateInningInfo(boolean topBottom, Long gameId) {
+        String turn;
+        if (topBottom) {
+            turn = "말";
+        } else {
+            turn = "초";
+        }
+        String sql = "UPDATE game SET turn = ? WHERE id = ?";
+        jdbcTemplate.update(sql,new Object[]{turn,gameId});
+    }
 }
