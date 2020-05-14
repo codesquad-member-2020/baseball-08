@@ -61,7 +61,7 @@ public class TeamController {
 //        return ResponseEntity.ok(gameService.getGameList());
 //        return ResponseEntity.ok(teamService.getPlayerLog(1L));
 //        return ResponseEntity.ok(gameService.getGamePlay(gameId));
-        pitchService.pitch();
+        pitchService.pitch(1l);
         return ResponseEntity.ok("");
     }
 

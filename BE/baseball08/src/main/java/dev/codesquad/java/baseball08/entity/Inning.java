@@ -29,6 +29,8 @@ public class Inning {
     private Long game;
     private Integer game_key;
 
+    public Inning() {}
+
     @Builder
     public Inning(String homeName, String awayName, boolean homeAttack, boolean awayAttack, Integer homeScore, Integer awayScore, Integer strikeCount,
                   Integer ballCount, Integer outCount, Integer baseCount, Long game, Integer game_key) {
