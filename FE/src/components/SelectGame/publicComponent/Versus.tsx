@@ -72,18 +72,18 @@ const StyledVersusText = styled.p`
 `;
 
 interface Props {
-  index: number,
+  gameId: number,
   awayTeamName: string,
   homeTeamName: string,
   awayTeamId: number,
   homeTeamId: number,
   awayTeamAvailable: boolean,
   homeTeamAvailable: boolean,
-  onTeamClick(index: number, teamId: number, isAwayTeam: boolean): void,
+  onTeamClick(gameId: number, teamId: number, isAwayTeam: boolean): void,
 }
 
 const Versus: React.FunctionComponent<Props> = function ({
-  index,
+  gameId,
   awayTeamName,
   homeTeamName,
   awayTeamAvailable,
@@ -94,10 +94,10 @@ const Versus: React.FunctionComponent<Props> = function ({
 }) {
   return (
     <StyledVersus>
-      <StyledGameTitle>Game {index}</StyledGameTitle>
+      <StyledGameTitle>Game {gameId}</StyledGameTitle>
       <StyledAwayTeamName
         {...(awayTeamAvailable && {
-          onClick: () => onTeamClick(index, awayTeamId, true),
+          onClick: () => onTeamClick(gameId, awayTeamId, true),
         })}
         available={awayTeamAvailable}
       >
@@ -106,7 +106,7 @@ const Versus: React.FunctionComponent<Props> = function ({
       <StyledVersusText>VS</StyledVersusText>
       <StyledHomeTeamName
         {...(homeTeamAvailable && {
-          onClick: () => onTeamClick(index, homeTeamId, false),
+          onClick: () => onTeamClick(gameId, homeTeamId, false),
         })}
         available={homeTeamAvailable}
       >

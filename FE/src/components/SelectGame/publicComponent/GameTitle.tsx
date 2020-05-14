@@ -3,12 +3,12 @@ import styled from 'styled-components'
 
 const StyledP = styled.p`
   position: relative;
-  padding-top: 30px;
-  padding-bottom: 30px;
-  font-size: 36px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  font-size: 64px;
   font-weight: bold;
   text-align: center;
-  color: white;
+  color: black;
 `;
 
 interface Props {

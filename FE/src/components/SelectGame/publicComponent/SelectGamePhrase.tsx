@@ -5,9 +5,9 @@ const StyledP = styled.p`
   position: relative;
   padding-top: 10px;
   padding-bottom: 40px;
-  font-size: 24px;
+  font-size: 36px;
   text-align: center;
-  color: white;
+  color: black;
 `;
 
 interface Props {

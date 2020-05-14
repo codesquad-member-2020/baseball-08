@@ -3,6 +3,7 @@ import styled, { keyframes } from 'styled-components'
 import Inning from './publicComponent/Inning'
 import TeamScore from './publicComponent/TeamScore'
 import fetchRequest from '../../util/fetchRequest'
+import GameData from '../../data/GameData'
 
 const slidein = keyframes `
   0% { opacity: 0 }
@@ -35,7 +36,10 @@ function ScoreBoard() {
   const [scoreList, setScoreList] = useState<any>(undefined);
 
   useEffect(() => {
-    fetchRequest(process.env.REACT_APP_GAME_SCORE, "GET")
+    const url = process.env.REACT_APP_GAME_SCORE;
+    const cvtUrl = url?.replace(`{gameId}`, (GameData.getInstance().getGameId()).toString());
+
+    fetchRequest(cvtUrl, "GET")
     .then((response) => response.json())
     .then((scoreList) => {
       setScoreList(scoreList);

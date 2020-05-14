@@ -31,8 +31,8 @@ const StyledWaitingWrap = styled.div`
 
 const StyledWaitingImage = styled.div`
   position: relative;
-  width: 720px;
-  height: 480px;
+  width: 540px;
+  height: 400px;
   margin: 0 auto;
   margin-top: 125px;
   background-color: black;
@@ -41,6 +41,14 @@ const StyledWaitingImage = styled.div`
   font-size: 24px;
   z-index: 1;
   color: black;
+`;
+
+const StyledIntroMovieWrap = styled.div`
+  position: absolute;
+  width: 720px;
+  height: 480px;
+  margin-top: 193px;
+  margin-left: 374px;
 `;
 
 interface Score {
@@ -58,6 +66,7 @@ const GamePlay: React.FunctionComponent<props> = function({history}) {
   const [isDefence, setIsDefence] = useState(false);
 
   function requestPitch() {
+    setIsDefence(false);
     const url = process.env.REACT_APP_GAME_PITCH;
     const cvtUrl = url?.replace(`{teamId}`, (GameData.getInstance().getTeamId()).toString());
 
@@ -72,7 +81,12 @@ const GamePlay: React.FunctionComponent<props> = function({history}) {
   }
 
   function requestCurrentStatus() {
-    fetchRequest(process.env.REACT_APP_GAME_STATUS, "GET")
+    const url = process.env.REACT_APP_GAME_STATUS;
+    const cvtUrl = url?.replace(`{gameId}`, (GameData.getInstance().getGameId()).toString());
+
+    console.log(cvtUrl);
+
+    fetchRequest(cvtUrl, "GET")
     .then((response) => response.json())
     .then((games) => {
       setGameDetailObj(games);
@@ -110,7 +124,12 @@ const GamePlay: React.FunctionComponent<props> = function({history}) {
   return (
     <StyledDiv>
       {waiting && <StyledWaitingWrap><StyledWaitingImage>게임을 불러오는중입니다...</StyledWaitingImage></StyledWaitingWrap>}
-      <StadiumBackground />
+      <StadiumBackground></StadiumBackground>
+      <StyledIntroMovieWrap>
+        <video id="test" muted autoPlay loop width={270}>
+          <source src="http://dev-angelo.dlinkddns.com/logo.mp4" type="video/mp4" />
+        </video>
+      </StyledIntroMovieWrap>
       {gameDetailObj && 
       <>
       <ScoreBoard onScoreBoardClick={onScoreBoardClick}

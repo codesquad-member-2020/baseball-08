@@ -9,7 +9,6 @@ const StyledDiv = styled.div`
   position: absolute;
   border: 1px solid white;
   color: white;
-  background-color: black;
 `;
 
 const StyledStrikeCountArea = styled.div`
@@ -17,7 +16,7 @@ const StyledStrikeCountArea = styled.div`
   height: 50px;
   position: relative;
   color: white;
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.8);
 `;
 
 const StyledSBOTextArea = styled.p`

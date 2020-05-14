@@ -21,30 +21,30 @@ const StyledRecord = styled.div`
 const StyledRecordWrap = styled.div`
   width: 280px;
   position: relative;
-  color: white;
-  background-color: black;
+  color: black;
+  background-color: white;
+  box-shadow: 0 0 0 3px gray inset; 
+  border-radius: 15px;
+  margin-bottom: 5px;
 `;
 
 const StyledPlayerInfo = styled.div`
   width: 280px;
   position: relative;
   color: #cc0000;
-  background-color: black;
   text-align: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
 `;
 
 const StyledHistoryWrap = styled.div`
   width: 280px;
   position: relative;
-  color: white;
-  background-color: black;
 `;
 
 const StyledHistory = styled.div`
   width: 280px;
   position: relative;
-  color: white;
-  background-color: black;
   text-align: center;
 `;
 
@@ -61,12 +61,17 @@ interface Props {
 }
 
 const Record: React.FunctionComponent<Props> = function({logs, onRecordClick}) {
+  let strike = 0;
+  let ball = 0;
+
   const convertSBOtoString = (abc: string) => {
     switch (abc) {
       case 'S': {
+        strike++;
         return '스트라이크';
       }
       case 'B': {
+        ball++;
         return '볼';
       }
       case 'O': {
