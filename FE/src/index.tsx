@@ -8,11 +8,11 @@ import getCookieData from './util/getCookieData'
 console.log(getCookieData("userId"))
 
 ReactDOM.render(
-  <BrowserRouter>
+  <React.StrictMode>
     <div className="Bg">
     <App />
     </div>
-  </BrowserRouter>,
+  </React.StrictMode>,
   document.getElementById('root')
 );
 
