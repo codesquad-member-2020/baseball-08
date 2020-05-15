@@ -79,12 +79,11 @@ const GamePlay: React.FunctionComponent<props> = function({history}) {
     setIsPitchAvailable(false);
 
     fetchRequest(cvtUrl, "GET", getCookieData('userId'))
-    .then((response) => response.json())
-    .then((games) => {
+    .then( () => {
       requestCurrentStatus();
     })
     .catch((error) => {
-      alert("주의");
+      alert("에러 (pitch)");
     });
   }
 
