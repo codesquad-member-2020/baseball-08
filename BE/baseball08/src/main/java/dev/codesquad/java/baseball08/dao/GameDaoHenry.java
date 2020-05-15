@@ -161,7 +161,7 @@ public class GameDaoHenry {
         String sql = "SELECT GROUP_CONCAT(DISTINCT t.name) AS team_name," +
                 " GROUP_CONCAT(DISTINCT g.away_total_score) AS away_total_score," +
                 " GROUP_CONCAT(DISTINCT g.home_total_score) AS home_total_score," +
-                " GROUP_CONCAT(DISTINCT t.user_id) AS users," +
+                " GROUP_CONCAT(t.user_id) AS users," +
                 " GROUP_CONCAT(DISTINCT g.current_inning) AS current_inning," +
                 " GROUP_CONCAT(DISTINCT g.turn) AS turn," +
                 " MAX(i.strike_count) AS strike_count," +
