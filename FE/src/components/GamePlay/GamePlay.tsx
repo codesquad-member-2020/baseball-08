@@ -95,6 +95,7 @@ const GamePlay: React.FunctionComponent<props> = function({history}) {
     fetchRequest(cvtUrl, "GET", getCookieData('userId'))
     .then((response) => response.json())
     .then((games) => {
+      console.log(games);
       dispatchSBOState({type: 'setStrike', strike: games.score.strike});
       dispatchSBOState({type: 'setBall', ball: games.score.ball});
       dispatchSBOState({type: 'setOut', out: games.score.out});
