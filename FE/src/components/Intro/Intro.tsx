@@ -71,22 +71,24 @@ const Intro: React.FC<props> = ({history}) => {
   }, [])
 
   function onClickGameStartButton() {
-    const cookies = new Cookies();
-    const userId: string = cookies.get('userId');
+    history.push('/gameselect');  
 
-    if (!userId) {
-      alert("로그인이 필요한 서비스입니다.")
+    // const cookies = new Cookies();
+    // const userId: string = cookies.get('userId');
+
+    // if (!userId) {
+    //   alert("로그인이 필요한 서비스입니다.")
       
-      const url: string | undefined= process.env.REACT_APP_OAUTH
+    //   const url: string | undefined= process.env.REACT_APP_OAUTH
 
-      if (url !== undefined) {
-        const cvtUrl:string = url;
-        window.location.href = cvtUrl;
-      }
-    }
-    else {
-      history.push('/gameselect');  
-    }
+    //   if (url !== undefined) {
+    //     const cvtUrl:string = url;
+    //     window.location.href = cvtUrl;
+    //   }
+    // }
+    // else {
+    //   history.push('/gameselect');  
+    // }
   }
 
   function onClickLoginButton() {

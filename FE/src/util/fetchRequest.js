@@ -5,7 +5,7 @@ const fetchRequest = (url, method, userId) => {
     cache: "no-cache",
     headers: {
       "Content-Type": "application/json",
-      "userId": userId
+      "userId": "testId"
     },
   });
 };
