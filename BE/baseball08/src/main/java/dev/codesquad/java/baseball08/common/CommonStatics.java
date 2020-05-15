@@ -16,6 +16,7 @@ public class CommonStatics {
 
     public static final String HEADER_LOCATION = "Location";
     public static final String REDIRECT_URL = "http://13.125.56.23/api";
+    public static final String REDIRECT_URL2 = "http://13.125.56.23";
 
     public static final String HIT = "H";
     public static final String STRIKE = "S";

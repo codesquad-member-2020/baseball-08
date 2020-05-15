@@ -38,4 +38,10 @@ public class LoginController {
         response.setHeader(HEADER_LOCATION, REDIRECT_URL);
         return new ResponseEntity(HttpStatus.FOUND);
     }
+
+    @GetMapping("")
+    public ResponseEntity redirect(HttpServletResponse response) {
+        response.setHeader(HEADER_LOCATION, REDIRECT_URL2);
+        return new ResponseEntity(HttpStatus.FOUND);
+    }
 }
