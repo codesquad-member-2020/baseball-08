@@ -13,13 +13,13 @@ function AppRouter() {
   return (
     <Router>
       <Switch>
-        <Route exact={true} path="/api">
+        <Route exact={true} path="/">
           <Intro />
         </Route>
-        <Route path="/api/gameselect">
+        <Route path="/gameselect">
           <SelectGame />
         </Route>
-        <Route path="/api/gameplay">
+        <Route path="/gameplay">
           <GamePlayRouter />
         </Route>
       </Switch>
