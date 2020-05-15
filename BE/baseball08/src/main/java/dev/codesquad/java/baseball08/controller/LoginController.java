@@ -28,7 +28,7 @@ public class LoginController {
     @GetMapping("/callback")
     public ResponseEntity oauthCallback(@Param("code") String code, HttpServletResponse response) {
         Github github = loginService.requestAccessToken(code);
-        logger.info("Github AccessToekn, TokenType, Scope Data : {}", github);
+        logger.info("Github AccessToken, TokenType, Scope Data : {}", github);
         GithubUser githubUser = loginService.requestUserInfo(github.getAccessToken());
         logger.info("Github User Id : {}", githubUser);
 
@@ -36,12 +36,6 @@ public class LoginController {
         cookie.setMaxAge(EXPIRE_TIME);
         response.addCookie(cookie);
         response.setHeader(HEADER_LOCATION, REDIRECT_URL);
-        return new ResponseEntity(HttpStatus.FOUND);
-    }
-
-    @GetMapping("")
-    public ResponseEntity redirect(HttpServletResponse response) {
-        response.setHeader(HEADER_LOCATION, REDIRECT_URL2);
         return new ResponseEntity(HttpStatus.FOUND);
     }
 }
