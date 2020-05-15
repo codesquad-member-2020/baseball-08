@@ -3,18 +3,13 @@ package dev.codesquad.java.baseball08.dao;
 import dev.codesquad.java.baseball08.dto.dto.PitcherDto;
 import dev.codesquad.java.baseball08.dto.dto.PlayballDto;
 import dev.codesquad.java.baseball08.dto.dto.PlayersDto;
-import dev.codesquad.java.baseball08.entity.Inning;
-import dev.codesquad.java.baseball08.entity.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.PreparedStatement;
 
 @Repository
 public class PitchDaoAlex {

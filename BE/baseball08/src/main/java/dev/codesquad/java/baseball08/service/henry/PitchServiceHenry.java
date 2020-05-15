@@ -14,8 +14,8 @@ import java.util.Random;
 
 @Service
 @Transactional
-public class PitchService {
-    private Logger logger = LoggerFactory.getLogger(PitchService.class);
+public class PitchServiceHenry {
+    private Logger logger = LoggerFactory.getLogger(PitchServiceHenry.class);
 
     @Autowired
     private GameDaoHenry gameDaoHenry;

@@ -5,8 +5,8 @@ import dev.codesquad.java.baseball08.dto.response.GameListResponse;
 import dev.codesquad.java.baseball08.dto.response.GamePlayResponse;
 import dev.codesquad.java.baseball08.dto.response.TeamScoreResponse;
 import dev.codesquad.java.baseball08.service.GameService;
-import dev.codesquad.java.baseball08.service.alex.Alex;
-import dev.codesquad.java.baseball08.service.henry.PitchService;
+import dev.codesquad.java.baseball08.service.alex.PitchService;
+import dev.codesquad.java.baseball08.service.henry.PitchServiceHenry;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,8 +24,8 @@ public class GameController {
 
     private static final Logger logger = LoggerFactory.getLogger(GameController.class);
     private final GameService gameService;
-    private final Alex alex;
     private final PitchService pitchService;
+    private final PitchServiceHenry pitchServiceHenry;
 
     // 게임 초기 데이터 출력
     @GetMapping("/game")
@@ -57,7 +57,7 @@ public class GameController {
 
     @GetMapping("/pitch/{teamId}")
     public ResponseEntity<HttpStatus> playGame(@PathVariable("teamId") Long teamId) {
-        alex.pitch(teamId); // service
+        pitchService.pitch(teamId); // service
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -65,15 +65,4 @@ public class GameController {
     public ResponseEntity<GamePlayResponse> getGameInfo(@PathVariable("gameId") Long gameId) {
         return new ResponseEntity<>(gameService.getGamePlay(gameId), HttpStatus.OK);
     }
-
-    @GetMapping("/init/inning")
-    public void initInning() {
-        gameService.saveNewInning();
-    }
-
-//    @GetMapping("/save/history")
-//    public void saveHistory() {
-//        gameService.saveHistory();
-//    }
-
 }

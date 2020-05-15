@@ -105,23 +105,4 @@ public class GameDaoAlex {
         this.jdbcTemplate.update(sql, new Object[] {currentInning, id});
     }
 
-//    public int getHistoryCount(Long game) {
-//        String sql = "SELECT COUNT(h.id) AS history_count FROM history h WHERE h.game = ?";
-//        return jdbcTemplate.queryForObject(sql, new Object[]{game}, (rs, rowNum) -> rs.getInt("history_count"));
-//    }
-
-//        public void saveHistory(History history) {
-//        String sql = "INSERT INTO history (name,line_up,hit_log,game,game_key) VALUES(?,?,?,?,?)";
-//        String[] param = new String[]{"id"};
-//        KeyHolder keyHolder = new GeneratedKeyHolder();
-//        jdbcTemplate.update(con -> {
-//            PreparedStatement statement = con.prepareStatement(sql, param);
-//            statement.setString(1, history.getName());
-//            statement.setInt(2, history.getLineUp());
-//            statement.setString(3, history.getHitLog());
-//            statement.setLong(4, history.getGame());
-//            statement.setInt(5, history.getGameKey());
-//            return statement;
-//        }, keyHolder);
-//    }
 }

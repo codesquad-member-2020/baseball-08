@@ -18,8 +18,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 @Transactional
-public class Alex {
-    private Logger logger = LoggerFactory.getLogger(Alex.class);
+public class PitchService {
+    private Logger logger = LoggerFactory.getLogger(PitchService.class);
 
     @Autowired
     private GameDaoAlex gameDaoAlex;
