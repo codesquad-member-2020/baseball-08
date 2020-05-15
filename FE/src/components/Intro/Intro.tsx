@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components'
 import Cookies from 'universal-cookie';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
@@ -59,13 +59,34 @@ const IntroButton = styled.button`
 type props = RouteComponentProps;
 
 const Intro: React.FC<props> = ({history}) => {
+  const [isLogIn, setIsLogIn] = useState(false);
+
   useEffect(() => {
     const cookies = new Cookies();
-    console.log(cookies.get('userId'));
-  })
+    const userId = cookies.get('userId');
+    
+    if (userId !== undefined) {
+      setIsLogIn(true);
+    }
+  }, [])
 
   function onClickGameStartButton() {
-    history.push('/gameselect');
+    const cookies = new Cookies();
+    const userId: string = cookies.get('userId');
+
+    if (!userId) {
+      alert("로그인이 필요한 서비스입니다.")
+      
+      const url: string | undefined= process.env.REACT_APP_OAUTH
+
+      if (url !== undefined) {
+        const cvtUrl:string = url;
+        window.location.href = cvtUrl;
+      }
+    }
+    else {
+      history.push('/gameselect');  
+    }
   }
 
   function onClickLoginButton() {
@@ -91,7 +112,7 @@ const Intro: React.FC<props> = ({history}) => {
           <source src="http://dev-angelo.dlinkddns.com/baseball_08.mp4" type="video/mp4" />
         </video>
       </StyledIntroMovie>
-      <IntroButton onClick={onClickLoginButton}>로그인</IntroButton>
+      {!isLogIn && <IntroButton onClick={onClickLoginButton}>로그인</IntroButton>}
       <IntroButton onClick={onClickGameStartButton}>게임하기</IntroButton>
     </StyledDiv>
   );
