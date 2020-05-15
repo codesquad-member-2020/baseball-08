@@ -8,8 +8,11 @@ import {
 import GamePlayRouter from './GamePlayRouter';
 import Intro from '../components/Intro/Intro'
 import SelectGame from '../components/SelectGame/SelectGame';
+import getCookieData from '../util/getCookieData'
 
 function AppRouter() {
+  console.log(getCookieData("userId"));
+
   return (
     <Router>
       <Switch>
