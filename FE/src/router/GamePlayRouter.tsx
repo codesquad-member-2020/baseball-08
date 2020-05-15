@@ -11,9 +11,9 @@ import PlayerList from '../components/PlayerList/PlayerList';
 function GamePlayRouter() {
   return (
     <Router>
-      <Route path="/api/gameplay" component={GamePlay} />
-      <Route path="/api/gameplay/scoreboard" component={ScoreBoard} />
-      <Route path="/api/gameplay/playerlist" component={PlayerList} />
+      <Route path="/gameplay" component={GamePlay} />
+      <Route path="/gameplay/scoreboard" component={ScoreBoard} />
+      <Route path="/gameplay/playerlist" component={PlayerList} />
     </Router>
   );
 }
